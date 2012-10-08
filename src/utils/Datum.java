@@ -5,10 +5,10 @@ import java.text.SimpleDateFormat;
 
 /**
  * 
- * @author java
+ * @author sven
  * 
- * Uitleg waar de klasse voor dient. Wordt in HTML vertaald. 
- * TWeede tekst
+ * Datumklasse from scratch, waarbij enkel gebruik gemaakt is van de date-klasse 
+ * 
  *
  */
 public class Datum implements Comparable<Datum>
@@ -18,21 +18,8 @@ public class Datum implements Comparable<Datum>
 	private int maand;
 	private int jaar;	
 	
-	public int getDag() {
-		return dag;
-	}
-
-	public int getMaand() {
-		return maand;
-	}
-
-	public int getJaar() {
-		return jaar;
-	}
-	
-	
 	/**
-	 * 
+	 * Constructor zonder parameters
 	 */
 	public Datum()
 	{
