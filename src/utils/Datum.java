@@ -8,6 +8,7 @@ import java.text.SimpleDateFormat;
  * @author java
  * 
  * Uitleg waar de klasse voor dient. Wordt in HTML vertaald. 
+ * TWeede tekst
  *
  */
 public class Datum implements Comparable<Datum>
