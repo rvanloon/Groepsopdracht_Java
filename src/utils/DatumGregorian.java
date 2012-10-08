@@ -8,6 +8,8 @@ import java.util.GregorianCalendar;
  * @author Robrecht Van Loon
  * @version 1
  * 
+ * Datumklasse die Gregorian kalender gebruikt.
+ * 
  * 
  */
 public class DatumGregorian implements Comparable<DatumGregorian> {
