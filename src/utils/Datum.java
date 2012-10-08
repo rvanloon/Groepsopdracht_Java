@@ -19,7 +19,7 @@ public class Datum implements Comparable<Datum>
 	private int jaar;	
 	
 	/**
-	 * Constructor zonder parameters
+	 * Constructor zonder parameters, de systeemdatum wordt gebruikt
 	 */
 	public Datum()
 	{
@@ -34,6 +34,12 @@ public class Datum implements Comparable<Datum>
 		this.jaar = Integer.parseInt(stringJaar);
 	}
 	
+	/**
+	 * Constructor met Datum-parameter
+	 * @param date
+	 * 			
+	 * @throws IllegalArgumentException
+	 */
 	public Datum(Datum date) throws IllegalArgumentException
 	{
 		if(date != null) {
