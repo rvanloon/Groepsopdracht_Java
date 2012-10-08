@@ -7,9 +7,8 @@ import java.util.GregorianCalendar;
  * 
  * @author Robrecht Van Loon
  * @version 1
- * test
- * Datumklasse die Gregorian kalender gebruikt.
  * 
+ * Datumklasse die Gregorian kalender gebruikt.
  * 
  */
 public class DatumGregorian implements Comparable<DatumGregorian> {
@@ -17,19 +16,23 @@ public class DatumGregorian implements Comparable<DatumGregorian> {
 	private GregorianCalendar calender;
 
 	/**
-	 * Maakt een nieuw DatumGregorian object aan met als inhoud de datum van
-	 * vandaag
+	 * 
+	 * Maakt een nieuw DatumGregorian object aan met als inhoud de datum van vandaag.
+	 * 
 	 */
 	public DatumGregorian() {
 		calender = new GregorianCalendar();
 	}
 
 	/**
-	 * Maakt een nieuw DatumGregorian object aan op basis van een meegegeven
-	 * DatumGregorian object.
 	 * 
-	 * @param d
-	 *            een DatumGregorian object
+	 * Maakt een nieuw DatumGregorian object aan op basis van een meegegeven DatumGregorian object.
+	 * 
+	 * @param d 
+	 * een DatumGregorian object
+	 *            
+	 * @throws IllegalArgumentException wanneer d null is.
+	 * 
 	 */
 	public DatumGregorian(DatumGregorian d) {
 		if (d == null) {
@@ -41,15 +44,20 @@ public class DatumGregorian implements Comparable<DatumGregorian> {
 	}
 
 	/**
+	 * 
 	 * Geeft een nieuw DatumGregorian object.
 	 * 
 	 * @param dag
-	 *            int
+	 * int
+	 * 
 	 * @param maand
-	 *            int
+	 * int
+	 * 
 	 * @param jaar
-	 *            int
+	 * int
+	 * 
 	 * @throws IllegalArgumentException
+	 * 
 	 */
 	public DatumGregorian(int dag, int maand, int jaar)
 			throws IllegalArgumentException {
@@ -58,6 +66,18 @@ public class DatumGregorian implements Comparable<DatumGregorian> {
 		calender.getTime();
 	}
 
+	/**
+	 * 
+	 * Maakt een nieuw DatumGregorian object aan de hand van een datum-string.
+	 * 
+	 * @param datumString
+	 * String
+	 * 
+	 * @throws IllegalArgumentException
+	 * 
+	 * @throws NumberFormatException
+	 * 
+	 */
 	public DatumGregorian(String datumString) throws IllegalArgumentException,
 			NumberFormatException {
 
@@ -86,6 +106,23 @@ public class DatumGregorian implements Comparable<DatumGregorian> {
 
 	}
 
+	/**
+	 * 
+	 * Geeft een datum object een geldige waarde.
+	 * 
+	 * @param dag
+	 * int
+	 * 
+	 * @param maand
+	 * int
+	 * 
+	 * @param jaar
+	 * int
+	 * 
+	 * @return
+	 * Boolean
+	 * 
+	 */
 	public Boolean setDatum(int dag, int maand, int jaar) {
 		calender.setLenient(false);
 		calender.set(jaar, maand - 1, dag);
@@ -93,14 +130,41 @@ public class DatumGregorian implements Comparable<DatumGregorian> {
 		return true;
 	}
 
+	/**
+	 * 
+	 * Geeft een datum in Amerikaans formaat terug.
+	 * 
+	 * @return
+	 * String
+	 * 
+	 */
 	public String getDatumInAmerikaansFormaat() {
 		return String.format("%1$tY/%1$tm/%1$te", calender);
 	}
 
+	/**
+	 * 
+	 * Geeft een datum in Europees formaat terug.
+	 * 
+	 * @return
+	 * string
+	 * 
+	 */
 	public String getDatumInEuropeesFormaat() {
 		return String.format("%1$te/%1$tm/%1$tY", calender);
 	}
 
+	/**
+	 * 
+	 * Bepaald of een datum d kleiner is dan het huidig datumobject.
+	 * 
+	 * @param d
+	 * DatumGregorian
+	 * 
+	 * @return
+	 * Boolean
+	 * 
+	 */
 	public boolean kleinerDan(DatumGregorian d) {
 		if (d == null) {
 			throw new IllegalArgumentException("Datum in null");
@@ -108,6 +172,17 @@ public class DatumGregorian implements Comparable<DatumGregorian> {
 		return calender.before(d);
 	}
 
+	/**
+	 * 
+	 * Bepaald het virschil in volledige jaren tussen datum d en het huidig datumobject.
+	 * 
+	 * @param d
+	 * DatumGregorian
+	 * 
+	 * @return
+	 * int
+	 * 
+	 */
 	public int verschilInJaren(DatumGregorian d) {
 		if (d == null) {
 			throw new IllegalArgumentException("Datum in null");
@@ -118,6 +193,17 @@ public class DatumGregorian implements Comparable<DatumGregorian> {
 		return verschil(d.calender, calender, Calendar.YEAR);
 	}
 
+	/**
+	 * 
+	 * Bepaald het virschil in volledige maanden tussen datum d en het huidig datumobject.
+	 * 
+	 * @param d
+	 * DatumGregorian
+	 * 
+	 * @return
+	 * int
+	 * 
+	 */
 	public int verschilInMaanden(DatumGregorian d) {
 		if (d == null) {
 			throw new IllegalArgumentException("Datum in null");
@@ -128,6 +214,17 @@ public class DatumGregorian implements Comparable<DatumGregorian> {
 		return verschil(d.calender, calender, Calendar.MONTH);
 	}
 
+	/**
+	 * 
+	 * Bepaald het virschil in dagen tussen datum d en het huidig datumobject.
+	 * 
+	 * @param d
+	 * DatumGregorian
+	 * 
+	 * @return
+	 * int
+	 * 
+	 */
 	public int verschilInDagen(DatumGregorian d) {
 		if (d == null) {
 			throw new IllegalArgumentException("Datum in null");
@@ -137,6 +234,7 @@ public class DatumGregorian implements Comparable<DatumGregorian> {
 		}
 		return verschil(d.calender, calender, Calendar.DATE);
 	}
+
 
 	private int verschil(Calendar kleinste, Calendar grootste, int CALENDAR_TYPE) {
 
@@ -149,6 +247,14 @@ public class DatumGregorian implements Comparable<DatumGregorian> {
 		return elapsed;
 	}
 
+	/**
+	 * 
+	 * Verhoog of verlaag de datum met een aantal dagen.
+	 * 
+	 * @param aantalDagen
+	 * int
+	 * 
+	 */
 	public void veranderDatum(int aantalDagen) {
 		calender.add(Calendar.DATE, aantalDagen);
 	}
