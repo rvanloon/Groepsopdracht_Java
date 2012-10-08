@@ -3,14 +3,32 @@ package utils;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
+/**
+ * 
+ * @author Robrecht Van Loon
+ * @version 1
+ * 
+ * 
+ */
 public class DatumGregorian implements Comparable<DatumGregorian> {
 
 	private GregorianCalendar calender;
 
+	/**
+	 * Maakt een nieuw DatumGregorian object aan met als inhoud de datum van
+	 * vandaag
+	 */
 	public DatumGregorian() {
 		calender = new GregorianCalendar();
 	}
 
+	/**
+	 * Maakt een nieuw DatumGregorian object aan op basis van een meegegeven
+	 * DatumGregorian object.
+	 * 
+	 * @param d
+	 *            een DatumGregorian object
+	 */
 	public DatumGregorian(DatumGregorian d) {
 		if (d == null) {
 			throw new IllegalArgumentException("Datum in null");
@@ -20,7 +38,19 @@ public class DatumGregorian implements Comparable<DatumGregorian> {
 				d.calender.get(Calendar.DAY_OF_MONTH));
 	}
 
-	public DatumGregorian(int dag, int maand, int jaar) throws IllegalArgumentException {
+	/**
+	 * Geeft een nieuw DatumGregorian object.
+	 * 
+	 * @param dag
+	 *            int
+	 * @param maand
+	 *            int
+	 * @param jaar
+	 *            int
+	 * @throws IllegalArgumentException
+	 */
+	public DatumGregorian(int dag, int maand, int jaar)
+			throws IllegalArgumentException {
 		calender = new GregorianCalendar(jaar, maand - 1, dag);
 		calender.setLenient(false);
 		calender.getTime();
