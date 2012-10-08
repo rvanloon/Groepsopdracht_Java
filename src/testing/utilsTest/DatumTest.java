@@ -67,12 +67,12 @@ public class DatumTest {
 		assertEquals(d.compareTo(geldigeDatum), 0);
 	}
 
-	@Test(expected=NumberFormatException.class)
+	@Test(expected = NumberFormatException.class)
 	public void test_contructor_fout_LegeStringParameter() {
 		DatumGregorian d = new DatumGregorian("");
 	}
-	
-	@Test(expected=NumberFormatException.class)
+
+	@Test(expected = NumberFormatException.class)
 	public void test_contructor_fout_fouteStringParameter() {
 		DatumGregorian d = new DatumGregorian("18/feb/1980");
 	}
@@ -82,7 +82,7 @@ public class DatumTest {
 		datum.setDatum(18, 02, 1980);
 		assertEquals(datum.compareTo(geldigeDatum), 0);
 	}
-	
+
 	@Test(expected = IllegalArgumentException.class)
 	public void test_SetDatum_fout_IntIntInt_ongeldige_dag() {
 		datum.setDatum(0, 02, 1980);
