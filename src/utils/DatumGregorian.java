@@ -7,7 +7,7 @@ import java.util.GregorianCalendar;
  * 
  * @author Robrecht Van Loon
  * @version 1
- * 
+ * test
  * Datumklasse die Gregorian kalender gebruikt.
  * 
  * 
