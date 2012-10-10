@@ -117,13 +117,14 @@ public class Datum implements Comparable<Datum> {
 	 */
 
 	public Datum(String datum) throws IllegalArgumentException {
+		//controleren of ingevoerde string niet te groot of te klein is
 		if (datum.length() > 10 || datum.length() < 9) {
 			throw new IllegalArgumentException("Datum niet in juiste formaat");
 		}		
 		String dagDatum = "";
 		String maandDatum = "";
 		String jaarDatum = "";
-		// eerst controleren of de datum ingevoerd is met één cijfer
+		// controleren of de dag ingevoerd is met één cijfer
 		if(datum.substring(1, 2).compareTo("/") == 0){
 			String eersteScheidingsteken = datum.substring(1, 2);
 			String tweedeScheidingsteken = datum.substring(4, 5);
@@ -136,30 +137,18 @@ public class Datum implements Comparable<Datum> {
 			maandDatum = datum.substring(2, 4);
 			jaarDatum = datum.substring(5, 9);
 		}
-		else{// datum ingevoerd met twee cijfers
+		else{// dag ingevoerd met twee cijfers
 			String eersteScheidingsteken = datum.substring(2, 3);
 			String tweedeScheidingsteken = datum.substring(5, 6);
 
 			if (eersteScheidingsteken.compareTo("/") != 0
 					|| tweedeScheidingsteken.compareTo("/") != 0) {
-				throw new IllegalArgumentException("Formaat datum: DD/MM/YYYY");
+				throw new IllegalArgumentException("Formaat datum: DD/MM/YYYY of D/MM/YYYY");
 			}
 			dagDatum = datum.substring(0, 2);
 			maandDatum = datum.substring(3, 5);
 			jaarDatum = datum.substring(6, 10);
 		}
-		/*
-		String eersteScheidingsteken = datum.substring(2, 3);
-		String tweedeScheidingsteken = datum.substring(5, 6);
-
-		if (eersteScheidingsteken.compareTo("/") != 0
-				|| tweedeScheidingsteken.compareTo("/") != 0) {
-			throw new IllegalArgumentException("Formaat datum: DD/MM/YYYY");
-		}
-		String dagDatum = datum.substring(0, 2);
-		String maandDatum = datum.substring(3, 5);
-		String jaarDatum = datum.substring(6, 10);
-		*/
 		
 		try{	
 			int dagInt = Integer.parseInt(dagDatum);
@@ -171,7 +160,7 @@ public class Datum implements Comparable<Datum> {
 			this.maand = invoerDatum.maand;
 			this.jaar = invoerDatum.jaar;
 		} catch (NumberFormatException nfe) {
-			throw new IllegalArgumentException("Formaat datum: DD/MM/YYYY");
+			throw new IllegalArgumentException("Formaat datum: DD/MM/YYYY of D/MM/YYYY");
 		}
 	}
 
@@ -275,7 +264,12 @@ public class Datum implements Comparable<Datum> {
 
 	private int dagenInDatum() {
 		int aantalDagen = 0;
+		int[] dagenSchrikkeljaar = { 31, 29, 31, 30, 31, 30, 31, 31, 30, 31,
+				30, 31 };
+		int[] dagenNietSchrikkeljaar = { 31, 28, 31, 30, 31, 30, 31, 31, 30,
+				31, 30, 31 };
 
+		// Dagen optellen van de jaren voorgaande aan het laatste jaar
 		for (int i = 1; i < this.jaar; i++) {
 			if ((i % 400 == 0) || ((i % 4 == 0) && (i % 100 != 0))) {
 				aantalDagen += 366;
@@ -284,85 +278,24 @@ public class Datum implements Comparable<Datum> {
 			}
 		}
 
-		switch (this.maand) {
-		case 2:
-			aantalDagen += 31;
-			break;
-		case 3:
-			if (this.isLeapYear()) {
-				aantalDagen += (31 + 29);
-			} else {
-				aantalDagen += (31 + 28);
+		// Dagen optellen van het laatste jaar tot aan de laatste maand
+		if (this.maand >= 2) { //vanaf februari
+			for (int i = 1; i < this.maand; i++) {
+				if (this.isLeapYear()) {
+					aantalDagen += dagenSchrikkeljaar[i - 1];
+				}
+				else
+				{
+					aantalDagen += dagenNietSchrikkeljaar[i -1];
+				}
 			}
-			break;
-		case 4:
-			if (this.isLeapYear()) {
-				aantalDagen += (31 + 29 + 31);
-			} else {
-				aantalDagen += (31 + 28 + 31);
-			}
-			break;
-		case 5:
-			if (this.isLeapYear()) {
-				aantalDagen += (31 + 29 + 31 + 30);
-			} else {
-				aantalDagen += (31 + 28 + 31 + 30);
-			}
-			break;
-		case 6:
-			if (this.isLeapYear()) {
-				aantalDagen += (31 + 29 + 31 + 30 + 31);
-			} else {
-				aantalDagen += (31 + 28 + 31 + 30 + 31);
-			}
-			break;
-		case 7:
-			if (this.isLeapYear()) {
-				aantalDagen += (31 + 29 + 31 + 30 + 31 + 30);
-			} else {
-				aantalDagen += (31 + 28 + 31 + 30 + 31 + 30);
-			}
-			break;
-		case 8:
-			if (this.isLeapYear()) {
-				aantalDagen += (31 + 29 + 31 + 30 + 31 + 30 + 31);
-			} else {
-				aantalDagen += (31 + 28 + 31 + 30 + 31 + 30 + 31);
-			}
-			break;
-		case 9:
-			if (this.isLeapYear()) {
-				aantalDagen += (31 + 29 + 31 + 30 + 31 + 30 + 31 + 31);
-			} else {
-				aantalDagen += (31 + 28 + 31 + 30 + 31 + 30 + 31 + 31);
-			}
-			break;
-		case 10:
-			if (this.isLeapYear()) {
-				aantalDagen += (31 + 29 + 31 + 30 + 31 + 30 + 31 + 31 + 30);
-			} else {
-				aantalDagen += (31 + 28 + 31 + 30 + 31 + 30 + 31 + 31 + 30);
-			}
-			break;
-		case 11:
-			if (this.isLeapYear()) {
-				aantalDagen += (31 + 29 + 31 + 30 + 31 + 30 + 31 + 31 + 30 + 31);
-			} else {
-				aantalDagen += (31 + 28 + 31 + 30 + 31 + 30 + 31 + 31 + 30 + 31);
-			}
-			break;
-		case 12:
-			if (this.isLeapYear()) {
-				aantalDagen += (31 + 29 + 31 + 30 + 31 + 30 + 31 + 31 + 30 + 31 + 30);
-			} else {
-				aantalDagen += (31 + 28 + 31 + 30 + 31 + 30 + 31 + 31 + 30 + 31 + 30);
-			}
-			break;
 		}
-
+		// Dagen in de laatste maand
 		aantalDagen += this.dag;
-
+		
 		return aantalDagen;
+		
+
 	}
 
 	public int verschilInJaren(Datum d) {
@@ -536,21 +469,7 @@ public class Datum implements Comparable<Datum> {
 
 		try {
 			String datum1 = "5/01/2011";
-			String scheiding = datum1.substring(4, 5);
 			
-			String dagDatum = datum1.substring(0, 1);
-			String maandDatum = datum1.substring(2, 4);
-			String jaarDatum = datum1.substring(5, 9);
-			Datum nieuweDat = new Datum("14/12/2012");
-			System.out.println(nieuweDat);
-			/*
-			System.out.println(scheiding + "/" + dagDatum + "/" + maandDatum + "/" + jaarDatum);
-			String datum2 = "26/04/2015";
-			Datum d1 = new Datum(datum1);
-			Datum d2 = d1.getVeranderdeDatum(1015);
-			d1.veranderDatum(-20000);
-			System.out.println(d2);
-			*/
 
 		} catch (IllegalArgumentException iae) {
 			System.out.println(iae);
