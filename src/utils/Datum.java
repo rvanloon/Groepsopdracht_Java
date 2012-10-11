@@ -100,6 +100,9 @@ public class Datum implements Comparable<Datum> {
 				}
 			}
 		}
+		if(jaar > 9999 || jaar < 0){
+			throw new IllegalArgumentException("Jaar moet groter zijn dan nul en kleiner dan 9999");
+		}
 		// invoer is correct
 		this.dag = dag;
 		this.maand = maand;
@@ -226,17 +229,17 @@ public class Datum implements Comparable<Datum> {
 	 */
 
 	public boolean kleinerDan(Datum d) {
-		if (this.jaar < d.jaar) {
+		if (this.jaar > d.jaar) {
 			return true;
-		} else if (this.jaar > d.jaar) {
+		} else if (this.jaar < d.jaar) {
 			return false;
 		} else {
-			if (this.maand < d.maand) {
+			if (this.maand > d.maand) {
 				return true;
-			} else if (this.maand > d.maand) {
+			} else if (this.maand < d.maand) {
 				return false;
 			} else {
-				if (this.dag < d.dag) {
+				if (this.dag > d.dag) {
 					return true;
 				} else {
 					return false;
@@ -304,7 +307,7 @@ public class Datum implements Comparable<Datum> {
 	}
 
 	public int verschilInMaanden(Datum d) {
-		int verschilInMaanden = (this.dagenInDatum() - d.dagenInDatum()) / 30;
+		int verschilInMaanden = (int) ((this.dagenInDatum() - d.dagenInDatum()) / 30.4375);
 		return Math.abs(verschilInMaanden);
 	}
 
