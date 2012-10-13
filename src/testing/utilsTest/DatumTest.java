@@ -25,6 +25,8 @@ public class DatumTest {
 		geldigeDatumInAmerikaansFormaat = "1980/2/18";
 		geldigeDatumInEuropeesFormaat = "18/2/1980";
 		datumVandaag = new Datum();
+		
+		// Aanpassen alvorens de tests te runnen
 		vandaagInEuropeesFormaat = "13/10/2012";
 		
 	}
