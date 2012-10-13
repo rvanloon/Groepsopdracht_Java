@@ -17,17 +17,17 @@ public class DatumGregorian implements Comparable<DatumGregorian> {
 
 	/**
 	 * 
-	 * Maakt een nieuw DatumGregorian object aan met als inhoud de datum van
+	 * Maakt een nieuw DatumGregorian object met als inhoud de datum van
 	 * vandaag.
 	 * 
 	 */
 	public DatumGregorian() {
+		GregorianCalendar hulp = new GregorianCalendar();
 		calender = new GregorianCalendar();
-		
-		calender.clear(Calendar.HOUR);
-		calender.clear(Calendar.MINUTE);
-		calender.clear(Calendar.SECOND);
-		calender.clear(Calendar.MILLISECOND);
+		calender.clear();
+		calender.set(hulp.get(GregorianCalendar.YEAR),
+				hulp.get(GregorianCalendar.MONTH),
+				hulp.get(GregorianCalendar.DATE));
 	}
 
 	/**
@@ -46,7 +46,9 @@ public class DatumGregorian implements Comparable<DatumGregorian> {
 		if (d == null) {
 			throw new IllegalArgumentException("Datum in null");
 		}
-		calender = new GregorianCalendar(d.calender.get(Calendar.YEAR),
+		calender = new GregorianCalendar();
+		calender.clear();
+		calender.set(d.calender.get(Calendar.YEAR),
 				d.calender.get(Calendar.MONTH),
 				d.calender.get(Calendar.DAY_OF_MONTH));
 	}
@@ -69,12 +71,9 @@ public class DatumGregorian implements Comparable<DatumGregorian> {
 	 */
 	public DatumGregorian(int dag, int maand, int jaar)
 			throws IllegalArgumentException {
-		calender = new GregorianCalendar(jaar, maand - 1, dag);
-		
-		calender.clear(Calendar.HOUR);
-		calender.clear(Calendar.MINUTE);
-		calender.clear(Calendar.SECOND);
-		calender.clear(Calendar.MILLISECOND);
+		calender = new GregorianCalendar();
+		calender.clear();
+		calender.set(jaar, maand - 1, dag);
 
 		calender.setLenient(false);
 		calender.getTime();
@@ -138,14 +137,10 @@ public class DatumGregorian implements Comparable<DatumGregorian> {
 	 * 
 	 */
 	public Boolean setDatum(int dag, int maand, int jaar) {
-		calender.setLenient(false);
+		calender.clear();
 		calender.set(jaar, maand - 1, dag);
-		
-		calender.clear(Calendar.HOUR);
-		calender.clear(Calendar.MINUTE);
-		calender.clear(Calendar.SECOND);
-		calender.clear(Calendar.MILLISECOND);
 
+		calender.setLenient(false);
 		calender.getTime();
 		return true;
 	}
@@ -158,7 +153,8 @@ public class DatumGregorian implements Comparable<DatumGregorian> {
 	 * 
 	 */
 	public String getDatumInAmerikaansFormaat() {
-		return String.format("%1$tY/%1$tm/%1$te", calender);
+		return calender.get(Calendar.YEAR) + "/" + (calender.get(Calendar.MONTH)+1)
+				+ "/" + calender.get(Calendar.DATE);
 	}
 
 	/**
@@ -169,7 +165,8 @@ public class DatumGregorian implements Comparable<DatumGregorian> {
 	 * 
 	 */
 	public String getDatumInEuropeesFormaat() {
-		return String.format("%1$te/%1$tm/%1$tY", calender);
+		return calender.get(Calendar.DATE) + "/" + (calender.get(Calendar.MONTH)+1)
+				+ "/" + calender.get(Calendar.YEAR);
 	}
 
 	/**
@@ -257,7 +254,7 @@ public class DatumGregorian implements Comparable<DatumGregorian> {
 
 		Calendar clone = (Calendar) kleinste.clone();
 		int elapsed = -1;
-		while (clone.compareTo(grootste)<=0) {
+		while (clone.compareTo(grootste) <= 0) {
 			clone.add(CALENDAR_TYPE, 1);
 			elapsed++;
 		}
@@ -276,7 +273,7 @@ public class DatumGregorian implements Comparable<DatumGregorian> {
 		calender.add(Calendar.DATE, aantalDagen);
 	}
 
-	public DatumGregorian getveranderdeDatum(int aantalDagen) {
+	public DatumGregorian getVeranderdeDatum(int aantalDagen) {
 		DatumGregorian result = new DatumGregorian(this);
 		result.veranderDatum(aantalDagen);
 		return result;
@@ -308,7 +305,7 @@ public class DatumGregorian implements Comparable<DatumGregorian> {
 		if (calender == null) {
 			if (other.calender != null)
 				return false;
-		} else if (!calender.equals(other.calender))
+		} else if (!(compareTo(other) == 0))
 			return false;
 		return true;
 	}
@@ -322,22 +319,9 @@ public class DatumGregorian implements Comparable<DatumGregorian> {
 	}
 
 	public static void main(String[] args) {
-				
-		DatumGregorian d = new DatumGregorian(1,5,2009);
-		DatumGregorian d2 = new DatumGregorian();
-		d2.setDatum(1, 5, 2009);
-		
-
-		DatumGregorian geldigeDatum = d.getveranderdeDatum(367);
-		System.out.println(d);
-		System.out.println(d2);
-		System.out.println(d.compareTo(d2));
-
-
-		System.out.println(geldigeDatum);
-		d.veranderDatum(367);
-		System.out.println(d);
-		
+		Datum d = new Datum(18, 02, 1980);
+		Datum d2 = new Datum(19, 03, 1980);
+		System.out.println(d.verschilInMaanden(d2));
 	}
 
 }
