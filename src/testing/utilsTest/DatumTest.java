@@ -20,7 +20,7 @@ public class DatumTest {
 
 	@Before
 	public void setUp() throws Exception {
-		vandaagInEuropeesFormaat = "8/10/2012";
+		vandaagInEuropeesFormaat = "13/10/2012";
 		geldigeDatum = new DatumGregorian(18, 02, 1980);
 		geldigeDatumString = "18 februari 1980";
 		geldigeDatumInAmerikaansFormaat = "1980/02/18";
@@ -70,7 +70,7 @@ public class DatumTest {
 	@Test
 	public void test_contructor_ok_StringParameter() {
 		DatumGregorian d = new DatumGregorian("18/02/1980");
-		assertEquals(d.compareTo(geldigeDatum), 0);
+		assertTrue(d.equals(geldigeDatum));
 	}
 
 	@Test(expected = NumberFormatException.class)
@@ -183,22 +183,66 @@ public class DatumTest {
 	public void test_GetveranderdeDatum_ok() {
 		DatumGregorian d1 = new DatumGregorian(01, 05, 2009);
 		DatumGregorian d2 = new DatumGregorian(03, 05, 2010);
+		
 		assertEquals(d1.getveranderdeDatum(367), d2);
 	}
 
 	@Test
-	public void test_ToString() {
+	public void test_ToString_ok() {
 		assertEquals(geldigeDatum.toString(), geldigeDatumString);
 	}
 
 	@Test
-	public void testEqualsObject() {
-		fail("Not yet implemented");
+	public void test_Equals_Object_ok_zelfde_datum() {
+		DatumGregorian d1 = new DatumGregorian(03, 05, 2010);
+		DatumGregorian d2 = new DatumGregorian(03, 05, 2010);
+		assertTrue(d1.equals(d2));
 	}
 
 	@Test
-	public void testCompareTo() {
-		fail("Not yet implemented");
+	public void test_Equals_Object_ok_verschillende_datum() {
+		DatumGregorian d1 = new DatumGregorian(03, 05, 2010);
+		DatumGregorian d2 = new DatumGregorian(03, 05, 2011);
+		assertFalse(d1.equals(d2));
+	}
+
+	@Test
+	public void test_Equals_Object_ok_null() {
+		DatumGregorian d1 = new DatumGregorian(03, 05, 2010);
+		assertFalse(d1.equals(null));
+	}
+
+	@Test
+	public void test_Equals_Object_ok_object() {
+		DatumGregorian d1 = new DatumGregorian(03, 05, 2010);
+		assertFalse(d1.equals(new Object()));
+	}
+
+	@Test
+	public void test_CompareTo_Ok_Gelijk() {
+		DatumGregorian d1 = new DatumGregorian(03, 05, 2010);
+		DatumGregorian d2 = new DatumGregorian(03, 05, 2010);
+		assertTrue(d1.compareTo(d2) == 0);
+	}
+
+	@Test
+	public void test_CompareTo_Ok_kleiner() {
+		DatumGregorian d1 = new DatumGregorian(03, 05, 2010);
+		DatumGregorian d2 = new DatumGregorian(03, 05, 2011);
+		assertTrue(d1.compareTo(d2) < 0);
+	}
+
+	@Test
+	public void test_CompareTo_Ok_Groter() {
+		DatumGregorian d1 = new DatumGregorian(03, 05, 2011);
+		DatumGregorian d2 = new DatumGregorian(03, 05, 2010);
+		assertTrue(d1.compareTo(d2) > 0);
+	}
+
+	@Test (expected=IllegalArgumentException.class)
+	public void test_CompareTo_Fout_null() {
+		DatumGregorian d1 = new DatumGregorian(03, 05, 2011);
+		assertTrue(d1.compareTo(null) > 0);
 	}
 
 }
