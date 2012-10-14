@@ -184,7 +184,7 @@ public class DatumGregorian implements Comparable<DatumGregorian> {
 			throw new IllegalArgumentException("Datum in null");
 		}
 		Boolean result;
-		result = (compareTo(d) < 0 ? true : false);
+		result = (compareTo(d) < 0 ? false : true);
 		return result;
 	}
 

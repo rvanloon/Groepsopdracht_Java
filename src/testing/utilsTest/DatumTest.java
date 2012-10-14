@@ -27,7 +27,7 @@ public class DatumTest {
 		datumVandaag = new Datum();
 		
 		// Aanpassen alvorens de tests te runnen
-		vandaagInEuropeesFormaat = "13/10/2012";
+		vandaagInEuropeesFormaat = "14/10/2012";
 		
 	}
 
@@ -121,12 +121,12 @@ public class DatumTest {
 
 	@Test
 	public void test_KleinerDan_ok_Grotere_waarde_meegegeven() {
-		assertTrue(geldigeDatum.kleinerDan(datumVandaag));
+		assertFalse(geldigeDatum.kleinerDan(datumVandaag));
 	}
 
 	@Test
 	public void test_KleinerDan_ok_Kleinere_waarde_meegegeven() {
-		assertFalse(datumVandaag.kleinerDan(geldigeDatum));
+		assertTrue(datumVandaag.kleinerDan(geldigeDatum));
 	}
 
 	@Test(expected = IllegalArgumentException.class)
