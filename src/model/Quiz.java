@@ -1,7 +1,108 @@
 package model;
 
-public class Quiz {
+import java.util.Arrays;
+import java.util.List;
 
+/**
+ * 
+ * @author Sven
+ *
+ */
+
+public class Quiz implements Cloneable, Comparable<Quiz>
+{	
+	private String onderwerp;
+	private String[] leerjaren;
+	private Leraar auteur;
+	private Boolean isTest;
+	private Boolean isUniekeDeelname;
+	private QuizStatus status;
+	private List<QuizOpdracht> opdrachten;
+	
+	public Quiz(String onderwerp, Leraar auteur, Boolean test, String... jaren){
+		this.onderwerp = onderwerp;
+		this.auteur = auteur;
+		this.isTest = test;
+		int i = 0;
+		leerjaren = new String[jaren.length];
+		for(String s : leerjaren){
+			jaren[i]=s;
+		}
+		this.status = QuizStatus.In_constructie;
+		
+	}
+
+
+	@Override
+	public String toString() {		
+		return this.onderwerp + ", " + this.auteur + ", " + this.status;
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((isTest == null) ? 0 : isTest.hashCode());
+		result = prime
+				* result
+				+ ((isUniekeDeelname == null) ? 0 : isUniekeDeelname.hashCode());
+		result = prime * result + Arrays.hashCode(leerjaren);
+		result = prime * result
+				+ ((onderwerp == null) ? 0 : onderwerp.hashCode());
+		result = prime * result
+				+ ((opdrachten == null) ? 0 : opdrachten.hashCode());
+		result = prime * result + ((status == null) ? 0 : status.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Quiz other = (Quiz) obj;
+		if (isTest == null) {
+			if (other.isTest != null)
+				return false;
+		} else if (!isTest.equals(other.isTest))
+			return false;
+		if (isUniekeDeelname == null) {
+			if (other.isUniekeDeelname != null)
+				return false;
+		} else if (!isUniekeDeelname.equals(other.isUniekeDeelname))
+			return false;
+		if (!Arrays.equals(leerjaren, other.leerjaren))
+			return false;
+		if (onderwerp == null) {
+			if (other.onderwerp != null)
+				return false;
+		} else if (!onderwerp.equals(other.onderwerp))
+			return false;
+		if (opdrachten == null) {
+			if (other.opdrachten != null)
+				return false;
+		} else if (!opdrachten.equals(other.opdrachten))
+			return false;
+		if (status != other.status)
+			return false;
+		return true;
+	}
+
+	@Override
+	public int compareTo(Quiz o) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+	
+	@Override
+	public Quiz clone(){
+		// TODO
+		return null;
+	}
+	
 	/**
 	 * @param args
 	 */
@@ -9,5 +110,6 @@ public class Quiz {
 		// TODO Auto-generated method stub
 
 	}
+
 
 }
