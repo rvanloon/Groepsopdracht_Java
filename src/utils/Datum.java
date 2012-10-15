@@ -6,9 +6,10 @@ import java.text.SimpleDateFormat;
 /**
  * 
  * @author sven
+ * @version 1
  * 
- *         Datumklasse from scratch, waarbij enkel gebruik gemaakt is van de
- *         date-klasse
+ *          Datumklasse from scratch, waarbij enkel gebruik gemaakt is van de
+ *          date-klasse
  * 
  * 
  */
@@ -17,11 +18,11 @@ public class Datum implements Comparable<Datum> {
 	private int dag;
 	private int maand;
 	private int jaar;
-	
-	private int[] dagenSchrikkeljaar = { 31, 29, 31, 30, 31, 30, 31, 31, 30, 31,
-			30, 31 };
-	private int[] dagenNietSchrikkeljaar = { 31, 28, 31, 30, 31, 30, 31, 31, 30,
+
+	private int[] dagenSchrikkeljaar = { 31, 29, 31, 30, 31, 30, 31, 31, 30,
 			31, 30, 31 };
+	private int[] dagenNietSchrikkeljaar = { 31, 28, 31, 30, 31, 30, 31, 31,
+			30, 31, 30, 31 };
 
 	/**
 	 * Maakt een Datum-object aan de hand van de systeemdatum
@@ -105,8 +106,9 @@ public class Datum implements Comparable<Datum> {
 				}
 			}
 		}
-		if(jaar > 9999 || jaar < 0){
-			throw new IllegalArgumentException("Jaar moet groter zijn dan nul en kleiner dan 9999");
+		if (jaar > 9999 || jaar < 0) {
+			throw new IllegalArgumentException(
+					"Jaar moet groter zijn dan nul en kleiner dan 9999");
 		}
 		// invoer is correct
 		this.dag = dag;
@@ -124,26 +126,25 @@ public class Datum implements Comparable<Datum> {
 	 *             IllegalArgumentException gegooid
 	 */
 
-	public Datum(String datum) throws IllegalArgumentException, NumberFormatException {
-					
-		
+	public Datum(String datum) throws IllegalArgumentException,
+			NumberFormatException {
+
 		String[] datumDelen = datum.split("/");
-				
-			
+
 		int dagInt;
 		try {
 			dagInt = Integer.parseInt(datumDelen[0]);
 		} catch (NumberFormatException nfe) {
 			throw new NumberFormatException("Dag niet in het juiste formaat");
 		}
-		
+
 		int maandInt;
 		try {
 			maandInt = Integer.parseInt(datumDelen[1]);
 		} catch (NumberFormatException nfe) {
 			throw new NumberFormatException("Maand niet in het juiste formaat");
 		}
-		
+
 		int jaarInt;
 		try {
 			jaarInt = Integer.parseInt(datumDelen[2]);
@@ -155,7 +156,7 @@ public class Datum implements Comparable<Datum> {
 		this.dag = invoerDatum.dag;
 		this.maand = invoerDatum.maand;
 		this.jaar = invoerDatum.jaar;
-		
+
 	}
 
 	/**
@@ -220,7 +221,7 @@ public class Datum implements Comparable<Datum> {
 	 */
 
 	public boolean kleinerDan(Datum d) throws IllegalArgumentException {
-		if(d == null) {
+		if (d == null) {
 			throw new IllegalArgumentException("Datum in null");
 		}
 		if (this.jaar > d.jaar) {
@@ -249,8 +250,7 @@ public class Datum implements Comparable<Datum> {
 		} else
 			return false;
 	}
-	
-	
+
 	/**
 	 * 
 	 * Bepaalt het verschil in volledige jaren tussen datum d en het huidig
@@ -262,16 +262,15 @@ public class Datum implements Comparable<Datum> {
 	 * @return int
 	 * 
 	 */
-	
-	
-	public int verschilInJaren(Datum d){
-		if(this.compareTo(d)>0){
+
+	public int verschilInJaren(Datum d) {
+		if (this.compareTo(d) > 0) {
 			return verschil(this, d, "jaar");
-		}else {
+		} else {
 			return verschil(d, this, "jaar");
 		}
 	}
-	
+
 	/**
 	 * 
 	 * Bepaald het verschil in volledige maanden tussen datum d en het huidig
@@ -284,14 +283,14 @@ public class Datum implements Comparable<Datum> {
 	 * 
 	 */
 
-	public int verschilInMaanden(Datum d){
-		if(this.compareTo(d)>0){
+	public int verschilInMaanden(Datum d) {
+		if (this.compareTo(d) > 0) {
 			return verschil(this, d, "maand");
-		}else {
+		} else {
 			return verschil(d, this, "maand");
 		}
 	}
-	
+
 	/**
 	 * 
 	 * Bepaald het verschil in dagen tussen datum d en het huidig datumobject.
@@ -304,60 +303,57 @@ public class Datum implements Comparable<Datum> {
 	 */
 
 	public int verschilInDagen(Datum d) {
-		if(this.compareTo(d)>0){
+		if (this.compareTo(d) > 0) {
 			return verschil(this, d, "dag");
 		} else {
 			return verschil(d, this, "dag");
 		}
 	}
-	
-	private int verschil(Datum datumGroot, Datum klein, String teVergelijken)  {
+
+	private int verschil(Datum datumGroot, Datum klein, String teVergelijken) {
 		Datum datumKlein = new Datum(klein.getDatumInEuropeesFormaat());
-		
+
 		String datumString = datumKlein.getDatumInEuropeesFormaat();
 		String[] datumArray = datumString.split("/");
 		int maandInt = Integer.parseInt(datumArray[1]);
-		
-		int verschil = 0;
-		
 
-		
-		if(teVergelijken.compareTo("dag")==0){
-			while(datumGroot.compareTo(datumKlein) > 0){
+		int verschil = 0;
+
+		if (teVergelijken.compareTo("dag") == 0) {
+			while (datumGroot.compareTo(datumKlein) > 0) {
 				datumKlein.veranderDatum(1);
 				verschil++;
 			}
-		}
-		else if(teVergelijken.compareTo("maand")==0){
-			while(((datumGroot.verschilInDagen(datumKlein) >= (datumKlein.isLeapYear()? dagenSchrikkeljaar[maandInt-1]:dagenNietSchrikkeljaar[maandInt-1])))){
-				if(datumKlein.isLeapYear()){
-					datumKlein.veranderDatum(dagenSchrikkeljaar[maandInt-1]);
-				}
-				else{
-					datumKlein.veranderDatum(dagenNietSchrikkeljaar[maandInt-1]);
+		} else if (teVergelijken.compareTo("maand") == 0) {
+			while (((datumGroot.verschilInDagen(datumKlein) >= (datumKlein
+					.isLeapYear() ? dagenSchrikkeljaar[maandInt - 1]
+					: dagenNietSchrikkeljaar[maandInt - 1])))) {
+				if (datumKlein.isLeapYear()) {
+					datumKlein.veranderDatum(dagenSchrikkeljaar[maandInt - 1]);
+				} else {
+					datumKlein
+							.veranderDatum(dagenNietSchrikkeljaar[maandInt - 1]);
 				}
 				maandInt++;
-				if(maandInt == 13){
+				if (maandInt == 13) {
 					maandInt = 1;
 				}
 				verschil++;
 
 			}
-		}
-		else {
-			while(datumGroot.compareTo(datumKlein)>0){
-				if(datumKlein.isLeapYear()){
+		} else {
+			while (datumGroot.compareTo(datumKlein) > 0) {
+				if (datumKlein.isLeapYear()) {
 					datumKlein.veranderDatum(366);
-				}
-				else{
+				} else {
 					datumKlein.veranderDatum(365);
 				}
-				if(!(datumKlein.compareTo(datumGroot)>0)){
+				if (!(datumKlein.compareTo(datumGroot) > 0)) {
 					verschil++;
 				}
 			}
 		}
-		
+
 		return verschil;
 	}
 
@@ -379,7 +375,8 @@ public class Datum implements Comparable<Datum> {
 			int dag1 = this.dag; // kopie van dag, te gebruiken omdat de dag
 									// éénmalig op nul gezet moet worden
 			int somDagen = this.dag + aantalDagen;
-			if(somDagen > (this.isLeapYear()? dagenSchrikkeljaar[this.maand-1] : dagenNietSchrikkeljaar[this.maand-1])){			
+			if (somDagen > (this.isLeapYear() ? dagenSchrikkeljaar[this.maand - 1]
+					: dagenNietSchrikkeljaar[this.maand - 1])) {
 				while (aantalDagen > 0) {
 					if (this.maand == 1 || this.maand == 3 || this.maand == 5
 							|| this.maand == 7 || this.maand == 8
@@ -428,8 +425,7 @@ public class Datum implements Comparable<Datum> {
 						this.jaar++;
 					}
 				}// end while
-			}
-			else{
+			} else {
 				this.dag += aantalDagen;
 			}
 		}
@@ -524,17 +520,16 @@ public class Datum implements Comparable<Datum> {
 
 		try {
 			Datum d1 = new Datum(18, 2, 1980);
-			Datum d2 = new Datum(19,04,1981);
-			
+			Datum d2 = new Datum(19, 04, 1981);
+
 			d1.veranderDatum(1);
-			
+
 			System.out.println(d1);
 			/*
-			System.out.println(d2.dagenInDatum());
-			System.out.println(d1.dagenInDatum() - d2.dagenInDatum());
-			System.out.println(d1.verschilInMaanden(d2));
-			*/
-			
+			 * System.out.println(d2.dagenInDatum());
+			 * System.out.println(d1.dagenInDatum() - d2.dagenInDatum());
+			 * System.out.println(d1.verschilInMaanden(d2));
+			 */
 
 		} catch (IllegalArgumentException iae) {
 			System.out.println(iae);
@@ -557,7 +552,7 @@ public class Datum implements Comparable<Datum> {
 	 */
 	@Override
 	public int compareTo(Datum o) {
-		if(o == null){
+		if (o == null) {
 			throw new IllegalArgumentException("Datum in null");
 		}
 		if (this.jaar < o.jaar) {

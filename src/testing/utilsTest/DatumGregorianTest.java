@@ -9,6 +9,12 @@ import org.junit.Test;
 
 import utils.DatumGregorian;
 
+/**
+ * 
+ * @author rvanloon
+ * @version 1
+ * 
+ */
 public class DatumGregorianTest {
 
 	private String vandaagInEuropeesFormaat;
@@ -25,9 +31,9 @@ public class DatumGregorianTest {
 		geldigeDatumInAmerikaansFormaat = "1980/2/18";
 		geldigeDatumInEuropeesFormaat = "18/2/1980";
 		datumVandaag = new DatumGregorian();
-		
+
 		// Aanpassen alvorens de tests te runnen
-		vandaagInEuropeesFormaat = "14/10/2012";
+		vandaagInEuropeesFormaat = "15/10/2012";
 
 	}
 

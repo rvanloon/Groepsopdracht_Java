@@ -9,6 +9,12 @@ import org.junit.Test;
 
 import utils.Datum;
 
+/**
+ * 
+ * @author rvanloon
+ * @version 1
+ * 
+ */
 public class DatumTest {
 
 	private String vandaagInEuropeesFormaat;
@@ -25,10 +31,10 @@ public class DatumTest {
 		geldigeDatumInAmerikaansFormaat = "1980/2/18";
 		geldigeDatumInEuropeesFormaat = "18/2/1980";
 		datumVandaag = new Datum();
-		
+
 		// Aanpassen alvorens de tests te runnen
-		vandaagInEuropeesFormaat = "14/10/2012";
-		
+		vandaagInEuropeesFormaat = "15/10/2012";
+
 	}
 
 	@Test
