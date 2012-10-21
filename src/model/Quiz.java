@@ -18,6 +18,62 @@ public class Quiz implements Cloneable, Comparable<Quiz>
 	private Boolean isUniekeDeelname;
 	private QuizStatus status;
 	private List<QuizOpdracht> opdrachten;
+
+	public String getOnderwerp() {
+		return onderwerp;
+	}
+
+	private void setOnderwerp(String onderwerp) {
+		this.onderwerp = onderwerp;
+	}
+
+	public String[] getLeerjaren() {
+		return leerjaren;
+	}
+
+	private void setLeerjaren(String[] leerjaren) {
+		this.leerjaren = leerjaren;
+	}
+	
+	public Leraar getAuteur() {
+		return auteur;
+	}
+
+	private void setAuteur(Leraar auteur) {
+		this.auteur = auteur;
+	}
+
+	public Boolean getIsTest() {
+		return isTest;
+	}
+
+	private void setIsTest(Boolean isTest) {
+		this.isTest = isTest;
+	}
+
+	public Boolean getIsUniekeDeelname() {
+		return isUniekeDeelname;
+	}
+
+	private void setIsUniekeDeelname(Boolean isUniekeDeelname) {
+		this.isUniekeDeelname = isUniekeDeelname;
+	}
+
+	public QuizStatus getStatus() {
+		return status;
+	}
+
+	private void setStatus(QuizStatus status) {
+		this.status = status;
+	}
+
+	public List<QuizOpdracht> getOpdrachten() {
+		return opdrachten;
+	}
+
+	private void setOpdrachten(List<QuizOpdracht> opdrachten) {
+		this.opdrachten = opdrachten;
+	}
 	
 	public Quiz(String onderwerp, Leraar auteur, Boolean test, String... jaren){
 		this.onderwerp = onderwerp;
