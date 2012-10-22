@@ -1,7 +1,7 @@
 package model;
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.List;
-import utils.Datum;
+import utils.DatumGregorian;
 
 /**
  * 
@@ -12,66 +12,43 @@ import utils.Datum;
 public class Quiz implements Cloneable, Comparable<Quiz>
 {	
 	private String onderwerp;
-	private int[] leerjaren;
+	private ArrayList<Integer> leerjaren;
 	private Leraar auteur;
-	private Datum registratieDatum;
+	private DatumGregorian datumRegistratie;
 	private Boolean isTest;
 	private QuizStatus status;
-	private List<QuizOpdracht> opdrachten;
+	private ArrayList<QuizOpdracht> opdrachten;
 	
 	/**
 	 * Geeft het onderwerp van de Quiz terug
 	 * @return String
 	 */
 	public String getOnderwerp() {
-		if(onderwerp.isEmpty()){
-			return "Onderwerp nog niet ingevuld";
-		}
-		else{
-			return onderwerp;
-		}
+		return onderwerp;
 	}
 	
-	private void setOnderwerp(String onderwerp) {
-		if(onderwerp.isEmpty() || onderwerp == null){
-			throw new IllegalArgumentException("Onderwerp moet ingevuld zijn");
+	public void setOnderwerp(String onderwerp) throws IllegalArgumentException {
+		if(onderwerp.equals(null)){
+			throw new IllegalArgumentException("Onderwerp mag niet null zijn");
 		}
-		else {
-			this.onderwerp = onderwerp;			
-		}
+		this.onderwerp = onderwerp;
 	}
 	
 	/**
-	 * Geeft een integer array terug van de leerjaren waarvoor de quiz gemaakt is
-	 * @return integer array
+	 * Geeft een ArrayList van de leerjaren terug waarvoor de quiz bedoeld is
+	 * @return ArrayList<Integer>
 	 */
-
-	public int[] getLeerjaren() {
-		if (leerjaren.length == 0) {
-			return null;
-		}
-		else{			
-			return leerjaren;
-		}	
-	}
-
-	private void setLeerjaren(int[] leerjaren) throws IllegalArgumentException {
-		if(leerjaren == null){
-			throw new IllegalArgumentException("leerjaren niet ingevuld");
-		}
-		else if(leerjaren.length == 0){
-			throw new IllegalArgumentException("Leerjaren niet ingevuld");
-		}
-		else {
-			for(int i : leerjaren){
-				if(i < 1 || i > 6){
-					throw new IllegalArgumentException("Leerjaren tussen 1 en 6");
-				}
-			}
-			this.leerjaren = leerjaren;
-		}
+	public ArrayList<Integer> getLeerjaren() {
+		return leerjaren;
 	}
 	
+	public void setLeerjaren(ArrayList<Integer> leerjaren) throws IllegalArgumentException {
+		if(leerjaren == null){
+			throw new IllegalArgumentException("Aantal leerjaren mag niet null zijn");
+		}
+		this.leerjaren = leerjaren;
+	}
+
 	/**
 	 * Geeft de auteur terug die de quiz opgesteld heeft
 	 * @return enum Leraar
@@ -80,7 +57,7 @@ public class Quiz implements Cloneable, Comparable<Quiz>
 		return auteur;
 	}
 
-	private void setAuteur(Leraar auteur) {
+	public void setAuteur(Leraar auteur) throws IllegalArgumentException {
 		if(auteur == null){
 			throw new IllegalArgumentException("Auteur mag niet null zijn");
 		}
@@ -96,46 +73,90 @@ public class Quiz implements Cloneable, Comparable<Quiz>
 		return isTest;
 	}
 
-	private void setIsTest(Boolean isTest) {
-		if(isTest == null){
-			throw new IllegalArgumentException("Test mag niet null zijn");
-		}
+	public void setIsTest(Boolean isTest) {
 		this.isTest = isTest;
 	}
 	
-	public Datum getRegistratieDatum() {
-		return registratieDatum;
+	/**
+	 * Geeft de registratiedatum van de quiz terug
+	 * @return DatumGregorian
+	 * @throws Gooit NullPointerException als de datum null is 
+	 */
+	public DatumGregorian getDatumRegistratie() {
+		return datumRegistratie;
 	}
 
-	public void setRegistratieDatum(Datum registratieDatum) {
-		this.registratieDatum = registratieDatum;
+	public void setDatumRegistratie(DatumGregorian datumRegistratie) throws IllegalArgumentException {
+		if(datumRegistratie == null){
+			throw new IllegalArgumentException("Datum mag niet null zijn");
+		}
+		this.datumRegistratie = datumRegistratie;
 	}
-
+	
+	/**
+	 * geeft de status terug van de quiz
+	 * @return QuizStatus
+	 */
 	public QuizStatus getStatus() {
 		return status;
 	}
 
-	private void setStatus(QuizStatus status) throws IllegalArgumentException {
+	public void setStatus(QuizStatus status) throws IllegalArgumentException {
 		if(status == null){
-			throw new IllegalArgumentException("Status mag niet null zijn");
+			throw new IllegalArgumentException("Datum mag niet null zijn");
 		}
 		this.status = status;
 	}
-
-	public String getOpdrachten() {
-		//TODO geeft een lijst van opdrachten, QuizOpdracht moet iterable zijn voor foreach loop
-		return "";
-	}
 	
+	/**
+	 * Geeft een lijst terug van de QuizOpdrachten
+	 * @return List QuizOpdrachten
+	 */
+	public List<QuizOpdracht> getOpdrachten() {
+		return opdrachten;
+	}
+
+	public void setOpdrachten(ArrayList<QuizOpdracht> opdrachten) {
+		this.opdrachten = opdrachten;
+	}
+
+
 	public Quiz(String onderwerp, Leraar auteur, Boolean test, int... jaren)
 	{
 		setOnderwerp(onderwerp);
 		setAuteur(auteur);
 		setIsTest(test);
-		setLeerjaren(jaren);
-		setStatus(QuizStatus.In_constructie);		
+		this.leerjaren = new ArrayList<Integer>();
+		for(int jaar : jaren){
+			leerjaren.add(jaar);
+		}
+		this.opdrachten = new ArrayList<QuizOpdracht>();
+		setStatus(QuizStatus.InConstructie);
+		setDatumRegistratie(new DatumGregorian());
 	}
-
+	
+	
+	public void voegOpdrachtToe(QuizOpdracht opdracht) throws IllegalArgumentException
+	{
+		if(opdracht == null){
+			throw new IllegalArgumentException("De datum mag niet null zijn");
+		}
+		opdrachten.add(opdracht);
+	}
+	
+	public void verwijderOpdracht(QuizOpdracht opdracht)
+	{
+		if(opdracht == null){
+			throw new IllegalArgumentException("De datum mag niet null zijn");
+		}
+		int index = this.opdrachten.indexOf(opdracht);
+		if(index == -1){
+			throw new IllegalArgumentException("Opdracht niet aanwezig in quiz");
+		}
+		else{
+			this.opdrachten.remove(opdracht);
+		}
+	}
 
 	@Override
 	public String toString() {		
@@ -148,14 +169,15 @@ public class Quiz implements Cloneable, Comparable<Quiz>
 		int result = 1;
 		result = prime * result + ((auteur == null) ? 0 : auteur.hashCode());
 		result = prime * result + ((isTest == null) ? 0 : isTest.hashCode());
-		result = prime * result + Arrays.hashCode(leerjaren);
+		result = prime * result
+				+ ((leerjaren == null) ? 0 : leerjaren.hashCode());
 		result = prime * result
 				+ ((onderwerp == null) ? 0 : onderwerp.hashCode());
 		result = prime * result
 				+ ((opdrachten == null) ? 0 : opdrachten.hashCode());
 		result = prime
 				* result
-				+ ((registratieDatum == null) ? 0 : registratieDatum.hashCode());
+				+ ((datumRegistratie == null) ? 0 : datumRegistratie.hashCode());
 		result = prime * result + ((status == null) ? 0 : status.hashCode());
 		return result;
 	}
@@ -176,7 +198,10 @@ public class Quiz implements Cloneable, Comparable<Quiz>
 				return false;
 		} else if (!isTest.equals(other.isTest))
 			return false;
-		if (!Arrays.equals(leerjaren, other.leerjaren))
+		if (leerjaren == null) {
+			if (other.leerjaren != null)
+				return false;
+		} else if (!leerjaren.equals(other.leerjaren))
 			return false;
 		if (onderwerp == null) {
 			if (other.onderwerp != null)
@@ -188,10 +213,10 @@ public class Quiz implements Cloneable, Comparable<Quiz>
 				return false;
 		} else if (!opdrachten.equals(other.opdrachten))
 			return false;
-		if (registratieDatum == null) {
-			if (other.registratieDatum != null)
+		if (datumRegistratie == null) {
+			if (other.datumRegistratie != null)
 				return false;
-		} else if (!registratieDatum.equals(other.registratieDatum))
+		} else if (!datumRegistratie.equals(other.datumRegistratie))
 			return false;
 		if (status != other.status)
 			return false;
@@ -199,15 +224,25 @@ public class Quiz implements Cloneable, Comparable<Quiz>
 	}
 
 	@Override
-	public int compareTo(Quiz o) {
-		// TODO Auto-generated method stub
-		return 0;
+	public int compareTo(Quiz q) {
+		if(q == null){
+			throw new IllegalArgumentException("Quiz mag niet null zijn");
+		}
+		return q.onderwerp.compareTo(this.onderwerp);
 	}
 	
 	@Override
 	public Quiz clone(){
-		// TODO
-		return null;
+		int[] jaren = new int[(leerjaren.size()-1)];
+		int i = 0;
+		for(int jaar : leerjaren){
+			jaren[i] = jaar;
+		}
+		Quiz clone = new Quiz(this.onderwerp, this.auteur, this.isTest, jaren);
+		clone.setDatumRegistratie(datumRegistratie);
+		clone.setStatus(this.status);
+		clone.setOpdrachten(this.opdrachten);
+		return clone;
 	}
 	
 	/**

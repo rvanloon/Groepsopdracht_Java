@@ -1,6 +1,7 @@
 package model;
 
 import java.util.List;
+import utils.DatumGregorian;
 
 public class QuizCatalogus {
 
@@ -12,6 +13,8 @@ public class QuizCatalogus {
 		} else if (bestaatOnderwerp(quiz.getOnderwerp())) {
 			throw new IllegalArgumentException("Onderwerp quiz bestaat al");
 		}
+		quiz.setDatumRegistratie(new DatumGregorian());
+		quizLijst.add(quiz);
 	}
 
 	public void verwijderQuiz(Quiz quiz) throws IllegalArgumentException {
