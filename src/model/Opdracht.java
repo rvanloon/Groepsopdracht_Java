@@ -1,6 +1,6 @@
 package model;
 
-import java.util.List;
+import java.util.ArrayList;
 
 import utils.Datum;
 
@@ -15,13 +15,34 @@ public class Opdracht implements Comparable<Opdracht> {
 	private String vraag;
 	private String juisteAntwoord;
 	private int maxAantalPogingen = 1;
-	private List<String> antwoordHints;
+	private ArrayList<String> antwoordHints;
 	private int maxAntwoordTijd = 0;
 
 	private OpdrachtCategorie categorie;
-	private List<QuizOpdracht> quizzen;
+	private ArrayList<QuizOpdracht> quizzen;
 	private Leraar auteur;
 	private Datum datumRegistratie;
+
+	/**
+	 * Constructor. Maakt een nieuwe opdracht aan.
+	 * 
+	 * @param vraag
+	 * @param juisteAntwoord
+	 * @param categorie
+	 * @param auteur
+	 * @param datumRegistratie
+	 */
+	public Opdracht(String vraag, String juisteAntwoord,
+			OpdrachtCategorie categorie, Leraar auteur, Datum datumRegistratie) {
+		this.vraag = vraag;
+		this.juisteAntwoord = juisteAntwoord;
+		this.categorie = categorie;
+		this.auteur = auteur;
+		this.datumRegistratie = datumRegistratie;
+
+		this.antwoordHints = new ArrayList<String>();
+		this.quizzen = new ArrayList<QuizOpdracht>();
+	}
 
 	/**
 	 * Geeft de vraag terug.
@@ -81,13 +102,13 @@ public class Opdracht implements Comparable<Opdracht> {
 	/**
 	 * Geeft een list met de antwoordhints.
 	 * 
-	 * @return list met strings
+	 * @return ArrayList met strings
 	 */
-	public List<String> getAntwoordHints() {
+	public ArrayList<String> getAntwoordHints() {
 		return antwoordHints;
 	}
 
-	private void setAntwoordHints(List<String> antwoordHints) {
+	private void setAntwoordHints(ArrayList<String> antwoordHints) {
 		if (antwoordHints == null) {
 			throw new IllegalArgumentException(
 					"antwoordHints mag niet null zijn.");
@@ -140,13 +161,13 @@ public class Opdracht implements Comparable<Opdracht> {
 	/**
 	 * Geeft een list terug met de gekoppelde quizen
 	 * 
-	 * @return list met quizzen.
+	 * @return ArrayList met quizzen.
 	 */
-	public List<QuizOpdracht> getQuizzen() {
+	public ArrayList<QuizOpdracht> getQuizzen() {
 		return quizzen;
 	}
 
-	private void setQuizzen(List<QuizOpdracht> quizzen) {
+	private void setQuizzen(ArrayList<QuizOpdracht> quizzen) {
 		if (quizzen == null) {
 			throw new IllegalArgumentException("quizzen mag niet null zijn");
 		}
@@ -282,16 +303,12 @@ public class Opdracht implements Comparable<Opdracht> {
 	 */
 	@Override
 	protected Object clone() throws CloneNotSupportedException {
-		Opdracht clone = new Opdracht();
+		Opdracht clone = new Opdracht(vraag, juisteAntwoord, categorie, auteur,
+				datumRegistratie);
 		clone.setAntwoordHints(antwoordHints);
-		clone.setAuteur(auteur);
-		clone.setCategorie(categorie);
-		clone.setDatumRegistratie(datumRegistratie);
-		clone.setJuisteAntwoord(juisteAntwoord);
 		clone.setMaxAantalPogingen(maxAantalPogingen);
 		clone.setMaxAntwoordTijd(maxAntwoordTijd);
 		clone.setQuizzen(quizzen);
-		clone.setVraag(vraag);
 		return clone;
 	}
 
