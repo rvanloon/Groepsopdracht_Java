@@ -2,13 +2,28 @@ package testing.modelTest;
 
 import static org.junit.Assert.*;
 
+import model.Leraar;
+import model.Opdracht;
+import model.OpdrachtCategorie;
+
 import org.junit.Before;
 import org.junit.Test;
 
+import utils.Datum;
+
 public class OpdrachtTest {
+
+	Opdracht opdracht;
 
 	@Before
 	public void setUp() throws Exception {
+		//opdracht = new Opdracht("Welke zee grenst aan België?", "Noordzee",OpdrachtCategorie.algemeneKennis, Leraar, new Datum(20, 10, 2012));
+		
+	}
+
+	@Test
+	public void testOpdracht() {
+		fail("Not yet implemented");
 	}
 
 	@Test
