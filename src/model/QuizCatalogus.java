@@ -18,7 +18,7 @@ public class QuizCatalogus {
 		int index = quizLijst.indexOf(quiz);
 		if (index == -1) {
 			throw new IllegalArgumentException("Quiz is niet aanwezig in lijst");
-		} else if (quiz.getStatus() != QuizStatus.In_constructie
+		} else if (quiz.getStatus() != QuizStatus.InConstructie
 				|| quiz.getStatus() != QuizStatus.afgewerkt) {
 			throw new IllegalArgumentException(
 					"Quiz kan niet verwijderd worden wegens status.");
