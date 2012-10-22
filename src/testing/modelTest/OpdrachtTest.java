@@ -14,16 +14,77 @@ import utils.Datum;
 public class OpdrachtTest {
 
 	Opdracht opdracht;
+	String vraag;
+	String antwoord;
+	OpdrachtCategorie categorie;
+	Leraar leraar;
+	Datum datum;
 
 	@Before
 	public void setUp() throws Exception {
-		//opdracht = new Opdracht("Welke zee grenst aan België?", "Noordzee",OpdrachtCategorie.algemeneKennis, Leraar, new Datum(20, 10, 2012));
-		
+		vraag = "Welke zee grenst aan België?";
+		antwoord = "Noordzee";
+		categorie = OpdrachtCategorie.algemeneKennis;
+		leraar = Leraar.Alain;
+		datum = new Datum(20, 10, 2012);
+
+		opdracht = new Opdracht(vraag, antwoord, categorie, leraar, datum);
 	}
 
 	@Test
-	public void testOpdracht() {
-		fail("Not yet implemented");
+	public void test_Constructor_OK() {
+		Opdracht opdracht = new Opdracht("Welke zee grenst aan België?",
+				"Noordzee", OpdrachtCategorie.algemeneKennis, Leraar.Alain,
+				new Datum(20, 10, 2012));
+		assertEquals(opdracht, this.opdracht);
+	}
+
+	@Test(expected = IllegalArgumentException.class)
+	public void test_Constructor_fout_vraag_null() {
+		Opdracht opdracht = new Opdracht(null, "Noordzee",
+				OpdrachtCategorie.algemeneKennis, Leraar.Alain, new Datum(20,
+						10, 2012));
+	}
+
+	@Test(expected = IllegalArgumentException.class)
+	public void test_Constructor_fout_vraag_blanco() {
+		Opdracht opdracht = new Opdracht("", "Noordzee",
+				OpdrachtCategorie.algemeneKennis, Leraar.Alain, new Datum(20,
+						10, 2012));
+	}
+
+	@Test(expected = IllegalArgumentException.class)
+	public void test_Constructor_fout_antwoord_null() {
+		Opdracht opdracht = new Opdracht("Welke zee grenst aan België?", null,
+				OpdrachtCategorie.algemeneKennis, Leraar.Alain, new Datum(20,
+						10, 2012));
+	}
+
+	@Test(expected = IllegalArgumentException.class)
+	public void test_Constructor_fout_antwoord_blanco() {
+		Opdracht opdracht = new Opdracht("Welke zee grenst aan België?", "",
+				OpdrachtCategorie.algemeneKennis, Leraar.Alain, new Datum(20,
+						10, 2012));
+	}
+
+	@Test(expected = IllegalArgumentException.class)
+	public void test_Constructor_fout_categorie_null() {
+		Opdracht opdracht = new Opdracht("Welke zee grenst aan België?",
+				"Noordzee", null, Leraar.Alain, new Datum(20, 10, 2012));
+	}
+
+	@Test(expected = IllegalArgumentException.class)
+	public void test_Constructor_fout_Leraar_null() {
+		Opdracht opdracht = new Opdracht("Welke zee grenst aan België?",
+				"Noordzee", OpdrachtCategorie.algemeneKennis, null, new Datum(
+						20, 10, 2012));
+	}
+
+	@Test(expected = IllegalArgumentException.class)
+	public void test_Constructor_fout_Datum_null() {
+		Opdracht opdracht = new Opdracht("Welke zee grenst aan België?",
+				"Noordzee", OpdrachtCategorie.algemeneKennis, Leraar.Alain,
+				null);
 	}
 
 	@Test

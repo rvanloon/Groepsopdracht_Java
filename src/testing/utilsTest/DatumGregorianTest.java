@@ -175,6 +175,13 @@ public class DatumGregorianTest {
 		DatumGregorian d2 = new DatumGregorian(02, 01, 2013);
 		assertTrue(d1.verschilInDagen(d2) == 367);
 	}
+	
+	@Test
+	public void test_VerschilInDagen_ok_zelfdedag() {
+		DatumGregorian d1 = new DatumGregorian(1, 1, 2012);
+		DatumGregorian d2 = new DatumGregorian(1, 1, 2012);
+		assertTrue(d1.verschilInDagen(d2) == 0);
+	}
 
 	@Test(expected = IllegalArgumentException.class)
 	public void test_VerschilInDagen_fout_nullparameter() {

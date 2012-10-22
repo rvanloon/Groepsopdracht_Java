@@ -2,6 +2,8 @@ package model;
 
 import java.util.ArrayList;
 
+import org.junit.Before;
+
 import utils.Datum;
 
 /**
@@ -34,11 +36,11 @@ public class Opdracht implements Comparable<Opdracht> {
 	 */
 	public Opdracht(String vraag, String juisteAntwoord,
 			OpdrachtCategorie categorie, Leraar auteur, Datum datumRegistratie) {
-		this.vraag = vraag;
-		this.juisteAntwoord = juisteAntwoord;
-		this.categorie = categorie;
-		this.auteur = auteur;
-		this.datumRegistratie = datumRegistratie;
+		this.setVraag(vraag);
+		this.setJuisteAntwoord(juisteAntwoord);
+		this.setCategorie(categorie);
+		this.setAuteur(auteur);
+		this.setDatumRegistratie(datumRegistratie);
 
 		this.antwoordHints = new ArrayList<String>();
 		this.quizzen = new ArrayList<QuizOpdracht>();
@@ -54,7 +56,7 @@ public class Opdracht implements Comparable<Opdracht> {
 	}
 
 	public void setVraag(String vraag) {
-		if (vraag.isEmpty() || vraag.equals(null)) {
+		if (vraag==null || vraag.isEmpty()) {
 			throw new IllegalArgumentException("Geen vraag meegegeven");
 		}
 		this.vraag = vraag;
@@ -70,7 +72,7 @@ public class Opdracht implements Comparable<Opdracht> {
 	}
 
 	public void setJuisteAntwoord(String juisteAntwoord) {
-		if (juisteAntwoord.isEmpty() || juisteAntwoord.equals(null)) {
+		if (juisteAntwoord==null||juisteAntwoord.isEmpty()) {
 			throw new IllegalArgumentException("Geen juisteAntwoord meegegeven");
 		}
 		this.juisteAntwoord = juisteAntwoord;
@@ -336,8 +338,21 @@ public class Opdracht implements Comparable<Opdracht> {
 	}
 
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
+		Opdracht opdracht;
+		String vraag;
+		String antwoord;
+		OpdrachtCategorie categorie;
+		Leraar leraar;
+		Datum datum;
 
+		
+			vraag = "";
+			antwoord = "";
+			categorie = OpdrachtCategorie.algemeneKennis;
+			leraar = Leraar.Alain;
+			datum = new Datum(20, 10, 2012);
+
+			opdracht = new Opdracht(vraag, antwoord, categorie, leraar, datum);
 	}
 
 }
