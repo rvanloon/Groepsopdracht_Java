@@ -14,85 +14,213 @@ public class Opdracht implements Comparable<Opdracht> {
 
 	private String vraag;
 	private String juisteAntwoord;
-	private int maxAantalPogingen;
+	private int maxAantalPogingen = 1;
 	private List<String> antwoordHints;
-	private int maxAntwoordTijd = -1;
+	private int maxAntwoordTijd = 0;
 
 	private OpdrachtCategorie categorie;
 	private List<QuizOpdracht> quizzen;
 	private Leraar auteur;
 	private Datum datumRegistratie;
 
+	/**
+	 * Geeft de vraag terug.
+	 * 
+	 * @return string vraag
+	 */
 	public String getVraag() {
 		return vraag;
 	}
 
 	public void setVraag(String vraag) {
+		if (vraag.isEmpty() || vraag.equals(null)) {
+			throw new IllegalArgumentException("Geen vraag meegegeven");
+		}
 		this.vraag = vraag;
 	}
 
+	/**
+	 * Geeft het juiste antwoord terug
+	 * 
+	 * @return string
+	 */
 	public String getJuisteAntwoord() {
 		return juisteAntwoord;
 	}
 
 	public void setJuisteAntwoord(String juisteAntwoord) {
+		if (juisteAntwoord.isEmpty() || juisteAntwoord.equals(null)) {
+			throw new IllegalArgumentException("Geen juisteAntwoord meegegeven");
+		}
 		this.juisteAntwoord = juisteAntwoord;
 	}
 
+	/**
+	 * Geeft het maximaal aantal pogingen terug.
+	 * 
+	 * @return int
+	 */
 	public int getMaxAantalPogingen() {
 		return maxAantalPogingen;
 	}
 
+	/**
+	 * bepaal het max. aantal pogingen die iemand mag ondernemen.
+	 * 
+	 * @param maxAantalPogingen
+	 *            int >0
+	 */
 	public void setMaxAantalPogingen(int maxAantalPogingen) {
+		if (maxAantalPogingen <= 0) {
+			throw new IllegalArgumentException(
+					"max. aantal pogingen moet minstens één zijn.");
+		}
 		this.maxAantalPogingen = maxAantalPogingen;
 	}
 
+	/**
+	 * Geeft een list met de antwoordhints.
+	 * 
+	 * @return list met strings
+	 */
 	public List<String> getAntwoordHints() {
 		return antwoordHints;
 	}
 
-	public void setAntwoordHints(List<String> antwoordHints) {
+	private void setAntwoordHints(List<String> antwoordHints) {
+		if (antwoordHints == null) {
+			throw new IllegalArgumentException(
+					"antwoordHints mag niet null zijn.");
+		}
+
 		this.antwoordHints = antwoordHints;
 	}
 
+	/**
+	 * Geeft de tijd terug in seconden die aan een vraag mag besteed worden.
+	 * indien geen maximum tijd, wordt 0 teruggegeven.
+	 * 
+	 * @return int
+	 */
 	public int getMaxAntwoordTijd() {
 		return maxAntwoordTijd;
 	}
 
+	/**
+	 * stel de maximum tijd in (in seconden) die aan een vraag mag besteed
+	 * worden. 0 voor onbeperkt.
+	 * 
+	 * @param maxAntwoordTijd
+	 *            int
+	 */
 	public void setMaxAntwoordTijd(int maxAntwoordTijd) {
+		if (maxAntwoordTijd < 0) {
+			throw new IllegalArgumentException(
+					"maxAntwoordTijd moet minstens 0 zijn.");
+		}
 		this.maxAntwoordTijd = maxAntwoordTijd;
 	}
 
+	/**
+	 * Geeft de categorie van de opdracht terug
+	 * 
+	 * @return OpdrachtCategorie
+	 */
 	public OpdrachtCategorie getCategorie() {
 		return categorie;
 	}
 
 	public void setCategorie(OpdrachtCategorie categorie) {
+		if (categorie == null) {
+			throw new IllegalArgumentException("categorie mag niet null zijn");
+		}
 		this.categorie = categorie;
 	}
 
+	/**
+	 * Geeft een list terug met de gekoppelde quizen
+	 * 
+	 * @return list met quizzen.
+	 */
 	public List<QuizOpdracht> getQuizzen() {
 		return quizzen;
 	}
 
-	public void setQuizzen(List<QuizOpdracht> quizzen) {
+	private void setQuizzen(List<QuizOpdracht> quizzen) {
+		if (quizzen == null) {
+			throw new IllegalArgumentException("quizzen mag niet null zijn");
+		}
+
 		this.quizzen = quizzen;
 	}
 
+	/**
+	 * Geeft de auteur van de opdracht
+	 * 
+	 * @return Leraar
+	 */
 	public Leraar getAuteur() {
 		return auteur;
 	}
 
+	/**
+	 * Stel de auteur in van de opdracht
+	 * 
+	 * @param auteur
+	 */
 	public void setAuteur(Leraar auteur) {
+		if (auteur == null) {
+			throw new IllegalArgumentException("Geen auteur meegegeven");
+		}
 		this.auteur = auteur;
 	}
 
+	/**
+	 * Geeft de datum van registratie terug.
+	 * 
+	 * @return Datum
+	 */
 	public Datum getDatumRegistratie() {
 		return datumRegistratie;
 	}
 
+	/**
+	 * Stel de datum va registratie in
+	 * 
+	 * @param datumRegistratie
+	 *            Datum
+	 */
 	public void setDatumRegistratie(Datum datumRegistratie) {
+		if (datumRegistratie == null) {
+			throw new IllegalArgumentException(
+					"datumRegistratie mag niet null zijn");
+		}
 		this.datumRegistratie = datumRegistratie;
+	}
+
+	/**
+	 * Voegt een hint toe aan de antwoordhints
+	 * 
+	 * @param hint
+	 *            sting
+	 */
+	public void addAntwoordHint(String hint) {
+		if (hint.isEmpty() || hint.equals(null)) {
+			throw new IllegalArgumentException("Geen juisteAntwoord meegegeven");
+		}
+		this.antwoordHints.add(hint);
+	}
+
+	/**
+	 * Voeg een quizopdracht toe aan de opdracht
+	 * 
+	 * @param quizopdracht
+	 */
+	public void addQuizopdracht(QuizOpdracht quizopdracht) {
+		if (quizopdracht == null) {
+			throw new IllegalArgumentException("Geen QuizOpdracht meegegeven");
+		}
+		quizzen.add(quizopdracht);
 	}
 
 	/**
