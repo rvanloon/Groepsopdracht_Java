@@ -56,7 +56,7 @@ public class Opdracht implements Comparable<Opdracht> {
 	}
 
 	public void setVraag(String vraag) {
-		if (vraag==null || vraag.isEmpty()) {
+		if (vraag == null || vraag.isEmpty()) {
 			throw new IllegalArgumentException("Geen vraag meegegeven");
 		}
 		this.vraag = vraag;
@@ -72,7 +72,7 @@ public class Opdracht implements Comparable<Opdracht> {
 	}
 
 	public void setJuisteAntwoord(String juisteAntwoord) {
-		if (juisteAntwoord==null||juisteAntwoord.isEmpty()) {
+		if (juisteAntwoord == null || juisteAntwoord.isEmpty()) {
 			throw new IllegalArgumentException("Geen juisteAntwoord meegegeven");
 		}
 		this.juisteAntwoord = juisteAntwoord;
@@ -228,7 +228,7 @@ public class Opdracht implements Comparable<Opdracht> {
 	 *            sting
 	 */
 	public void addAntwoordHint(String hint) {
-		if (hint.isEmpty() || hint.equals(null)) {
+		if (hint == null || hint.isEmpty()) {
 			throw new IllegalArgumentException("Geen juisteAntwoord meegegeven");
 		}
 		this.antwoordHints.add(hint);
@@ -345,14 +345,13 @@ public class Opdracht implements Comparable<Opdracht> {
 		Leraar leraar;
 		Datum datum;
 
-		
-			vraag = "";
-			antwoord = "";
-			categorie = OpdrachtCategorie.algemeneKennis;
-			leraar = Leraar.Alain;
-			datum = new Datum(20, 10, 2012);
+		vraag = "";
+		antwoord = "";
+		categorie = OpdrachtCategorie.algemeneKennis;
+		leraar = Leraar.Alain;
+		datum = new Datum(20, 10, 2012);
 
-			opdracht = new Opdracht(vraag, antwoord, categorie, leraar, datum);
+		opdracht = new Opdracht(vraag, antwoord, categorie, leraar, datum);
 	}
 
 }
