@@ -13,6 +13,12 @@ import org.junit.Test;
 
 import utils.Datum;
 
+/**
+ * 
+ * @author rvanloon
+ * @version 1
+ * 
+ */
 public class OpdrachtTest {
 
 	Opdracht opdracht;

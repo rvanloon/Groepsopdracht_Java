@@ -235,14 +235,16 @@ public class Opdracht implements Comparable<Opdracht> {
 	}
 
 	/**
-	 * Voeg een quizopdracht toe aan de opdracht
+	 * Koppelt deze opdracht met een quiz
 	 * 
-	 * @param quizopdracht
+	 * @param quiz
+	 *            De toe te voegen quiz
+	 * @param maxscore
+	 *            de maximumscore die met deze vraag gehaald kan worden
 	 */
-	public void addQuizopdracht(QuizOpdracht quizopdracht) {
-		if (quizopdracht == null) {
-			throw new IllegalArgumentException("Geen QuizOpdracht meegegeven");
-		}
+	public void addQuiz(Quiz quiz, int maxscore) {
+		// Validatie gebeurt in constructor van QuizOpdracht
+		QuizOpdracht quizopdracht = new QuizOpdracht(maxscore, this, quiz);
 		quizzen.add(quizopdracht);
 	}
 
@@ -304,7 +306,7 @@ public class Opdracht implements Comparable<Opdracht> {
 	 * Geeft een kopie van de huidige opdracht.
 	 */
 	@Override
-	protected Object clone() throws CloneNotSupportedException {
+	public Object clone() throws CloneNotSupportedException {
 		Opdracht clone = new Opdracht(vraag, juisteAntwoord, categorie, auteur,
 				datumRegistratie);
 		clone.setAntwoordHints(antwoordHints);
