@@ -1,4 +1,5 @@
 package model;
+
 import java.util.ArrayList;
 import java.util.List;
 import utils.DatumGregorian;
@@ -6,11 +7,10 @@ import utils.DatumGregorian;
 /**
  * 
  * @author Sven
- *
+ * 
  */
 
-public class Quiz implements Cloneable, Comparable<Quiz>
-{	
+public class Quiz implements Cloneable, Comparable<Quiz> {
 	private String onderwerp;
 	private ArrayList<Integer> leerjaren;
 	private Leraar auteur;
@@ -18,148 +18,268 @@ public class Quiz implements Cloneable, Comparable<Quiz>
 	private Boolean isTest;
 	private QuizStatus status;
 	private ArrayList<QuizOpdracht> opdrachten;
-	
+
 	/**
 	 * Geeft het onderwerp van de Quiz terug
+	 * 
 	 * @return String
 	 */
 	public String getOnderwerp() {
 		return onderwerp;
 	}
-	
+
+	/**
+	 * Functie om het onderwerp van de quiz mee te geven
+	 * 
+	 * @param onderwerp
+	 *            String
+	 * @throws IllegalArgumentException
+	 *             indien de meegegeven string null of leeg is
+	 */
 	public void setOnderwerp(String onderwerp) throws IllegalArgumentException {
-		if(onderwerp.equals(null)){
+		if (onderwerp == null || onderwerp.isEmpty()) {
 			throw new IllegalArgumentException("Onderwerp mag niet null zijn");
 		}
 		this.onderwerp = onderwerp;
 	}
-	
+
 	/**
 	 * Geeft een ArrayList van de leerjaren terug waarvoor de quiz bedoeld is
+	 * 
 	 * @return ArrayList<Integer>
 	 */
 	public ArrayList<Integer> getLeerjaren() {
 		return leerjaren;
 	}
-	
-	public void setLeerjaren(ArrayList<Integer> leerjaren) throws IllegalArgumentException {
-		if(leerjaren == null){
-			throw new IllegalArgumentException("Aantal leerjaren mag niet null zijn");
+
+	/**
+	 * Functie om de leerjaren mee te geven waar de quiz voor bedoeld is. Alle
+	 * leerjaren moeten meegegeven worden. 
+	 * 
+	 * @param leerjaren
+	 *            int array
+	 * @throws IllegalArgumentException
+	 *             wanneer de meegegen int array null is, of de meegegeven
+	 *             leerjaren kleiner dan nul of groter dan zes
+	 */
+	public void setLeerjaren(int... leerjaren) throws IllegalArgumentException {
+		if (leerjaren == null) {
+			throw new IllegalArgumentException(
+					"Aantal leerjaren mag niet null zijn");
 		}
-		this.leerjaren = leerjaren;
+		this.leerjaren.clear();
+		for (int jaar : leerjaren) {
+			if (jaar < 1 || jaar > 6) {
+				throw new IllegalArgumentException(
+						"De waarde voor de leerjaren moet tussen 1 en 6 liggen");
+			}
+			this.leerjaren.add(jaar);
+		}
 	}
 
 	/**
 	 * Geeft de auteur terug die de quiz opgesteld heeft
+	 * 
 	 * @return enum Leraar
 	 */
 	public Leraar getAuteur() {
 		return auteur;
 	}
 
+	/**
+	 * Functie om de auteur mee te geven die de quiz heeft opgesteld
+	 * 
+	 * @param auteur
+	 *            enum Auteur
+	 * @throws IllegalArgumentException
+	 *             indien de auteur null is
+	 */
 	public void setAuteur(Leraar auteur) throws IllegalArgumentException {
-		if(auteur == null){
+		if (auteur == null) {
 			throw new IllegalArgumentException("Auteur mag niet null zijn");
 		}
 		this.auteur = auteur;
 	}
-	
+
 	/**
-	 * Geeft true terug als een leerling maar één keer aan de quiz mag deelnemen. 
-	 * Geeft false terug als een leerling meerdere keren aan een quiz mag deelnemen
+	 * Geeft true terug als een leerling maar één keer aan de quiz mag
+	 * deelnemen. Geeft false terug als een leerling meerdere keren aan een quiz
+	 * mag deelnemen
+	 * 
 	 * @return boolean
 	 */
 	public Boolean getIsTest() {
 		return isTest;
 	}
 
-	public void setIsTest(Boolean isTest) {
+	/**
+	 * Functie om aan te geven of de quiz een test is of niet
+	 * 
+	 * @param isTest
+	 *            Boolean
+	 * @throws IllegalArgumentException
+	 *             indien de meegegeven Boolean null is
+	 */
+	public void setIsTest(Boolean isTest) throws IllegalArgumentException {
+		if (isTest == null) {
+			throw new IllegalArgumentException("auteur mag niet null zijn");
+		}
 		this.isTest = isTest;
 	}
-	
+
 	/**
 	 * Geeft de registratiedatum van de quiz terug
+	 * 
 	 * @return DatumGregorian
-	 * @throws Gooit NullPointerException als de datum null is 
+	 * @throws NullPointerException
+	 *             als de datum null is
 	 */
 	public DatumGregorian getDatumRegistratie() {
 		return datumRegistratie;
 	}
 
-	public void setDatumRegistratie(DatumGregorian datumRegistratie) throws IllegalArgumentException {
-		if(datumRegistratie == null){
+	/**
+	 * Functie waarmee men een registratiedatum voor de quiz kan vastleggen
+	 * 
+	 * @param datumRegistratie
+	 *            DatumGregorian
+	 * @throws IllegalArgumentException
+	 *             indien de meegegeven datum null is
+	 */
+	public void setDatumRegistratie(DatumGregorian datumRegistratie)
+			throws IllegalArgumentException {
+		if (datumRegistratie == null) {
 			throw new IllegalArgumentException("Datum mag niet null zijn");
 		}
 		this.datumRegistratie = datumRegistratie;
 	}
-	
+
 	/**
 	 * geeft de status terug van de quiz
+	 * 
 	 * @return QuizStatus
 	 */
 	public QuizStatus getStatus() {
 		return status;
 	}
 
+	/**
+	 * Functie waarmee men de status van de quiz kan meegeven
+	 * 
+	 * @param status
+	 *            QuizStatus
+	 * @throws IllegalArgumentException
+	 *             indien de meegegeven status null is
+	 */
 	public void setStatus(QuizStatus status) throws IllegalArgumentException {
-		if(status == null){
+		if (status == null) {
 			throw new IllegalArgumentException("Datum mag niet null zijn");
 		}
 		this.status = status;
 	}
-	
+
 	/**
 	 * Geeft een lijst terug van de QuizOpdrachten
+	 * 
 	 * @return List QuizOpdrachten
 	 */
 	public List<QuizOpdracht> getOpdrachten() {
 		return opdrachten;
 	}
 
-	public void setOpdrachten(ArrayList<QuizOpdracht> opdrachten) {
+	/**
+	 * Functie waarmee men een ArrayList van opdrachten kan meegeven aan de
+	 * functie
+	 * 
+	 * @param opdrachten
+	 *            ArrayList
+	 * @throws IllegalArgumentException
+	 *             Gooit een Exception als de ArrayList null is of geen
+	 *             opdrachten bevat
+	 */
+	public void setOpdrachten(ArrayList<QuizOpdracht> opdrachten)
+			throws IllegalArgumentException {
+		if (opdrachten == null || opdrachten.isEmpty()) {
+			throw new IllegalArgumentException(
+					"De opdrachtenlijst mag niet null zijn");
+		}
 		this.opdrachten = opdrachten;
 	}
 
-
-	public Quiz(String onderwerp, Leraar auteur, Boolean test, int... jaren)
-	{
+	/**
+	 * Constructor waarmee men een nieuwe quiz kan aanmaken. Men moet een geldig
+	 * onderwerp, een geldige leraar, een boolean om aan te geven of het een
+	 * test betreft en tenslotte het leerjaar (of de leerjaren) waarvoor de quiz
+	 * bedoeld is. De status wordt default als "in constructie" geplaatst. De
+	 * registratiedatum krijgt de systeemdatum mee.
+	 * 
+	 * @param onderwerp
+	 *            String
+	 * @param auteur
+	 *            enum Leraar
+	 * @param test
+	 *            Boolean
+	 * @param jaren
+	 *            integer of meerdere integers
+	 */
+	public Quiz(String onderwerp, Leraar auteur, Boolean test, int... jaren) {
 		setOnderwerp(onderwerp);
 		setAuteur(auteur);
 		setIsTest(test);
 		this.leerjaren = new ArrayList<Integer>();
-		for(int jaar : jaren){
-			leerjaren.add(jaar);
-		}
+		setLeerjaren(jaren);
 		this.opdrachten = new ArrayList<QuizOpdracht>();
 		setStatus(QuizStatus.InConstructie);
 		setDatumRegistratie(new DatumGregorian());
 	}
-	
-	
-	public void voegOpdrachtToe(QuizOpdracht opdracht) throws IllegalArgumentException
-	{
-		if(opdracht == null){
+
+	/**
+	 * Functie waarmee men een QuizOpdracht kan toevoegen aan de
+	 * opdrachtenlijst.
+	 * 
+	 * @param opdracht
+	 *            QuizOpdracht
+	 * @throws IllegalArgumentException
+	 *             Gooit een exception als de opdracht null is
+	 */
+	public void voegOpdrachtToe(QuizOpdracht opdracht)
+			throws IllegalArgumentException {
+		if (opdracht == null) {
 			throw new IllegalArgumentException("De datum mag niet null zijn");
 		}
 		opdrachten.add(opdracht);
 	}
-	
+
+	/**
+	 * Functie waarmee men een QuizOpdracht kan verwijderen uit de
+	 * opdrachtenlijst. Indien de opdracht niet aanwezig is wordt een exception
+	 * gegooid
+	 * 
+	 * @param opdracht
+	 *            QuizOpdracht
+	 * @throws IllegalArgumentException
+	 *             Gooit een Exception als de opdracht null is of als de
+	 *             opdracht niet aanwezig is in de lijst
+	 */
 	public void verwijderOpdracht(QuizOpdracht opdracht)
-	{
-		if(opdracht == null){
+			throws IllegalArgumentException {
+		if (opdracht == null) {
 			throw new IllegalArgumentException("De datum mag niet null zijn");
 		}
 		int index = this.opdrachten.indexOf(opdracht);
-		if(index == -1){
+		if (index == -1) {
 			throw new IllegalArgumentException("Opdracht niet aanwezig in quiz");
-		}
-		else{
+		} else {
 			this.opdrachten.remove(opdracht);
 		}
 	}
 
+	/**
+	 * Geeft een string terug die de opdracht beschrijft in de vorm
+	 * "(onderwerp), (auteur), (status)"
+	 */
 	@Override
-	public String toString() {		
+	public String toString() {
 		return this.onderwerp + ", " + this.auteur + ", " + this.status;
 	}
 
@@ -223,37 +343,52 @@ public class Quiz implements Cloneable, Comparable<Quiz>
 		return true;
 	}
 
+	/**
+	 * Vergelijkt een quiz op basis van het onderwerp (alfabetisch)
+	 * 
+	 * @param Quiz
+	 *            De quiz die vergeleken moet worden.
+	 * @return 0: gelijk, negatieve waarde: kleiner, positieve waarde: groter
+	 */
 	@Override
 	public int compareTo(Quiz q) {
-		if(q == null){
+		if (q == null) {
 			throw new IllegalArgumentException("Quiz mag niet null zijn");
 		}
 		return q.onderwerp.compareTo(this.onderwerp);
 	}
-	
+
+	/**
+	 * Geeft een kopie terug van de huidige quiz
+	 */
 	@Override
-	public Quiz clone(){
-		int[] jaren = new int[(leerjaren.size()-1)];
+	public Quiz clone() {
+		int[] jarenClone = new int[this.leerjaren.size()];
 		int i = 0;
-		for(int jaar : leerjaren){
-			jaren[i] = jaar;
+		for (int jaar : this.leerjaren) {
+			jarenClone[i] = jaar;
+			i++;
 		}
-		Quiz clone = new Quiz(this.onderwerp, this.auteur, this.isTest, jaren);
+		Quiz clone = new Quiz(this.onderwerp, this.auteur, this.isTest,
+				jarenClone);
 		clone.setDatumRegistratie(datumRegistratie);
 		clone.setStatus(this.status);
-		clone.setOpdrachten(this.opdrachten);
+		for (QuizOpdracht opd : this.opdrachten) {
+			clone.opdrachten.add(opd);
+		}
 		return clone;
 	}
-	
+
 	/**
 	 * @param args
 	 */
 	public static void main(String[] args) {
-				
-
+		try {
+			Quiz quiz = new Quiz("Georgrafie", Leraar.Alain, true, 1, 2, 3);
+			System.out.println(quiz.getLeerjaren());
+		} catch (Exception e) {
+			System.out.println(e);
+		}
 	}
-
-
-
 
 }
