@@ -25,7 +25,7 @@ public class Quiz implements Cloneable, Comparable<Quiz> {
 	 * @return String
 	 */
 	public String getOnderwerp() {
-		return onderwerp;
+		return this.onderwerp;
 	}
 
 	/**
@@ -49,12 +49,12 @@ public class Quiz implements Cloneable, Comparable<Quiz> {
 	 * @return ArrayList<Integer>
 	 */
 	public ArrayList<Integer> getLeerjaren() {
-		return leerjaren;
+		return this.leerjaren;
 	}
 
 	/**
 	 * Functie om de leerjaren mee te geven waar de quiz voor bedoeld is. Alle
-	 * leerjaren moeten meegegeven worden. 
+	 * leerjaren moeten meegegeven worden.
 	 * 
 	 * @param leerjaren
 	 *            int array
@@ -73,9 +73,9 @@ public class Quiz implements Cloneable, Comparable<Quiz> {
 				throw new IllegalArgumentException(
 						"De waarde voor de leerjaren moet tussen 1 en 6 liggen");
 			}
-			if(!this.leerjaren.contains(jaar)){
+			if (!this.leerjaren.contains(jaar)) {
 				this.leerjaren.add(jaar);
-			}			
+			}
 		}
 	}
 
@@ -85,7 +85,7 @@ public class Quiz implements Cloneable, Comparable<Quiz> {
 	 * @return enum Leraar
 	 */
 	public Leraar getAuteur() {
-		return auteur;
+		return this.auteur;
 	}
 
 	/**
@@ -111,7 +111,7 @@ public class Quiz implements Cloneable, Comparable<Quiz> {
 	 * @return boolean
 	 */
 	public Boolean getIsTest() {
-		return isTest;
+		return this.isTest;
 	}
 
 	/**
@@ -137,7 +137,7 @@ public class Quiz implements Cloneable, Comparable<Quiz> {
 	 *             als de datum null is
 	 */
 	public DatumGregorian getDatumRegistratie() {
-		return datumRegistratie;
+		return this.datumRegistratie;
 	}
 
 	/**
@@ -162,7 +162,7 @@ public class Quiz implements Cloneable, Comparable<Quiz> {
 	 * @return QuizStatus
 	 */
 	public QuizStatus getStatus() {
-		return status;
+		return this.status;
 	}
 
 	/**
@@ -231,8 +231,8 @@ public class Quiz implements Cloneable, Comparable<Quiz> {
 		this.leerjaren = new ArrayList<Integer>();
 		setLeerjaren(jaren);
 		this.opdrachten = new ArrayList<QuizOpdracht>();
-		setStatus(QuizStatus.InConstructie);
-		setDatumRegistratie(new DatumGregorian());
+		this.setStatus(QuizStatus.InConstructie);
+		this.setDatumRegistratie(new DatumGregorian());
 	}
 
 	/**
@@ -386,8 +386,9 @@ public class Quiz implements Cloneable, Comparable<Quiz> {
 	 */
 	public static void main(String[] args) {
 		try {
-				Quiz quiz4 = new Quiz("Aardrijkskunde", Leraar.Alain, true, 4,4,5,6);
-				System.out.println(quiz4.getLeerjaren());
+			Quiz quiz4 = new Quiz("Aardrijkskunde", Leraar.Alain, true, 4, 4,
+					5, 6);
+			System.out.println(quiz4.getLeerjaren());
 		} catch (Exception e) {
 			System.out.println(e);
 		}

@@ -81,7 +81,7 @@ public class QuizCatalogus implements Iterable<Quiz>, Cloneable {
 		if (index == -1) {
 			throw new IllegalArgumentException("Quiz is niet aanwezig in lijst");
 		} else if (quiz.getStatus() != QuizStatus.InConstructie
-				|| quiz.getStatus() != QuizStatus.afgewerkt) {
+				&& quiz.getStatus() != QuizStatus.afgewerkt) {
 			throw new IllegalArgumentException(
 					"Quiz kan niet verwijderd worden wegens status.");
 		} else {
@@ -107,7 +107,7 @@ public class QuizCatalogus implements Iterable<Quiz>, Cloneable {
 				+ ((quizzen == null) ? 0 : quizzen.hashCode());
 		return result;
 	}
-
+	
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -140,16 +140,4 @@ public class QuizCatalogus implements Iterable<Quiz>, Cloneable {
 	public Iterator<Quiz> iterator() {
 		return quizzen.iterator();
 	}
-
-
-	/**
-	 * @param args
-	 */
-	public static void main(String[] args) {
-		
-
-	}
-
-
-
 }
