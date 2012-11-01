@@ -3,8 +3,6 @@ package testing.modelTest;
 import static org.junit.Assert.*;
 
 import java.util.ArrayList;
-import java.util.Calendar;
-
 import model.Leraar;
 import model.Opdracht;
 import model.OpdrachtCategorie;
