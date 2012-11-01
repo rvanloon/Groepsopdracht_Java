@@ -42,7 +42,7 @@ public class OpdrachtCatalogus implements Iterable<Opdracht> {
 	 * @param opdracht
 	 *            Opdracht
 	 */
-	public void addOpdracht(Opdracht opdracht) {
+	public void addOpdracht(Opdracht opdracht) throws IllegalArgumentException {
 		if (opdracht == null) {
 			throw new IllegalArgumentException("Opdracht is null.");
 		}
@@ -52,12 +52,35 @@ public class OpdrachtCatalogus implements Iterable<Opdracht> {
 		opdrachten.add(opdracht);
 	}
 
+	/**
+	 * Verwijder een opdracht uit de catalogus. Dit kan enkel als deze nog niet
+	 * aan een quiz is gekoppeld.
+	 * 
+	 * @param opdracht
+	 *            Opdracht die verwijderd moet worden
+	 * @throws IllegalArgumentException
+	 */
+	public void verwijderOpdracht(Opdracht opdracht)
+			throws IllegalArgumentException {
+		if (!(opdrachten.contains(opdracht))) {
+			throw new IllegalArgumentException(
+					"Deze opdracht zit niet in deze catalogus.");
+		}
+		if (!(opdracht.getQuizzen().isEmpty())) {
+			throw new IllegalArgumentException(
+					"Deze opdracht is aan een quiz gekoppeld.");
+		}
+		opdrachten.remove(opdracht);
+	}
+
 	@Override
 	public Iterator<Opdracht> iterator() {
 		return opdrachten.iterator();
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.lang.Object#hashCode()
 	 */
 	@Override
@@ -69,7 +92,9 @@ public class OpdrachtCatalogus implements Iterable<Opdracht> {
 		return result;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
 	@Override
@@ -89,7 +114,9 @@ public class OpdrachtCatalogus implements Iterable<Opdracht> {
 		return true;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.lang.Object#clone()
 	 */
 	@Override
@@ -100,7 +127,6 @@ public class OpdrachtCatalogus implements Iterable<Opdracht> {
 	}
 
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
 
 	}
 

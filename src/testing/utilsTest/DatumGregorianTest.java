@@ -33,7 +33,7 @@ public class DatumGregorianTest {
 		datumVandaag = new DatumGregorian();
 
 		// Aanpassen alvorens de tests te runnen
-		vandaagInEuropeesFormaat = "28/10/2012";
+		vandaagInEuropeesFormaat = "1/11/2012";
 
 	}
 

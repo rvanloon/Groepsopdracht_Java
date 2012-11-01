@@ -1,5 +1,7 @@
 package model;
 
+import utils.Datum;
+
 /**
  * 
  * @author rvanloon
@@ -13,19 +15,26 @@ public class QuizOpdracht {
 	private Quiz quiz;
 
 	/**
+	 * Constructor. Koppelt een quiz aan een opdracht met een max.score
+	 * 
 	 * @param maxScore
+	 *            int, positief
 	 * @param opdracht
+	 *            Opdract
 	 * @param quiz
+	 *            Quiz
 	 */
 	public QuizOpdracht(int maxScore, Opdracht opdracht, Quiz quiz)
 			throws IllegalArgumentException {
-		this.maxScore = maxScore;
-		this.opdracht = opdracht;
-		this.quiz = quiz;
+		setMaxScore(maxScore);
+		setOpdracht(opdracht) ;
+		setQuiz(quiz) ;
 	}
 
 	/**
-	 * @return the maxScore
+	 * Geeft de maximum score
+	 * 
+	 * @return the maxScore int
 	 */
 	public int getMaxScore() {
 		return maxScore;
@@ -33,7 +42,7 @@ public class QuizOpdracht {
 
 	/**
 	 * @param maxScore
-	 *            the maxScore to set (mag niet negatief zijn)
+	 *            int, the maxScore to set (mag niet negatief zijn)
 	 */
 	public void setMaxScore(int maxScore) {
 		if (maxScore < 0) {
@@ -44,6 +53,8 @@ public class QuizOpdracht {
 	}
 
 	/**
+	 * Geeft de opdracht
+	 * 
 	 * @return the opdracht
 	 */
 	public Opdracht getOpdracht() {
@@ -81,7 +92,9 @@ public class QuizOpdracht {
 		this.quiz = quiz;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.lang.Object#hashCode()
 	 */
 	@Override
@@ -95,7 +108,9 @@ public class QuizOpdracht {
 		return result;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
 	@Override
@@ -121,11 +136,12 @@ public class QuizOpdracht {
 			return false;
 		return true;
 	}
-	
-	
 
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
+		Opdracht opdracht = new Opdracht("Welke zee grenst aan België?",
+				"Noordzee", OpdrachtCategorie.algemeneKennis, Leraar.Alain,
+				new Datum(20, 10, 2012));
+		QuizOpdracht qo = new QuizOpdracht(3, opdracht, null);
 
 	}
 

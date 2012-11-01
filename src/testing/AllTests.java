@@ -6,6 +6,7 @@ import org.junit.runners.Suite.SuiteClasses;
 
 import testing.modelTest.OpdrachtCatalogusTest;
 import testing.modelTest.OpdrachtTest;
+import testing.modelTest.QuizOpdrachtTest;
 import testing.utilsTest.DatumGregorianTest;
 import testing.utilsTest.DatumTest;
 
@@ -16,7 +17,8 @@ import testing.utilsTest.DatumTest;
  * 
  */
 @RunWith(Suite.class)
-@SuiteClasses({ DatumGregorianTest.class, DatumTest.class, OpdrachtTest.class, OpdrachtCatalogusTest.class })
+@SuiteClasses({ DatumGregorianTest.class, DatumTest.class, OpdrachtTest.class,
+		OpdrachtCatalogusTest.class, QuizOpdrachtTest.class })
 public class AllTests {
 
 }
