@@ -73,7 +73,9 @@ public class Quiz implements Cloneable, Comparable<Quiz> {
 				throw new IllegalArgumentException(
 						"De waarde voor de leerjaren moet tussen 1 en 6 liggen");
 			}
-			this.leerjaren.add(jaar);
+			if(!this.leerjaren.contains(jaar)){
+				this.leerjaren.add(jaar);
+			}			
 		}
 	}
 
@@ -384,8 +386,8 @@ public class Quiz implements Cloneable, Comparable<Quiz> {
 	 */
 	public static void main(String[] args) {
 		try {
-			Quiz quiz = new Quiz("Georgrafie", Leraar.Alain, true, 1, 2, 3);
-			System.out.println(quiz.getLeerjaren());
+				Quiz quiz4 = new Quiz("Aardrijkskunde", Leraar.Alain, true, 4,4,5,6);
+				System.out.println(quiz4.getLeerjaren());
 		} catch (Exception e) {
 			System.out.println(e);
 		}
