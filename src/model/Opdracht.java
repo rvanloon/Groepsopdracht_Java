@@ -305,14 +305,15 @@ public class Opdracht implements Comparable<Opdracht> {
 	/**
 	 * Geeft een kopie van de huidige opdracht.
 	 */
+	@SuppressWarnings("unchecked")
 	@Override
 	public Object clone() throws CloneNotSupportedException {
 		Opdracht clone = new Opdracht(vraag, juisteAntwoord, categorie, auteur,
 				datumRegistratie);
-		clone.setAntwoordHints(antwoordHints);
+		clone.setAntwoordHints((ArrayList<String>) antwoordHints.clone());
 		clone.setMaxAantalPogingen(maxAantalPogingen);
 		clone.setMaxAntwoordTijd(maxAntwoordTijd);
-		clone.setQuizzen(quizzen);
+		clone.setQuizzen((ArrayList<QuizOpdracht>) quizzen.clone());
 		return clone;
 	}
 
@@ -336,7 +337,7 @@ public class Opdracht implements Comparable<Opdracht> {
 		if (opdracht == null) {
 			throw new IllegalArgumentException("opdracht is null");
 		}
-		return opdracht.vraag.compareTo(vraag);
+		return vraag.compareTo(opdracht.getVraag());
 	}
 
 	public static void main(String[] args) {
