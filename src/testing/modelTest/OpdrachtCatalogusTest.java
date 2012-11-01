@@ -8,6 +8,7 @@ import model.Leraar;
 import model.Opdracht;
 import model.OpdrachtCatalogus;
 import model.OpdrachtCategorie;
+import model.Quiz;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -61,6 +62,27 @@ public class OpdrachtCatalogusTest {
 	@Test(expected = IllegalArgumentException.class)
 	public void test_AddOpdracht_Fout_BestaandeOpdracht() {
 		catalogus.addOpdracht(opdracht1);
+	}
+
+	@Test
+	public void test_verwijderOpdracht_OK() {
+		assertEquals(catalogus.getOpdrachten().size(), 2);
+		catalogus.verwijderOpdracht(opdracht2);
+		assertEquals(catalogus.getOpdrachten().size(), 1);
+	}
+
+	@Test (expected=IllegalArgumentException.class)
+	public void test_verwijderOpdracht_Fout_NietInCatalogus() {
+		Opdracht opd = new Opdracht("nn", "ll",
+				OpdrachtCategorie.NederlandseTaal, Leraar.Robrecht, new Datum());
+		catalogus.verwijderOpdracht(opd);
+	}
+	
+	@Test (expected=IllegalArgumentException.class)
+	public void test_verwijderOpdracht_Fout_AanQuizGelinkt() {
+		Quiz quiz = new Quiz("rrrr", Leraar.Sven, true, 5);
+		opdracht1.addQuiz(quiz, 2);
+		catalogus.verwijderOpdracht(opdracht1);
 	}
 
 	@Test
