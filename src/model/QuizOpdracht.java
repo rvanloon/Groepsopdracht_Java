@@ -1,5 +1,7 @@
 package model;
 
+import java.util.ArrayList;
+
 import utils.Datum;
 
 /**
@@ -13,6 +15,7 @@ public class QuizOpdracht {
 	private int maxScore;
 	private Opdracht opdracht;
 	private Quiz quiz;
+	private ArrayList<OpdrachtAntwoord> opdrachtAntwoorden;
 
 	/**
 	 * Constructor. Koppelt een quiz aan een opdracht met een max.score
@@ -27,8 +30,9 @@ public class QuizOpdracht {
 	public QuizOpdracht(int maxScore, Opdracht opdracht, Quiz quiz)
 			throws IllegalArgumentException {
 		setMaxScore(maxScore);
-		setOpdracht(opdracht) ;
-		setQuiz(quiz) ;
+		setOpdracht(opdracht);
+		setQuiz(quiz);
+		opdrachtAntwoorden = new ArrayList<OpdrachtAntwoord>();
 	}
 
 	/**
@@ -90,6 +94,45 @@ public class QuizOpdracht {
 		}
 
 		this.quiz = quiz;
+	}
+
+	/**
+	 * Geeft een arraylist met alle opdrachtantwoorden.
+	 * 
+	 * @return the opdrachtAntwoorden
+	 */
+	public ArrayList<OpdrachtAntwoord> getOpdrachtAntwoorden() {
+		return opdrachtAntwoorden;
+	}
+
+	/**
+	 * @param opdrachtAntwoorden
+	 *            the opdrachtAntwoorden to set
+	 * @throws IllegalArgumentException
+	 */
+	public void setOpdrachtAntwoorden(
+			ArrayList<OpdrachtAntwoord> opdrachtAntwoorden)
+			throws IllegalArgumentException {
+		if (opdrachtAntwoorden == null) {
+			throw new IllegalArgumentException("opdrachtAntwoorden is null");
+		}
+		this.opdrachtAntwoorden = opdrachtAntwoorden;
+	}
+
+	/**
+	 * Geeft de gemiddelde score van alle deelnames aan deze quizopdracht.
+	 * 
+	 * @return double, gemiddelde score.
+	 */
+	public double getGemiddeldeScore() {
+		int aantalAntwoorden = opdrachtAntwoorden.size();
+		if (aantalAntwoorden == 0)
+			return 0.0;
+		double somScore = 0;
+		for (OpdrachtAntwoord antwoord : opdrachtAntwoorden) {
+			somScore += antwoord.GetOpdrachtScore();
+		}
+		return somScore / aantalAntwoorden;
 	}
 
 	/*

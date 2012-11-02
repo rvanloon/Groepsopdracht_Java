@@ -147,7 +147,7 @@ public class OpdrachtAntwoord implements Comparable<OpdrachtAntwoord> {
 	 * 
 	 * @return de score
 	 */
-	public double GetScore() {
+	public double GetOpdrachtScore() {
 		double score = (double) quizopdracht.getMaxScore();
 		if (laatsteAntwoord.equals(quizopdracht.getOpdracht()
 				.getJuisteAntwoord())) {
@@ -229,7 +229,7 @@ public class OpdrachtAntwoord implements Comparable<OpdrachtAntwoord> {
 		if (o == null) {
 			throw new IllegalArgumentException("OpdrachtAntwoord is null.");
 		}
-		double verschil = GetScore() - o.GetScore();
+		double verschil = GetOpdrachtScore() - o.GetOpdrachtScore();
 		return verschil == 0 ? 0 : verschil > 0 ? 1 : -1;
 
 	}

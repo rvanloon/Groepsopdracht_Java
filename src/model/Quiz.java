@@ -18,6 +18,7 @@ public class Quiz implements Cloneable, Comparable<Quiz> {
 	private Boolean isTest;
 	private QuizStatus status;
 	private ArrayList<QuizOpdracht> opdrachten;
+	private ArrayList<QuizDeelname> quizDeelnames;
 
 	/**
 	 * Geeft het onderwerp van de Quiz terug
@@ -209,6 +210,26 @@ public class Quiz implements Cloneable, Comparable<Quiz> {
 	}
 
 	/**
+	 * @return the quizDeelnames
+	 */
+	public ArrayList<QuizDeelname> getQuizDeelnames() {
+		return quizDeelnames;
+	}
+
+	/**
+	 * @param quizDeelnames
+	 *            the quizDeelnames to set
+	 * @throws IllegalArgumentException
+	 */
+	public void setQuizDeelnames(ArrayList<QuizDeelname> quizDeelnames)
+			throws IllegalArgumentException {
+		if (quizDeelnames == null) {
+			throw new IllegalArgumentException("quizdeelnames is null");
+		}
+		this.quizDeelnames = quizDeelnames;
+	}
+
+	/**
 	 * Constructor waarmee men een nieuwe quiz kan aanmaken. Men moet een geldig
 	 * onderwerp, een geldige leraar, een boolean om aan te geven of het een
 	 * test betreft en tenslotte het leerjaar (of de leerjaren) waarvoor de quiz
@@ -233,6 +254,7 @@ public class Quiz implements Cloneable, Comparable<Quiz> {
 		this.opdrachten = new ArrayList<QuizOpdracht>();
 		this.setStatus(QuizStatus.InConstructie);
 		this.setDatumRegistratie(new DatumGregorian());
+		quizDeelnames = new ArrayList<QuizDeelname>();
 	}
 
 	/**
@@ -274,6 +296,22 @@ public class Quiz implements Cloneable, Comparable<Quiz> {
 		} else {
 			this.opdrachten.remove(opdracht);
 		}
+	}
+
+	/**
+	 * Geeft de gemiddelde score van alle deelnames aan deze quiz.
+	 * 
+	 * @return double, gemiddelde score.
+	 */
+	public double getGemiddeldeQuizScore() {
+		int aantalDeelnames = quizDeelnames.size();
+		if (aantalDeelnames == 0)
+			return 0.0;
+		double somScore = 0.0;
+		for (QuizDeelname deelname : quizDeelnames) {
+			somScore += (double) deelname.getDeelnameScore();
+		}
+		return somScore / aantalDeelnames;
 	}
 
 	/**
