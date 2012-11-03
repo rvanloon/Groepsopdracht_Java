@@ -194,6 +194,8 @@ public class OpdrachtTest {
 	 * @Test public void testToString() { fail("Not yet implemented"); }
 	 * 
 	 * @Test public void testCompareTo() { fail("Not yet implemented"); }
+	 * 
+	 * @Test public void testIsOpdrachtWijzigbaar() { fail("Not yet implemented"); }
 	 */
 
 }

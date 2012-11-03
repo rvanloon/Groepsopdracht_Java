@@ -1,10 +1,13 @@
 package testing.modelTest;
 
 import static org.junit.Assert.*;
+import model.Leerling;
 import model.Leraar;
 import model.Opdracht;
+import model.OpdrachtAntwoord;
 import model.OpdrachtCategorie;
 import model.Quiz;
+import model.QuizDeelname;
 import model.QuizOpdracht;
 
 import org.junit.Before;
@@ -70,13 +73,26 @@ public class QuizOpdrachtTest {
 		QuizOpdracht qo = new QuizOpdracht(maxScore, opdracht, quiz);
 		assertEquals(quizOpdracht, qo);
 	}
-	
+
 	@Test
 	public void test_EqualsObject_OK_ScoreNietGelijk() {
 		QuizOpdracht qo = new QuizOpdracht(2, opdracht, quiz);
 		assertFalse(quizOpdracht.equals(qo));
 	}
-	
-	//Nog testen op opdracht en quiz niet gelijk TODO
 
+	// Nog testen op opdracht en quiz niet gelijk TODO
+	
+	@Test
+	public void test_GetGemiddeldeScore_ok() {
+		OpdrachtAntwoord antwoord1 = new OpdrachtAntwoord("Noordzee", 1, 5,
+				quizOpdracht, new QuizDeelname(new Leerling("fff", 3), quiz,
+						new Datum()));
+		OpdrachtAntwoord antwoord2 = new OpdrachtAntwoord("xxx", 1, 5,
+				quizOpdracht, new QuizDeelname(new Leerling("fff", 3), quiz,
+						new Datum()));
+		quizOpdracht.getOpdrachtAntwoorden().add(antwoord1);
+		quizOpdracht.getOpdrachtAntwoorden().add(antwoord2);
+		assertTrue(quizOpdracht.getGemiddeldeScore() == 1.5);
+
+	}
 }

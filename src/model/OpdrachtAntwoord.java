@@ -149,8 +149,7 @@ public class OpdrachtAntwoord implements Comparable<OpdrachtAntwoord> {
 	 */
 	public double GetOpdrachtScore() {
 		double score = (double) quizopdracht.getMaxScore();
-		if (laatsteAntwoord.equals(quizopdracht.getOpdracht()
-				.getJuisteAntwoord())) {
+		if (quizopdracht.getOpdracht().isJuisteAntwoord(laatsteAntwoord)) {
 			if (!(quizopdracht.getOpdracht().getMaxAntwoordTijd() > 0 && antwoordTijd > quizopdracht
 					.getOpdracht().getMaxAntwoordTijd())) {
 				if (aantalPogingen > 1) {

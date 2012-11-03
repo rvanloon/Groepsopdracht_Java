@@ -101,8 +101,8 @@ public class QuizTest {
 
 	@Test(expected = IllegalArgumentException.class)
 	public void test_SetLeerjaren_Exception_Als_waarde_te_groot_of_te_klein() {
-		quiz.setLeerjaren(0);
-		quiz.setLeerjaren(-5);
+		quiz.setLeerjaren(0); // Hier stopt het al. Volgende wordt nooit uitgevoerd
+		quiz.setLeerjaren(-5); 
 		quiz.setLeerjaren(7);
 		quiz.setLeerjaren(1, 5, 7);
 		int[] intArray = { 5, 6, 7 };

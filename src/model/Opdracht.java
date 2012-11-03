@@ -19,7 +19,6 @@ public class Opdracht implements Comparable<Opdracht> {
 	private int maxAantalPogingen = 1;
 	private ArrayList<String> antwoordHints;
 	private int maxAntwoordTijd = 0;
-
 	private OpdrachtCategorie categorie;
 	private ArrayList<QuizOpdracht> quizzen;
 	private Leraar auteur;
@@ -258,6 +257,22 @@ public class Opdracht implements Comparable<Opdracht> {
 	 */
 	public Boolean isJuisteAntwoord(String antwoord) {
 		return antwoord.equals(juisteAntwoord);
+	}
+
+	/**
+	 * Geeft aan of een opdracht wijzigbaar is. Een opdracht is wijzigbaar
+	 * indien ze nog niet gelinkt is aan een quiz/test die door leerlingen al is
+	 * uitgevoerd.
+	 * 
+	 * @return boolean
+	 */
+	public boolean isOpdrachtWijzigbaar() {
+		for (QuizOpdracht quizopdracht : quizzen) {
+			if (!(quizopdracht.getOpdrachtAntwoorden().isEmpty())) {
+				return false;
+			}
+		}
+		return true;
 	}
 
 	/**
