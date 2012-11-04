@@ -252,7 +252,9 @@ public class QuizDeelname implements Comparable<QuizDeelname> {
 	}
 
 	public static void main(String[] args) {
-
+		Datum d1 = new Datum(4,11,2012);
+		Datum d2 = new Datum(4,11,2012);
+		System.out.println(d1.equals(d2));
 	}
 
 }

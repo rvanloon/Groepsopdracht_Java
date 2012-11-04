@@ -153,7 +153,7 @@ public class Leerling implements Comparable<Leerling> {
 	 */
 	@SuppressWarnings("unchecked")
 	@Override
-	protected Object clone() throws CloneNotSupportedException {
+	public Object clone() throws CloneNotSupportedException {
 		Leerling kopie = new Leerling(getLeerlingNaam(), getLeerjaar());
 		kopie.setQuizdeelnames((ArrayList<QuizDeelname>) getQuizdeelnames()
 				.clone());
