@@ -208,7 +208,7 @@ public class OpdrachtAntwoordTest {
 	}
 
 	@Test
-	public void test_GetOpdrachtScore_Maximum_score_juist_antwoord_één_poging() {
+	public void test_GetOpdrachtScore_Maximum_score_juist_antwoord_1_poging() {
 		opdrachtAntwoord.setAantalPogingen(1);
 		assertEquals(10, opdrachtAntwoord.GetOpdrachtScore(), 0.1);
 	}
