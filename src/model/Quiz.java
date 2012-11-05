@@ -265,12 +265,18 @@ public class Quiz implements Cloneable, Comparable<Quiz> {
 	 * @param opdracht
 	 *            QuizOpdracht
 	 * @throws IllegalArgumentException
-	 *             Gooit een exception als de opdracht null is
+	 *             Gooit een exception als de opdracht null is of reeds
+	 *             toegevoegs is.
 	 */
-	public void voegOpdrachtToe(QuizOpdracht opdracht)
+	protected void voegQuizOpdrachtToe(QuizOpdracht opdracht)
 			throws IllegalArgumentException {
 		if (opdracht == null) {
-			throw new IllegalArgumentException("De datum mag niet null zijn");
+			throw new IllegalArgumentException(
+					"De quizDeelname mag niet null zijn");
+		}
+		if (opdrachten.contains(opdracht)) {
+			throw new IllegalArgumentException(
+					"Deze opdracht is al toegevoegd.");
 		}
 		opdrachten.add(opdracht);
 	}
@@ -286,10 +292,10 @@ public class Quiz implements Cloneable, Comparable<Quiz> {
 	 *             Gooit een Exception als de opdracht null is of als de
 	 *             opdracht niet aanwezig is in de lijst
 	 */
-	public void verwijderOpdracht(QuizOpdracht opdracht)
+	protected void verwijderQuizOpdracht(QuizOpdracht opdracht)
 			throws IllegalArgumentException {
 		if (opdracht == null) {
-			throw new IllegalArgumentException("De datum mag niet null zijn");
+			throw new IllegalArgumentException("De opdracht mag niet null zijn");
 		}
 		int index = this.opdrachten.indexOf(opdracht);
 		if (index == -1) {
@@ -297,6 +303,51 @@ public class Quiz implements Cloneable, Comparable<Quiz> {
 		} else {
 			this.opdrachten.remove(opdracht);
 		}
+	}
+
+	/**
+	 * Functie waarmee men een quizDeelname kan toevoegen aan de
+	 * quizDeelnamelijst.
+	 * 
+	 * @param quizDeelname
+	 *            quizDeelname
+	 * @throws IllegalArgumentException
+	 *             Gooit een exception als de quizDeelname null is of reeds
+	 *             toegevoegs is.
+	 */
+	protected void voegQuizDeelnameToe(QuizDeelname quizDeelname)
+			throws IllegalArgumentException {
+		if (quizDeelname == null) {
+			throw new IllegalArgumentException(
+					"De quizDeelname mag niet null zijn");
+		}
+		if (quizDeelnames.contains(quizDeelname)) {
+			throw new IllegalArgumentException(
+					"Deze quizDeelname is al toegevoegd.");
+		}
+		quizDeelnames.add(quizDeelname);
+	}
+
+	/**
+	 * Functie waarmee men een QuizDeelname quizDeelname kan verwijderen uit de
+	 * QuizDeelname quizDeelnamelijst. Indien de QuizDeelname quizDeelname niet
+	 * aanwezig is wordt een exception gegooid
+	 * 
+	 * @param quizDeelname
+	 *            quizDeelname
+	 * @throws IllegalArgumentException
+	 */
+	protected void verwijderQuizDeelname(QuizDeelname quizDeelname)
+			throws IllegalArgumentException {
+		if (quizDeelname == null) {
+			throw new IllegalArgumentException(
+					"De quizDeelname mag niet null zijn");
+		}
+		if (!(quizDeelnames.contains(quizDeelname))) {
+			throw new IllegalArgumentException(
+					"De quizDeelname zit niet in de lijst");
+		}
+		quizDeelnames.remove(quizDeelname);
 	}
 
 	/**

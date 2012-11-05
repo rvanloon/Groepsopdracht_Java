@@ -18,7 +18,7 @@ public class Opdracht implements Comparable<Opdracht> {
 	private ArrayList<String> antwoordHints;
 	private int maxAntwoordTijd = 0;
 	private OpdrachtCategorie categorie;
-	private ArrayList<QuizOpdracht> quizzen;
+	private ArrayList<QuizOpdracht> quizOpdracten;
 	private Leraar auteur;
 	private Datum datumRegistratie;
 
@@ -40,7 +40,7 @@ public class Opdracht implements Comparable<Opdracht> {
 		this.setDatumRegistratie(datumRegistratie);
 
 		this.antwoordHints = new ArrayList<String>();
-		this.quizzen = new ArrayList<QuizOpdracht>();
+		this.quizOpdracten = new ArrayList<QuizOpdracht>();
 	}
 
 	/**
@@ -162,16 +162,16 @@ public class Opdracht implements Comparable<Opdracht> {
 	 * 
 	 * @return ArrayList met quizzen.
 	 */
-	public ArrayList<QuizOpdracht> getQuizzen() {
-		return quizzen;
+	public ArrayList<QuizOpdracht> getQuizOpdracten() {
+		return quizOpdracten;
 	}
 
-	private void setQuizzen(ArrayList<QuizOpdracht> quizzen) {
+	private void setQuizOpdrachten(ArrayList<QuizOpdracht> quizzen) {
 		if (quizzen == null) {
 			throw new IllegalArgumentException("quizzen mag niet null zijn");
 		}
 
-		this.quizzen = quizzen;
+		this.quizOpdracten = quizzen;
 	}
 
 	/**
@@ -232,17 +232,50 @@ public class Opdracht implements Comparable<Opdracht> {
 	}
 
 	/**
-	 * Koppelt deze opdracht met een quiz
+	 * Functie waarmee men een QuizOpdracht kan toevoegen aan de
+	 * QuizOpdrachtlijst.
 	 * 
-	 * @param quiz
-	 *            De toe te voegen quiz
-	 * @param maxscore
-	 *            de maximumscore die met deze vraag gehaald kan worden
+	 * @param opdracht
+	 *            QuizOpdracht
+	 * @throws IllegalArgumentException
+	 *             Gooit een exception als de opdracht null is of reeds
+	 *             toegevoegs is.
 	 */
-	public void addQuiz(Quiz quiz, int maxscore) {
-		// Validatie gebeurt in constructor van QuizOpdracht
-		QuizOpdracht quizopdracht = new QuizOpdracht(maxscore, this, quiz);
-		quizzen.add(quizopdracht);
+	protected void voegQuizOpdrachtToe(QuizOpdracht opdracht)
+			throws IllegalArgumentException {
+		if (opdracht == null) {
+			throw new IllegalArgumentException(
+					"De quizDeelname mag niet null zijn");
+		}
+		if (quizOpdracten.contains(opdracht)) {
+			throw new IllegalArgumentException(
+					"Deze opdracht is al toegevoegd.");
+		}
+		quizOpdracten.add(opdracht);
+	}
+
+	/**
+	 * Functie waarmee men een QuizOpdracht kan verwijderen uit de
+	 * QuizOpdrachtlijst. Indien de opdracht niet aanwezig is wordt een
+	 * exception gegooid
+	 * 
+	 * @param opdracht
+	 *            QuizOpdracht
+	 * @throws IllegalArgumentException
+	 *             Gooit een Exception als de opdracht null is of als de
+	 *             opdracht niet aanwezig is in de lijst
+	 */
+	protected void verwijderQuizOpdracht(QuizOpdracht opdracht)
+			throws IllegalArgumentException {
+		if (opdracht == null) {
+			throw new IllegalArgumentException("De opdracht mag niet null zijn");
+		}
+		if (!(quizOpdracten.contains(opdracht))) {
+			throw new IllegalArgumentException(
+					"De opdracht zit niet in de lijst.");
+		}
+		quizOpdracten.remove(opdracht);
+
 	}
 
 	/**
@@ -265,7 +298,7 @@ public class Opdracht implements Comparable<Opdracht> {
 	 * @return boolean
 	 */
 	public boolean isOpdrachtWijzigbaar() {
-		for (QuizOpdracht quizopdracht : quizzen) {
+		for (QuizOpdracht quizopdracht : quizOpdracten) {
 			if (!(quizopdracht.getOpdrachtAntwoorden().isEmpty())) {
 				return false;
 			}
@@ -326,7 +359,7 @@ public class Opdracht implements Comparable<Opdracht> {
 		clone.setAntwoordHints((ArrayList<String>) antwoordHints.clone());
 		clone.setMaxAantalPogingen(maxAantalPogingen);
 		clone.setMaxAntwoordTijd(maxAntwoordTijd);
-		clone.setQuizzen((ArrayList<QuizOpdracht>) quizzen.clone());
+		clone.setQuizOpdrachten((ArrayList<QuizOpdracht>) quizOpdracten.clone());
 		return clone;
 	}
 
@@ -354,7 +387,7 @@ public class Opdracht implements Comparable<Opdracht> {
 	}
 
 	public static void main(String[] args) {
-		
+
 	}
 
 }

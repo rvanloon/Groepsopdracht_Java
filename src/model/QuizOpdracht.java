@@ -25,7 +25,7 @@ public class QuizOpdracht {
 	 * @param quiz
 	 *            Quiz
 	 */
-	public QuizOpdracht(int maxScore, Opdracht opdracht, Quiz quiz)
+	private QuizOpdracht(int maxScore, Opdracht opdracht, Quiz quiz)
 			throws IllegalArgumentException {
 		setMaxScore(maxScore);
 		setOpdracht(opdracht);
@@ -133,6 +133,18 @@ public class QuizOpdracht {
 		return somScore / aantalAntwoorden;
 	}
 
+	public static void koppelOpdrachtAanQuiz(Quiz quiz, Opdracht opdracht,
+			int maxScore) {
+		QuizOpdracht quizOpdracht = new QuizOpdracht(maxScore, opdracht, quiz);
+		quiz.voegQuizOpdrachtToe(quizOpdracht);
+		opdracht.voegQuizOpdrachtToe(quizOpdracht);
+	}
+
+	public void ontKoppelOpdrachtVanQuiz() {
+		quiz.verwijderQuizOpdracht(this);
+		opdracht.verwijderQuizOpdracht(this);
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -179,7 +191,7 @@ public class QuizOpdracht {
 	}
 
 	public static void main(String[] args) {
-		
+
 	}
 
 }
