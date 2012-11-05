@@ -25,7 +25,7 @@ public class OpdrachtAntwoord implements Comparable<OpdrachtAntwoord> {
 	 * 
 	 * @throws IllegalArgumentException
 	 */
-	public OpdrachtAntwoord(String laatsteAntwoord, int aantalPogingen,
+	private OpdrachtAntwoord(String laatsteAntwoord, int aantalPogingen,
 			int antwoordTijd, QuizOpdracht quizopdracht,
 			QuizDeelname quizdeelname) throws IllegalArgumentException {
 		setLaatsteAntwoord(laatsteAntwoord);
@@ -33,6 +33,14 @@ public class OpdrachtAntwoord implements Comparable<OpdrachtAntwoord> {
 		setAntwoordTijd(antwoordTijd);
 		setQuizopdracht(quizopdracht);
 		setQuizdeelname(quizdeelname);
+	}
+
+	public static void koppelOpdrachtAanDeelname(String laatsteAntwoord,
+			int aantalPogingen, int antwoordTijd, QuizOpdracht quizOpdracht,
+			QuizDeelname quizDeelname) {
+		OpdrachtAntwoord opdrachtAntwoord = new OpdrachtAntwoord(
+				laatsteAntwoord, aantalPogingen, antwoordTijd, quizOpdracht,
+				quizDeelname);
 	}
 
 	/**
@@ -74,7 +82,7 @@ public class OpdrachtAntwoord implements Comparable<OpdrachtAntwoord> {
 			throws IllegalArgumentException {
 		if (aantalPogingen <= 0) {
 			throw new IllegalArgumentException(
-					"aantal pogingen moet minstens één zijn.");
+					"aantal pogingen moet minstens ï¿½ï¿½n zijn.");
 		}
 		this.aantalPogingen = aantalPogingen;
 	}
@@ -95,7 +103,7 @@ public class OpdrachtAntwoord implements Comparable<OpdrachtAntwoord> {
 			throws IllegalArgumentException {
 		if (antwoordTijd <= 0) {
 			throw new IllegalArgumentException(
-					"antwoordTijd moet minstens één zijn.");
+					"antwoordTijd moet minstens ï¿½ï¿½n zijn.");
 		}
 		this.antwoordTijd = antwoordTijd;
 	}

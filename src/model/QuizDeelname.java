@@ -176,6 +176,49 @@ public class QuizDeelname implements Comparable<QuizDeelname> {
 		return (int) Math.round((somScore / somMaxscore) * 10);
 	}
 
+	/**
+	 * Voegt een opdrachtAntwoord toe aan de lijst van OpdrachtAntwoorden
+	 * 
+	 * @param opdrachtAntwoord
+	 *            OpdrachtAntwoord
+	 * @throws IllegalArgumentException
+	 *             Gooit een exception als het antwoord al aanwezig is of als
+	 *             het antwoord null is
+	 */
+	protected void voegOpdrachtAntwoordToe(OpdrachtAntwoord opdrachtAntwoord)
+			throws IllegalArgumentException {
+		if (opdrachtAntwoord == null) {
+			throw new IllegalArgumentException("Opdracht mag niet null zijn");
+		}
+		int index = opdrachtAntwoorden.indexOf(opdrachtAntwoord);
+		if (index == -1) {
+			opdrachtAntwoorden.add(opdrachtAntwoord);
+		} else {
+			throw new IllegalArgumentException("Opdracht bestaat al");
+		}
+	}
+
+	/**
+	 * Verwijderd een opdrachtAntwoord uit de lijst van OpdrachtAntwoorden
+	 * 
+	 * @param opdrachtAntwoord
+	 * @throws IllegalArgumentException
+	 *             Gooit een exception als het antwoord null is of niet aanwezig
+	 *             is
+	 */
+	protected void verwijderOpdrachtAntwoord(OpdrachtAntwoord opdrachtAntwoord)
+			throws IllegalArgumentException {
+		if (opdrachtAntwoord == null) {
+			throw new IllegalArgumentException("Opdracht mag niet null zijn");
+		}
+		int index = opdrachtAntwoorden.indexOf(opdrachtAntwoord);
+		if (index == -1) {
+			throw new IllegalArgumentException("Opdracht bestaat niet");
+		} else {
+			opdrachtAntwoorden.remove(opdrachtAntwoord);
+		}
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -250,8 +293,8 @@ public class QuizDeelname implements Comparable<QuizDeelname> {
 	}
 
 	public static void main(String[] args) {
-		Datum d1 = new Datum(4,11,2012);
-		Datum d2 = new Datum(4,11,2012);
+		Datum d1 = new Datum(4, 11, 2012);
+		Datum d2 = new Datum(4, 11, 2012);
 		System.out.println(d1.equals(d2));
 	}
 
