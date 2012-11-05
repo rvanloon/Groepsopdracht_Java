@@ -34,13 +34,21 @@ public class OpdrachtAntwoord implements Comparable<OpdrachtAntwoord> {
 		setQuizopdracht(quizopdracht);
 		setQuizdeelname(quizdeelname);
 	}
-
+	
+	
 	public static void koppelOpdrachtAanDeelname(String laatsteAntwoord,
 			int aantalPogingen, int antwoordTijd, QuizOpdracht quizOpdracht,
 			QuizDeelname quizDeelname) {
 		OpdrachtAntwoord opdrachtAntwoord = new OpdrachtAntwoord(
 				laatsteAntwoord, aantalPogingen, antwoordTijd, quizOpdracht,
 				quizDeelname);
+		quizOpdracht.voegOpdrachtAntwoordToe(opdrachtAntwoord);
+		quizDeelname.voegOpdrachtAntwoordToe(opdrachtAntwoord);
+	}
+	
+	public void ontkoppelOpdrachtVanDeelname(){
+		quizopdracht.verwijderOpdrachtAntwoord(this);
+		quizdeelname.verwijderOpdrachtAntwoord(this);
 	}
 
 	/**

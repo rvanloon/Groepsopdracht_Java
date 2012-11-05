@@ -144,6 +144,32 @@ public class QuizOpdracht {
 		quiz.verwijderQuizOpdracht(this);
 		opdracht.verwijderQuizOpdracht(this);
 	}
+	
+	protected void voegOpdrachtAntwoordToe(OpdrachtAntwoord opdrachtAntwoord) throws IllegalArgumentException{
+		if(opdrachtAntwoord == null){
+			throw new IllegalArgumentException("OpdrachtAntwoord mag niet null zijn");
+		}
+		int index = opdrachtAntwoorden.indexOf(opdrachtAntwoord);
+		if(index == -1){
+			opdrachtAntwoorden.add(opdrachtAntwoord);
+		}
+		else{
+			throw new IllegalArgumentException("Opdracht bestaat al");
+		}
+	}
+	
+	protected void verwijderOpdrachtAntwoord(OpdrachtAntwoord opdrachtAntwoord)throws IllegalArgumentException{
+		if(opdrachtAntwoord == null){
+			throw new IllegalArgumentException("OpdrachtAntwoord mag niet null zijn");
+		}
+		int index = opdrachtAntwoorden.indexOf(opdrachtAntwoord);
+		if(index == -1){
+			throw new IllegalArgumentException("Opdracht bestaat niet");
+		}
+		else{
+			opdrachtAntwoorden.remove(opdrachtAntwoord);
+		}
+	}
 
 	/*
 	 * (non-Javadoc)
