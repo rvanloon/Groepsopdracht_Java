@@ -3,8 +3,6 @@ package model;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-import com.sun.org.apache.xml.internal.resolver.Catalog;
-
 /**
  * 
  * @author rvanloon

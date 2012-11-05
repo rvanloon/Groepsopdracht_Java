@@ -2,8 +2,6 @@ package model;
 
 import java.util.ArrayList;
 
-import org.junit.Before;
-
 import utils.Datum;
 
 /**
@@ -356,20 +354,7 @@ public class Opdracht implements Comparable<Opdracht> {
 	}
 
 	public static void main(String[] args) {
-		Opdracht opdracht;
-		String vraag;
-		String antwoord;
-		OpdrachtCategorie categorie;
-		Leraar leraar;
-		Datum datum;
-
-		vraag = "";
-		antwoord = "";
-		categorie = OpdrachtCategorie.algemeneKennis;
-		leraar = Leraar.Alain;
-		datum = new Datum(20, 10, 2012);
-
-		opdracht = new Opdracht(vraag, antwoord, categorie, leraar, datum);
+		
 	}
 
 }

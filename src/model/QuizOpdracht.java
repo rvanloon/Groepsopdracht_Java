@@ -2,8 +2,6 @@ package model;
 
 import java.util.ArrayList;
 
-import utils.Datum;
-
 /**
  * 
  * @author rvanloon
@@ -181,11 +179,7 @@ public class QuizOpdracht {
 	}
 
 	public static void main(String[] args) {
-		Opdracht opdracht = new Opdracht("Welke zee grenst aan België?",
-				"Noordzee", OpdrachtCategorie.algemeneKennis, Leraar.Alain,
-				new Datum(20, 10, 2012));
-		QuizOpdracht qo = new QuizOpdracht(3, opdracht, null);
-
+		
 	}
 
 }

@@ -1,9 +1,6 @@
 package testing.modelTest;
 
-import static org.junit.Assert.*;
-
-import java.util.ArrayList;
-
+import static org.junit.Assert.assertEquals;
 import model.Leraar;
 import model.Opdracht;
 import model.OpdrachtCategorie;
