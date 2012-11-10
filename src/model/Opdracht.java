@@ -226,7 +226,7 @@ public class Opdracht implements Comparable<Opdracht> {
 	 */
 	public void addAntwoordHint(String hint) {
 		if (hint == null || hint.isEmpty()) {
-			throw new IllegalArgumentException("Geen juisteAntwoord meegegeven");
+			throw new IllegalArgumentException("Geen antwoordhint meegegeven");
 		}
 		this.antwoordHints.add(hint);
 	}
