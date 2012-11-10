@@ -64,7 +64,7 @@ public class OpdrachtCatalogus implements Iterable<Opdracht> {
 			throw new IllegalArgumentException(
 					"Deze opdracht zit niet in deze catalogus.");
 		}
-		if (!(opdracht.getQuizzen().isEmpty())) {
+		if (!(opdracht.getQuizOpdracten().isEmpty())) {
 			throw new IllegalArgumentException(
 					"Deze opdracht is aan een quiz gekoppeld.");
 		}

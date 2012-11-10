@@ -13,36 +13,20 @@ import utils.Datum;
 public class QuizDeelname implements Comparable<QuizDeelname> {
 
 	private Leerling leerling;
-	private Leraar leraar;
+	// private Leraar leraar;
 	private Quiz quiz;
 	private Datum datumDeelname;
 	private ArrayList<OpdrachtAntwoord> opdrachtAntwoorden;
 
 	/**
-	 * Constructor. Indien deze gebruikt, mag er geen leraar meer ingevuld
-	 * worden.
+	 * Constructor.
 	 * 
 	 * @param leerling
 	 * @param quiz
 	 * @param datumDeelname
 	 */
-	public QuizDeelname(Leerling leerling, Quiz quiz, Datum datumDeelname) {
+	private QuizDeelname(Leerling leerling, Quiz quiz, Datum datumDeelname) {
 		setLeerling(leerling);
-		setQuiz(quiz);
-		setDatumDeelname(datumDeelname);
-		opdrachtAntwoorden = new ArrayList<OpdrachtAntwoord>();
-	}
-
-	/**
-	 * Constructor. Indien deze gebruikt, mag er geen leerling meer ingevuld
-	 * worden.
-	 * 
-	 * @param leraar
-	 * @param quiz
-	 * @param datumDeelname
-	 */
-	public QuizDeelname(Leraar leraar, Quiz quiz, Datum datumDeelname) {
-		setLeraar(leraar);
 		setQuiz(quiz);
 		setDatumDeelname(datumDeelname);
 		opdrachtAntwoorden = new ArrayList<OpdrachtAntwoord>();
@@ -56,8 +40,7 @@ public class QuizDeelname implements Comparable<QuizDeelname> {
 	}
 
 	/**
-	 * Stel de leerling in. indien er een leraar ingevuld is, kan er geen
-	 * leerling meer ingevuld worden
+	 * Stel de leerling in.
 	 * 
 	 * @param leerling
 	 *            the leerling to set
@@ -67,37 +50,7 @@ public class QuizDeelname implements Comparable<QuizDeelname> {
 		if (leerling == null) {
 			throw new IllegalArgumentException("leerling is null");
 		}
-		if (leraar != null) {
-			throw new IllegalArgumentException(
-					"indien er een leraar ingevuld is, kan er geen leerling meer ingevuld worden");
-		}
 		this.leerling = leerling;
-	}
-
-	/**
-	 * @return the leraar
-	 */
-	public Leraar getLeraar() {
-		return leraar;
-	}
-
-	/**
-	 * stel de leraar in. indien er een leerling ingevuld is, kan er geen leraar
-	 * meer ingevuld worden
-	 * 
-	 * @param leraar
-	 *            the leraar to set
-	 * @throws IllegalArgumentException
-	 */
-	public void setLeraar(Leraar leraar) throws IllegalArgumentException {
-		if (leraar == null) {
-			throw new IllegalArgumentException("leraar is null");
-		}
-		if (leerling != null) {
-			throw new IllegalArgumentException(
-					"indien er een leerling ingevuld is, kan er geen leraar meer ingevuld worden");
-		}
-		this.leraar = leraar;
 	}
 
 	/**
@@ -177,6 +130,33 @@ public class QuizDeelname implements Comparable<QuizDeelname> {
 	}
 
 	/**
+	 * Maakt een nieuwe quizdeelname aan en koppelt deze aan de quiz en aan de
+	 * leerling.
+	 * 
+	 * @param quiz
+	 *            De quiz
+	 * @param leerling
+	 *            de leerling die aan de quiz moet gekoppelt worden
+	 * @param datumDeelname
+	 *            Datum
+	 */
+	static void KoppelLeerlingAanQuiz(Quiz quiz, Leerling leerling,
+			Datum datumDeelname) {
+		QuizDeelname quizDeelname = new QuizDeelname(leerling, quiz,
+				datumDeelname);
+		leerling.voegQuizDeelnameToe(quizDeelname);
+		quiz.voegQuizDeelnameToe(quizDeelname);
+	}
+
+	/**
+	 * verwijdert dit object bij zijn quiz en zijn leerling.
+	 */
+	public void OntkoppelLeerlingVanQuiz() {
+		quiz.verwijderQuizDeelname(this);
+		leerling.verwijderQuizDeelname(this);
+	}
+
+	/**
 	 * Voegt een opdrachtAntwoord toe aan de lijst van OpdrachtAntwoorden
 	 * 
 	 * @param opdrachtAntwoord
@@ -188,18 +168,17 @@ public class QuizDeelname implements Comparable<QuizDeelname> {
 	protected void voegOpdrachtAntwoordToe(OpdrachtAntwoord opdrachtAntwoord)
 			throws IllegalArgumentException {
 		if (opdrachtAntwoord == null) {
-			throw new IllegalArgumentException("Opdracht mag niet null zijn");
+			throw new IllegalArgumentException(
+					"OpdrachtAntwoord mag niet null zijn");
 		}
-		int index = opdrachtAntwoorden.indexOf(opdrachtAntwoord);
-		if (index == -1) {
-			opdrachtAntwoorden.add(opdrachtAntwoord);
-		} else {
-			throw new IllegalArgumentException("Opdracht bestaat al");
+		if (opdrachtAntwoorden.contains(opdrachtAntwoord)) {
+			throw new IllegalArgumentException("OpdrachtAntwoord bestaat al");
 		}
+		opdrachtAntwoorden.add(opdrachtAntwoord);
 	}
 
 	/**
-	 * Verwijderd een opdrachtAntwoord uit de lijst van OpdrachtAntwoorden
+	 * Verwijdert een opdrachtAntwoord uit de lijst van OpdrachtAntwoorden
 	 * 
 	 * @param opdrachtAntwoord
 	 * @throws IllegalArgumentException
@@ -211,12 +190,10 @@ public class QuizDeelname implements Comparable<QuizDeelname> {
 		if (opdrachtAntwoord == null) {
 			throw new IllegalArgumentException("Opdracht mag niet null zijn");
 		}
-		int index = opdrachtAntwoorden.indexOf(opdrachtAntwoord);
-		if (index == -1) {
+		if (!(opdrachtAntwoorden.contains(opdrachtAntwoord))) {
 			throw new IllegalArgumentException("Opdracht bestaat niet");
-		} else {
-			opdrachtAntwoorden.remove(opdrachtAntwoord);
 		}
+		opdrachtAntwoorden.remove(opdrachtAntwoord);
 	}
 
 	@Override
@@ -227,7 +204,6 @@ public class QuizDeelname implements Comparable<QuizDeelname> {
 				+ ((datumDeelname == null) ? 0 : datumDeelname.hashCode());
 		result = prime * result
 				+ ((leerling == null) ? 0 : leerling.hashCode());
-		result = prime * result + ((leraar == null) ? 0 : leraar.hashCode());
 		result = prime
 				* result
 				+ ((opdrachtAntwoorden == null) ? 0 : opdrachtAntwoorden
@@ -255,8 +231,6 @@ public class QuizDeelname implements Comparable<QuizDeelname> {
 				return false;
 		} else if (!leerling.equals(other.leerling))
 			return false;
-		if (leraar != other.leraar)
-			return false;
 		if (opdrachtAntwoorden == null) {
 			if (other.opdrachtAntwoorden != null)
 				return false;
@@ -272,8 +246,8 @@ public class QuizDeelname implements Comparable<QuizDeelname> {
 
 	@Override
 	public String toString() {
-		return "QuizDeelname [leerling=" + leerling + ", leraar=" + leraar
-				+ ", quiz=" + quiz + ", datumDeelname=" + datumDeelname + "]";
+		return "QuizDeelname [leerling=" + leerling + ", quiz=" + quiz
+				+ ", datumDeelname=" + datumDeelname + "]";
 	}
 
 	/**

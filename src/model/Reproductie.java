@@ -5,9 +5,9 @@ import java.util.ArrayList;
 import utils.Datum;
 
 public class Reproductie extends Opdracht {
-	
+
 	private ArrayList<String> trefwoorden;
-	private int  minAantalJuisteTrefwoorden;
+	private int minAantalJuisteTrefwoorden;
 
 	public Reproductie(String vraag, String juisteAntwoord,
 			OpdrachtCategorie categorie, Leraar auteur, Datum datumRegistratie) {
@@ -15,14 +15,13 @@ public class Reproductie extends Opdracht {
 		// TODO Auto-generated constructor stub
 	}
 
-	
 	private void setTrefwoorden(ArrayList<String> trefwoorden) {
 		if (trefwoorden == null) {
 			throw new IllegalArgumentException("trefwoorden mag niet null zijn");
 		}
 		this.trefwoorden = trefwoorden;
 	}
-	
+
 	private ArrayList<String> getTrefwoorden() {
 		return this.trefwoorden;
 	}
@@ -34,7 +33,6 @@ public class Reproductie extends Opdracht {
 		}
 		this.maxAantalPogingen = maxAantalPogingen;
 	}
-
 
 	/**
 	 * @param args

@@ -34,8 +34,17 @@ public class OpdrachtAntwoord implements Comparable<OpdrachtAntwoord> {
 		setQuizopdracht(quizopdracht);
 		setQuizdeelname(quizdeelname);
 	}
-	
-	
+
+	/**
+	 * Maakt een nieuw opdrachtantwoord object aan en voegt dit toe bij de
+	 * quizopdracht en de quizdeelname.
+	 * 
+	 * @param laatsteAntwoord
+	 * @param aantalPogingen
+	 * @param antwoordTijd
+	 * @param quizOpdracht
+	 * @param quizDeelname
+	 */
 	public static void koppelOpdrachtAanDeelname(String laatsteAntwoord,
 			int aantalPogingen, int antwoordTijd, QuizOpdracht quizOpdracht,
 			QuizDeelname quizDeelname) {
@@ -45,8 +54,11 @@ public class OpdrachtAntwoord implements Comparable<OpdrachtAntwoord> {
 		quizOpdracht.voegOpdrachtAntwoordToe(opdrachtAntwoord);
 		quizDeelname.voegOpdrachtAntwoordToe(opdrachtAntwoord);
 	}
-	
-	public void ontkoppelOpdrachtVanDeelname(){
+
+	/**
+	 * Verwijdert dit object bij zijn quizopdracht en zijn quizdeelname.
+	 */
+	public void ontkoppelOpdrachtVanDeelname() {
 		quizopdracht.verwijderOpdrachtAntwoord(this);
 		quizdeelname.verwijderOpdrachtAntwoord(this);
 	}

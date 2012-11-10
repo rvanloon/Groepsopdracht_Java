@@ -40,6 +40,7 @@ public class QuizCatalogus implements Iterable<Quiz>, Cloneable {
 		}
 		this.quizzen = quizLijst;
 	}
+
 	/**
 	 * Constructor om een nieuwe QuizCatalogus aan te maken
 	 */
@@ -98,16 +99,15 @@ public class QuizCatalogus implements Iterable<Quiz>, Cloneable {
 		}
 		return test;
 	}
-	
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result
-				+ ((quizzen == null) ? 0 : quizzen.hashCode());
+		result = prime * result + ((quizzen == null) ? 0 : quizzen.hashCode());
 		return result;
 	}
-	
+
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -124,18 +124,19 @@ public class QuizCatalogus implements Iterable<Quiz>, Cloneable {
 			return false;
 		return true;
 	}
-	
+
 	/**
 	 * Functie om een QuizCatalogus te klonen
+	 * 
 	 * @return QuizCatalogus
 	 */
 	@Override
-	public QuizCatalogus clone(){
+	public QuizCatalogus clone() {
 		QuizCatalogus catalogusClone = new QuizCatalogus();
 		catalogusClone.setQuizzen(this.getQuizzen());
 		return catalogusClone;
 	}
-	
+
 	@Override
 	public Iterator<Quiz> iterator() {
 		return quizzen.iterator();

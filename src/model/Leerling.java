@@ -102,6 +102,51 @@ public class Leerling implements Comparable<Leerling> {
 		this.quizdeelnames = quizdeelnames;
 	}
 
+	/**
+	 * Functie waarmee men een quizDeelname kan toevoegen aan de
+	 * quizDeelnamelijst.
+	 * 
+	 * @param quizDeelname
+	 *            quizDeelname
+	 * @throws IllegalArgumentException
+	 *             Gooit een exception als de quizDeelname null is of reeds
+	 *             toegevoegs is.
+	 */
+	protected void voegQuizDeelnameToe(QuizDeelname quizDeelname)
+			throws IllegalArgumentException {
+		if (quizDeelname == null) {
+			throw new IllegalArgumentException(
+					"De quizDeelname mag niet null zijn");
+		}
+		if (quizdeelnames.contains(quizDeelname)) {
+			throw new IllegalArgumentException(
+					"Deze quizDeelname is al toegevoegd.");
+		}
+		quizdeelnames.add(quizDeelname);
+	}
+
+	/**
+	 * Functie waarmee men een quizDeelname kan verwijderen uit de
+	 * quizDeelnamelijst. Indien de quizDeelname niet aanwezig is wordt een
+	 * exception gegooid
+	 * 
+	 * @param quizDeelname
+	 *            quizDeelname
+	 * @throws IllegalArgumentException
+	 */
+	protected void verwijderQuizDeelname(QuizDeelname quizDeelname)
+			throws IllegalArgumentException {
+		if (quizDeelname == null) {
+			throw new IllegalArgumentException(
+					"De quizDeelname mag niet null zijn");
+		}
+		if (!(quizdeelnames.contains(quizDeelname))) {
+			throw new IllegalArgumentException(
+					"De quizDeelname zit niet in de lijst");
+		}
+		quizdeelnames.remove(quizDeelname);
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * 

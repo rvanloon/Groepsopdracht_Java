@@ -133,6 +133,14 @@ public class QuizOpdracht {
 		return somScore / aantalAntwoorden;
 	}
 
+	/**
+	 * Maakt een nieuw Quizopdracht object aan en voegt dit toe aan opdract en
+	 * quiz.
+	 * 
+	 * @param quiz
+	 * @param opdracht
+	 * @param maxScore
+	 */
 	public static void koppelOpdrachtAanQuiz(Quiz quiz, Opdracht opdracht,
 			int maxScore) {
 		QuizOpdracht quizOpdracht = new QuizOpdracht(maxScore, opdracht, quiz);
@@ -140,35 +148,52 @@ public class QuizOpdracht {
 		opdracht.voegQuizOpdrachtToe(quizOpdracht);
 	}
 
+	/**
+	 * Verwijdert dit quizopdracht object bij de quiz en bij de opdracht.
+	 */
 	public void ontKoppelOpdrachtVanQuiz() {
 		quiz.verwijderQuizOpdracht(this);
 		opdracht.verwijderQuizOpdracht(this);
 	}
-	
-	protected void voegOpdrachtAntwoordToe(OpdrachtAntwoord opdrachtAntwoord) throws IllegalArgumentException{
-		if(opdrachtAntwoord == null){
-			throw new IllegalArgumentException("OpdrachtAntwoord mag niet null zijn");
+
+	/**
+	 * Voegt een opdrachtAntwoord toe aan de lijst van OpdrachtAntwoorden
+	 * 
+	 * @param opdrachtAntwoord
+	 *            OpdrachtAntwoord
+	 * @throws IllegalArgumentException
+	 *             Gooit een exception als het antwoord al aanwezig is of als
+	 *             het antwoord null is
+	 */
+	protected void voegOpdrachtAntwoordToe(OpdrachtAntwoord opdrachtAntwoord)
+			throws IllegalArgumentException {
+		if (opdrachtAntwoord == null) {
+			throw new IllegalArgumentException(
+					"OpdrachtAntwoord mag niet null zijn");
 		}
-		int index = opdrachtAntwoorden.indexOf(opdrachtAntwoord);
-		if(index == -1){
-			opdrachtAntwoorden.add(opdrachtAntwoord);
+		if (opdrachtAntwoorden.contains(opdrachtAntwoord)) {
+			throw new IllegalArgumentException("OpdrachtAntwoord bestaat al");
 		}
-		else{
-			throw new IllegalArgumentException("Opdracht bestaat al");
-		}
+		opdrachtAntwoorden.add(opdrachtAntwoord);
 	}
-	
-	protected void verwijderOpdrachtAntwoord(OpdrachtAntwoord opdrachtAntwoord)throws IllegalArgumentException{
-		if(opdrachtAntwoord == null){
-			throw new IllegalArgumentException("OpdrachtAntwoord mag niet null zijn");
+
+	/**
+	 * Verwijdert een opdrachtAntwoord uit de lijst van OpdrachtAntwoorden
+	 * 
+	 * @param opdrachtAntwoord
+	 * @throws IllegalArgumentException
+	 *             Gooit een exception als het antwoord null is of niet aanwezig
+	 *             is
+	 */
+	protected void verwijderOpdrachtAntwoord(OpdrachtAntwoord opdrachtAntwoord)
+			throws IllegalArgumentException {
+		if (opdrachtAntwoord == null) {
+			throw new IllegalArgumentException("Opdracht mag niet null zijn");
 		}
-		int index = opdrachtAntwoorden.indexOf(opdrachtAntwoord);
-		if(index == -1){
+		if (!(opdrachtAntwoorden.contains(opdrachtAntwoord))) {
 			throw new IllegalArgumentException("Opdracht bestaat niet");
 		}
-		else{
-			opdrachtAntwoorden.remove(opdrachtAntwoord);
-		}
+		opdrachtAntwoorden.remove(opdrachtAntwoord);
 	}
 
 	/*
