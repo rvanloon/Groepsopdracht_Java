@@ -140,7 +140,7 @@ public class QuizDeelname implements Comparable<QuizDeelname> {
 	 * @param datumDeelname
 	 *            Datum
 	 */
-	static void KoppelLeerlingAanQuiz(Quiz quiz, Leerling leerling,
+	public static void KoppelLeerlingAanQuiz(Quiz quiz, Leerling leerling,
 			Datum datumDeelname) {
 		QuizDeelname quizDeelname = new QuizDeelname(leerling, quiz,
 				datumDeelname);

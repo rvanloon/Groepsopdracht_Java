@@ -4,8 +4,6 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-import java.util.ArrayList;
-
 import model.Leerling;
 import model.Leraar;
 import model.Opdracht;
@@ -25,75 +23,22 @@ public class QuizDeelnameTest {
 	Quiz quiz;
 	QuizDeelname qd;
 	QuizDeelname qd2;
-	ArrayList<OpdrachtAntwoord> listOpdrachtAntwoord;
 
 	@Before
 	public void setUp() throws Exception {
 		leerling = new Leerling("Peter", 4);
 		quiz = new Quiz("Hoofdsteden", Leraar.Alain, true, 5);
-		qd = new QuizDeelname(leerling, quiz, new Datum(4,11,2012));
-		qd2 = new QuizDeelname(Leraar.Alain, quiz, new Datum(4,11,2012));
-		listOpdrachtAntwoord = new ArrayList<OpdrachtAntwoord>();
 		Opdracht opdracht = new Opdracht("Hoofdstad Frankrijk", "Parijs", OpdrachtCategorie.algemeneKennis, Leraar.Alain, new Datum());
 		Opdracht opdracht2 = new Opdracht("Hoofdstad belgië", "Brussel", OpdrachtCategorie.algemeneKennis, Leraar.Alain, new Datum());
 		opdracht.setMaxAntwoordTijd(10);
 		opdracht2.setMaxAntwoordTijd(10);
-		QuizOpdracht qOpdracht = new QuizOpdracht(10, opdracht, quiz);
-		QuizOpdracht qOpdracht2 = new QuizOpdracht(10, opdracht2, quiz);
-		OpdrachtAntwoord opdrachtAntwoord = new OpdrachtAntwoord("Parijs", 1, 5, qOpdracht, qd);
-		OpdrachtAntwoord opdrachtAntwoord2 = new OpdrachtAntwoord("Brussel", 2, 5, qOpdracht2, qd);
-		listOpdrachtAntwoord.add(opdrachtAntwoord);
-		listOpdrachtAntwoord.add(opdrachtAntwoord2);
-		qd.setOpdrachtAntwoorden(listOpdrachtAntwoord);
-		ArrayList<OpdrachtAntwoord> list2 = new ArrayList<OpdrachtAntwoord>();
-		list2.add(opdrachtAntwoord2);
-		qd2.setOpdrachtAntwoorden(list2);
-	}
-
-	@Test
-	public void test_Constructor_leerling_quiz_datum_Geldige_waarde_Wordt_aanvaard() {
-		qd = new QuizDeelname(leerling, quiz, new Datum());
-	}
-	
-	@Test (expected = IllegalArgumentException.class)
-	public void test_Constructor_leerling_quiz_datum_Exception_als_leerling_null() {
-		leerling = null;
-		qd = new QuizDeelname(leerling, quiz, new Datum());
-	}
-	
-	@Test (expected = IllegalArgumentException.class)
-	public void test_Constructor_leerling_quiz_datum_Exception_als_quiz_null() {
-		quiz = null;
-		qd = new QuizDeelname(leerling, quiz, new Datum());
-	}
-	
-	@Test (expected = IllegalArgumentException.class)
-	public void test_Constructor_leerling_quiz_datum_Exception_als_datum_null() {
-		Datum datum = null;
-		qd = new QuizDeelname(leerling, quiz, datum);
-	}
-
-	@Test
-	public void test_constructor_leraar_quiz_datum_Geldige_waarden_Worden_aanvaard() {
-		qd = new QuizDeelname(Leraar.Alain, quiz, new Datum());
-	}
-	
-	@Test (expected = IllegalArgumentException.class)
-	public void test_constructor_leraar_quiz_datum_Exception_als_leraar_null() {
-		Leraar leraar = null;
-		qd = new QuizDeelname(leraar, quiz, new Datum());
-	}
-	
-	@Test (expected = IllegalArgumentException.class)
-	public void test_constructor_leraar_quiz_datum_Exception_als_quiz_null() {
-		quiz = null;
-		qd = new QuizDeelname(Leraar.Alain, quiz, new Datum());
-	}
-	
-	@Test (expected = IllegalArgumentException.class)
-	public void test_constructor_leraar_quiz_datum_Exception_als_datum_null() {
-		Datum datum = null;
-		qd = new QuizDeelname(Leraar.Alain, quiz, datum);
+		QuizOpdracht.koppelOpdrachtAanQuiz(quiz, opdracht, 5);
+		QuizOpdracht.koppelOpdrachtAanQuiz(quiz, opdracht2, 5);
+		QuizDeelname.KoppelLeerlingAanQuiz(quiz, leerling, new Datum(4,11,2012));		
+		qd = quiz.getQuizDeelnames().get(0);
+		OpdrachtAntwoord.koppelOpdrachtAanDeelname("Parijs", 1, 5, quiz.getOpdrachten().get(0), qd);
+		OpdrachtAntwoord.koppelOpdrachtAanDeelname("Brussel", 2, 5, quiz.getOpdrachten().get(1), qd);
+		//OpdrachtAntwoord.koppelOpdrachtAanDeelname(laatsteAntwoord, aantalPogingen, antwoordTijd, quizOpdracht, quizDeelname)
 	}
 
 	@Test
@@ -113,38 +58,10 @@ public class QuizDeelnameTest {
 		Leerling l2 = null;
 		qd.setLeerling(l2);
 	}
-	
-	@Test(expected = IllegalArgumentException.class)
-	public void test_SetLeerling_Exception_als_leraar_ingevuld() {
-		qd2.setLeerling(leerling);
-	}
-
-	@Test
-	public void test_GetLeraar_OK() {
-		assertEquals(Leraar.Alain, qd2.getLeraar());
-	}
-
-	@Test
-	public void test_SetLeraar_Geldige_waarde_Wordt_Aanvaard() {
-		qd2.setLeraar(Leraar.Robrecht);
-		assertEquals(Leraar.Robrecht, qd2.getLeraar());
-	}
-	
-	@Test (expected = IllegalArgumentException.class)
-	public void test_SetLeraar_Exception_als_waarde_null() {
-		Leraar leraar = null;
-		qd2.setLeraar(leraar);
-	}
-	
-	@Test (expected = IllegalArgumentException.class)
-	public void test_SetLeraar_Exception_als_leerling_ingevuld() {
-		qd.setLeraar(Leraar.Alain);
-	}
 
 	@Test
 	public void test_GetQuiz_OK() {
 		assertEquals(quiz, qd.getQuiz());
-		assertEquals(quiz, qd2.getQuiz());
 	}
 
 	@Test
@@ -180,35 +97,24 @@ public class QuizDeelnameTest {
 	}
 
 	@Test
-	public void test_GetOpdrachtAntwoorden_OK() {
-		qd.setOpdrachtAntwoorden(listOpdrachtAntwoord);
-		assertEquals(listOpdrachtAntwoord, qd.getOpdrachtAntwoorden());
-	}
-
-	@Test
-	public void test_SetOpdrachtAntwoorden_Geldige_waarde_Wordt_aanvaard() {
-		qd.setOpdrachtAntwoorden(listOpdrachtAntwoord);
-		assertEquals(listOpdrachtAntwoord, qd.getOpdrachtAntwoorden());
-	}
-	
-	@Test (expected = IllegalArgumentException.class)
-	public void test_SetOpdrachtAntwoorden_Exception_als_opdrachten_null() {
-		listOpdrachtAntwoord = null;
-		qd.setOpdrachtAntwoorden(listOpdrachtAntwoord);
-	}
-
-	@Test
 	public void test_GetDeelnameScore_OK() {
-		// 10 punten op opdracht 1, 5 punten op opdracht 2, 15/20, 7,5/10 afgerond naar acht
-
+		// 5 punten op opdracht 1, 2.5 punten op opdracht 2, 7.5/10 afgerond naar acht
 		assertEquals(8, qd.getDeelnameScore(), 0.1);
+		Opdracht opdracht3 = new Opdracht("Hoofdstad Duitsland", "Berlijn", OpdrachtCategorie.algemeneKennis, Leraar.Alain, new Datum());
+		QuizOpdracht.koppelOpdrachtAanQuiz(quiz, opdracht3, 5);
+		OpdrachtAntwoord.koppelOpdrachtAanDeelname("Kinshasa", 1, 5, quiz.getOpdrachten().get(2), qd);
+		// 5 punten opdracht 1, 2.5 punten opdracht 2, 0 opdracht 3, 7.5/15
+		assertEquals(5, qd.getDeelnameScore(), 0.1);
+		Opdracht opdracht4 = new Opdracht("Hoofdstad Griekenland", "Athene", OpdrachtCategorie.algemeneKennis, Leraar.Alain, new Datum());
+		QuizOpdracht.koppelOpdrachtAanQuiz(quiz, opdracht4, 5);
+		OpdrachtAntwoord.koppelOpdrachtAanDeelname("Athene", 1, 5, quiz.getOpdrachten().get(3), qd);
+		// 5 punten opdracht 1, 2.5 punten opdracht 2, 0 opdracht 3, 5 opdracht 4, 12.5/20 = 6
+		assertEquals(6, qd.getDeelnameScore(), 0.1);
 	}
 
 	@Test
 	public void test_EqualsObject_OK() {
-		assertFalse(qd.equals(qd2));
-		qd2 = new QuizDeelname(leerling, quiz, new Datum(4,11,2012));
-		qd2.setOpdrachtAntwoorden(listOpdrachtAntwoord);
+		QuizDeelname qd2 = quiz.getQuizDeelnames().get(0);
 		assertTrue(qd.equals(qd2));
 		
 	}
@@ -221,14 +127,9 @@ public class QuizDeelnameTest {
 	
 	@Test
 	public void test_ToString_OK() {
-		assertEquals("QuizDeelname [leerling=Peter, leraar=null, quiz=Hoofdsteden, Alain, InConstructie, datumDeelname=4 november 2012]", qd.toString());
+		assertEquals("QuizDeelname [leerling=Peter, quiz=Hoofdsteden, Alain, InConstructie, datumDeelname=4 november 2012]", qd.toString());
 	}
-
-	@Test
-	public void test_CompareTo_OK() {
-		assertTrue(qd.compareTo(qd2)>0);
-		assertTrue(qd2.compareTo(qd)<0);
-		assertTrue(qd.compareTo(qd)==0);
-	}
+	
+	//compareto()
 
 }

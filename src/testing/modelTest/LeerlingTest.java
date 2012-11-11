@@ -31,10 +31,10 @@ public class LeerlingTest {
 		leerling = new Leerling(naam, jaar);
 		leerlingGelijk = new Leerling(naam, jaar);
 		leerlingOngelijk = new Leerling("Karel", 5);
+		Quiz quiz = new Quiz("Geologie", Leraar.Alain, true, 4);
 		listQd = new ArrayList<QuizDeelname>();
-		Quiz quiz = new Quiz("Aardrijkskunde", Leraar.Alain, true, 5);		
-		QuizDeelname qd = new QuizDeelname(leerling, quiz, new Datum());
-		listQd.add(qd);
+		//Quiz quiz2 = new Quiz("Aardrijkskunde", Leraar.Alain, true, 5);
+		QuizDeelname.KoppelLeerlingAanQuiz(quiz, leerling, new Datum());
 	}
 
 	@Test
@@ -163,7 +163,8 @@ public class LeerlingTest {
 	}
 	
 	@Test
-	public void test_EqualsObject_True() {
+	public void test_EqualsObject_True() throws CloneNotSupportedException {
+		leerlingGelijk = (Leerling)leerling.clone();
 		assertTrue(leerling.equals(leerlingGelijk));
 		assertTrue(leerlingGelijk.equals(leerling));
 	}

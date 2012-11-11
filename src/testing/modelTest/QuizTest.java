@@ -25,6 +25,8 @@ public class QuizTest {
 	private Quiz quiz3;
 	private Quiz quiz4;
 	private ArrayList<Integer> list;
+	Opdracht opdracht;
+	Opdracht nieuweOpdracht;
 	DatumGregorian datum;
 	QuizOpdracht qo;
 	QuizOpdracht qo2;
@@ -39,16 +41,15 @@ public class QuizTest {
 		quiz3.setStatus(QuizStatus.laatsteKans);
 		list = new ArrayList<Integer>();
 		datum = new DatumGregorian();
-		Opdracht opdracht = new Opdracht("De hoofdstad van Frankrijk",
+		 opdracht = new Opdracht("De hoofdstad van Frankrijk",
 				"Parijs", OpdrachtCategorie.algemeneKennis, Leraar.Alain,
 				new Datum(21, 1, 2012));
-		qo = new QuizOpdracht(10, opdracht, quiz);
-		quiz.voegOpdrachtToe(qo);
-		qoList = new ArrayList<QuizOpdracht>();
-		Opdracht nieuweOpdracht = new Opdracht("De hoofdstad van Belgie",
+		QuizOpdracht.koppelOpdrachtAanQuiz(quiz, opdracht, 5);
+		nieuweOpdracht = new Opdracht("De hoofdstad van Belgie",
 				"Brussel", OpdrachtCategorie.algemeneKennis, Leraar.Alain,
 				new Datum(22, 1, 2012));
-		qo2 = new QuizOpdracht(5, nieuweOpdracht, quiz2);
+		QuizOpdracht.koppelOpdrachtAanQuiz(quiz, nieuweOpdracht, 5);
+		qoList = new ArrayList<QuizOpdracht>();
 	}
 
 	@Test
@@ -187,19 +188,7 @@ public class QuizTest {
 		QuizStatus status = null;
 		quiz.setStatus(status);
 	}
-
-	@Test
-	public void test_GetOpdrachten() {		
-		qoList.add(qo);
-		assertEquals(qoList, quiz.getOpdrachten());
-	}
-
-	@Test
-	public void test_SetOpdrachten_Correcte_waarde_Wordt_aanvaard() {
-		qoList.add(qo);
-		quiz2.setOpdrachten(qoList);
-		assertEquals(qoList, quiz.getOpdrachten());
-	}
+	
 	@Test (expected = IllegalArgumentException.class)
 	public void test_SetOpdrachten_Exception_Indien_waarde_null() {
 		qoList = null;
@@ -271,41 +260,6 @@ public class QuizTest {
 		list.add(5);
 		list.add(6);
 		assertEquals(list, quiz4.getLeerjaren());
-	}
-
-	@Test
-	public void test_VoegOpdrachtToe_Correcte_waarde_Wordt_aanvaard() {
-		qoList.add(qo);
-		quiz2.voegOpdrachtToe(qo);
-		assertEquals(qoList, quiz2.getOpdrachten());
-	}
-	
-	@Test (expected = IllegalArgumentException.class)
-	public void test_VoegOpdrachtToe_Exception_Als_waarde_null() {
-		qo = null;
-		quiz2.voegOpdrachtToe(qo);
-	}
-
-	@Test
-	public void test_VerwijderOpdracht_Correcte_waarde_Wordt_aanvaard() {		
-		quiz2.voegOpdrachtToe(qo);
-		quiz2.voegOpdrachtToe(qo2);
-		quiz2.verwijderOpdracht(qo);
-		qoList.add(qo2);
-		assertEquals(qoList, quiz2.getOpdrachten());
-	}
-	
-	@Test (expected = IllegalArgumentException.class)
-	public void test_VerwijderOpdracht_Exception_Indien_waarde_null() {
-		quiz2.voegOpdrachtToe(qo);
-		QuizOpdracht q2 = null;
-		quiz2.verwijderOpdracht(q2);
-	}
-	
-	@Test (expected = IllegalArgumentException.class)
-	public void test_VerwijderOpdracht_Exception_Indien_waarde_niet_aanwezig() {
-		quiz2.voegOpdrachtToe(qo);
-		quiz2.verwijderOpdracht(qo2);
 	}
 
 	@Test

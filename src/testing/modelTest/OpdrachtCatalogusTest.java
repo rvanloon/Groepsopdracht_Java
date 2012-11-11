@@ -8,6 +8,7 @@ import model.Opdracht;
 import model.OpdrachtCatalogus;
 import model.OpdrachtCategorie;
 import model.Quiz;
+import model.QuizOpdracht;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -28,7 +29,7 @@ public class OpdrachtCatalogusTest {
 	@Before
 	public void setUp() throws Exception {
 		catalogus = new OpdrachtCatalogus();
-		opdracht1 = new Opdracht("Welke zee grenst aan België", "Noorzee",
+		opdracht1 = new Opdracht("Welke zee grenst aan Belgiï¿½", "Noorzee",
 				OpdrachtCategorie.algemeneKennis, Leraar.Alain, new Datum());
 		opdracht2 = new Opdracht("1 + 2 =", "3", OpdrachtCategorie.rekenen,
 				Leraar.Sven, new Datum());
@@ -38,6 +39,7 @@ public class OpdrachtCatalogusTest {
 
 	@Test
 	public void test_Constructor_OK_OpdrachtCatalogus() {
+		@SuppressWarnings("unused")
 		OpdrachtCatalogus cat = new OpdrachtCatalogus();
 	}
 
@@ -80,7 +82,7 @@ public class OpdrachtCatalogusTest {
 	@Test (expected=IllegalArgumentException.class)
 	public void test_verwijderOpdracht_Fout_AanQuizGelinkt() {
 		Quiz quiz = new Quiz("rrrr", Leraar.Sven, true, 5);
-		opdracht1.addQuiz(quiz, 2);
+		QuizOpdracht.koppelOpdrachtAanQuiz(quiz, opdracht1, 5);
 		catalogus.verwijderOpdracht(opdracht1);
 	}
 

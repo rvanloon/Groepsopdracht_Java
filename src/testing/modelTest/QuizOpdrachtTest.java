@@ -2,7 +2,6 @@ package testing.modelTest;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
 import model.Leerling;
 import model.Leraar;
 import model.Opdracht;
@@ -32,27 +31,13 @@ public class QuizOpdrachtTest {
 
 	@Before
 	public void setUp() throws Exception {
-		quiz = new Quiz("België", Leraar.Robrecht, false, 2, 3);
-		opdracht = new Opdracht("Welke zee grenst aan België?", "Noordzee",
+		quiz = new Quiz("Belgiï¿½", Leraar.Robrecht, false, 2, 3);
+		opdracht = new Opdracht("Welke zee grenst aan Belgiï¿½?", "Noordzee",
 				OpdrachtCategorie.algemeneKennis, Leraar.Alain, new Datum(20,
 						10, 2012));
 		maxScore = 3;
-		quizOpdracht = new QuizOpdracht(maxScore, opdracht, quiz);
-	}
-
-	@Test
-	public void test_Constructor_OK() {
-		QuizOpdracht qo = new QuizOpdracht(maxScore, opdracht, quiz);
-	}
-
-	@Test(expected = IllegalArgumentException.class)
-	public void test_Constructor_Fout_Quiz_null() {
-		QuizOpdracht qo = new QuizOpdracht(maxScore, opdracht, null);
-	}
-
-	@Test(expected = IllegalArgumentException.class)
-	public void test_Constructor_Fout_Opdracht_null() {
-		QuizOpdracht qo = new QuizOpdracht(maxScore, null, quiz);
+		QuizOpdracht.koppelOpdrachtAanQuiz(quiz, opdracht, maxScore);
+		quizOpdracht = quiz.getOpdrachten().get(0);
 	}
 
 	@Test
@@ -72,13 +57,18 @@ public class QuizOpdrachtTest {
 
 	@Test
 	public void test_EqualsObject_OK_Gelijk() {
-		QuizOpdracht qo = new QuizOpdracht(maxScore, opdracht, quiz);
+		QuizOpdracht qo = quiz.getOpdrachten().get(0);
 		assertEquals(quizOpdracht, qo);
 	}
 
 	@Test
 	public void test_EqualsObject_OK_ScoreNietGelijk() {
-		QuizOpdracht qo = new QuizOpdracht(2, opdracht, quiz);
+
+		Opdracht opdracht2 = new Opdracht("Wat is de hoofstad", "Brussel",
+				OpdrachtCategorie.algemeneKennis, Leraar.Alain, new Datum(20,
+						10, 2012));
+		QuizOpdracht.koppelOpdrachtAanQuiz(quiz, opdracht2, maxScore);
+		QuizOpdracht qo = quiz.getOpdrachten().get(1);
 		assertFalse(quizOpdracht.equals(qo));
 	}
 
@@ -86,15 +76,15 @@ public class QuizOpdrachtTest {
 	
 	@Test
 	public void test_GetGemiddeldeScore_ok() {
-		OpdrachtAntwoord antwoord1 = new OpdrachtAntwoord("Noordzee", 1, 5,
-				quizOpdracht, new QuizDeelname(new Leerling("fff", 3), quiz,
-						new Datum()));
-		OpdrachtAntwoord antwoord2 = new OpdrachtAntwoord("xxx", 1, 5,
-				quizOpdracht, new QuizDeelname(new Leerling("fff", 3), quiz,
-						new Datum()));
-		quizOpdracht.getOpdrachtAntwoorden().add(antwoord1);
-		quizOpdracht.getOpdrachtAntwoorden().add(antwoord2);
-		assertTrue(quizOpdracht.getGemiddeldeScore() == 1.5);
+		Leerling leerling = new Leerling("Peter", 4);
+		opdracht.setMaxAntwoordTijd(10);
+		QuizDeelname.KoppelLeerlingAanQuiz(quiz, leerling, new Datum(4,11,2012));		
+		QuizDeelname qd = quiz.getQuizDeelnames().get(0);
+		OpdrachtAntwoord.koppelOpdrachtAanDeelname("Noordzee", 1, 5, quiz.getOpdrachten().get(0), qd);
+		OpdrachtAntwoord.koppelOpdrachtAanDeelname("Noordzee", 2, 5, quiz.getOpdrachten().get(0), qd);
+		// 3 punten + 1.5 punten = 4.5/2
+		assertEquals(2.25, quizOpdracht.getGemiddeldeScore(), 0);
+		
 
 	}
 }
