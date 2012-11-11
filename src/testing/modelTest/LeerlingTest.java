@@ -23,7 +23,7 @@ public class LeerlingTest {
 	private String naam;
 	private int jaar;
 	private ArrayList<QuizDeelname> listQd;
-	
+
 	@Before
 	public void setUp() throws Exception {
 		naam = "Mathias";
@@ -33,7 +33,7 @@ public class LeerlingTest {
 		leerlingOngelijk = new Leerling("Karel", 5);
 		Quiz quiz = new Quiz("Geologie", Leraar.Alain, true, 4);
 		listQd = new ArrayList<QuizDeelname>();
-		//Quiz quiz2 = new Quiz("Aardrijkskunde", Leraar.Alain, true, 5);
+		// Quiz quiz2 = new Quiz("Aardrijkskunde", Leraar.Alain, true, 5);
 		QuizDeelname.KoppelLeerlingAanQuiz(quiz, leerling, new Datum());
 	}
 
@@ -41,50 +41,50 @@ public class LeerlingTest {
 	public void test_Constructor_Geldige_waarden_Wordt_aanvaard() {
 		leerling = new Leerling(naam, jaar);
 	}
-	
-	@Test (expected = IllegalArgumentException.class)
+
+	@Test(expected = IllegalArgumentException.class)
 	public void test_Constructor_Nullwaarde_naam_Niet_aanvaard() {
 		naam = null;
 		leerling = new Leerling(naam, jaar);
 	}
-	
-	@Test (expected = IllegalArgumentException.class)
+
+	@Test(expected = IllegalArgumentException.class)
 	public void test_Constructor_Leerjaar_te_klein_Niet_aanvaard() {
-		jaar = 0;	
+		jaar = 0;
 		leerling = new Leerling(naam, jaar);
 	}
-	
-	@Test (expected = IllegalArgumentException.class)
+
+	@Test(expected = IllegalArgumentException.class)
 	public void test_Constructor_Leerjaar_negatief_Niet_aanvaard() {
-		jaar = -5;	
+		jaar = -5;
 		leerling = new Leerling(naam, jaar);
 	}
-	
-	@Test (expected = IllegalArgumentException.class)
+
+	@Test(expected = IllegalArgumentException.class)
 	public void test_Constructor_Leerjaar_te_groot_Niet_aanvaard() {
-		jaar = 7;	
+		jaar = 7;
 		leerling = new Leerling(naam, jaar);
 	}
-	
+
 	@Test
 	public void test_GetLeerlingNaam_OK() {
 		assertEquals("Mathias", leerling.getLeerlingNaam());
 	}
-	
+
 	@Test
 	public void test_SetLeerlingNaam_Geldige_waarde_Wordt_aanvaard() {
 		naam = "Karel";
 		leerling.setLeerlingNaam(naam);
 		assertEquals("Karel", leerling.getLeerlingNaam());
 	}
-	
-	@Test (expected = IllegalArgumentException.class)
+
+	@Test(expected = IllegalArgumentException.class)
 	public void test_SetLeerlingNaam_Nullwaarde_Niet_aanvaard() {
 		naam = null;
 		leerling.setLeerlingNaam(naam);
 	}
-	
-	@Test (expected = IllegalArgumentException.class)
+
+	@Test(expected = IllegalArgumentException.class)
 	public void test_SetLeerlingNaam_Lege_waarde_Niet_aanvaard() {
 		naam = "";
 		leerling.setLeerlingNaam(naam);
@@ -119,31 +119,31 @@ public class LeerlingTest {
 		leerling.setLeerjaar(jaar);
 		assertEquals(6, leerling.getLeerjaar());
 	}
-	
-	@Test (expected = IllegalArgumentException.class)
+
+	@Test(expected = IllegalArgumentException.class)
 	public void test_SetLeerjaar_Negatieve_waarde_Niet_aanvaard() {
 		jaar = -5;
 		leerling.setLeerjaar(jaar);
 	}
-	
-	@Test (expected = IllegalArgumentException.class)
+
+	@Test(expected = IllegalArgumentException.class)
 	public void test_SetLeerjaar_0_waarde_Niet_aanvaard() {
 		jaar = 0;
 		leerling.setLeerjaar(jaar);
 	}
-	
-	@Test (expected = IllegalArgumentException.class)
+
+	@Test(expected = IllegalArgumentException.class)
 	public void test_SetLeerjaar_Te_grote_waarde_Niet_aanvaard() {
 		jaar = 7;
 		leerling.setLeerjaar(jaar);
 	}
-	
-	@Test (expected = IllegalArgumentException.class)
+
+	@Test(expected = IllegalArgumentException.class)
 	public void test_SetLeerjaar_Veel_te_grote_waarde_Niet_aanvaard() {
 		jaar = 50;
 		leerling.setLeerjaar(jaar);
 	}
-	
+
 	@Test
 	public void test_GetQuizdeelnames_OK() {
 		leerling.setQuizdeelnames(listQd);
@@ -156,19 +156,19 @@ public class LeerlingTest {
 		assertEquals(listQd, leerling.getQuizdeelnames());
 	}
 
-	@Test (expected = IllegalArgumentException.class)
+	@Test(expected = IllegalArgumentException.class)
 	public void test_SetQuizdeelnames_Null_waarde_Niet_aanvaard() {
 		listQd = null;
 		leerling.setQuizdeelnames(listQd);
 	}
-	
+
 	@Test
 	public void test_EqualsObject_True() throws CloneNotSupportedException {
-		leerlingGelijk = (Leerling)leerling.clone();
+		leerlingGelijk = (Leerling) leerling.clone();
 		assertTrue(leerling.equals(leerlingGelijk));
 		assertTrue(leerlingGelijk.equals(leerling));
 	}
-	
+
 	@Test
 	public void test_EqualsObject_False() {
 		assertFalse(leerling.equals(leerlingOngelijk));
@@ -177,15 +177,16 @@ public class LeerlingTest {
 
 	@Test
 	public void test_Clone_OK() throws CloneNotSupportedException {
-		Leerling leerlingClone = (Leerling)leerling.clone();
+		Leerling leerlingClone = (Leerling) leerling.clone();
 		assertEquals(leerling, leerlingClone);
 	}
-	
-	@Test (expected = NullPointerException.class)
-	public void test_Clone_Exception_als_object_null() throws CloneNotSupportedException {
+
+	@Test(expected = NullPointerException.class)
+	public void test_Clone_Exception_als_object_null()
+			throws CloneNotSupportedException {
 		leerling = null;
 		@SuppressWarnings("unused")
-		Leerling leerlingClone = (Leerling)leerling.clone();
+		Leerling leerlingClone = (Leerling) leerling.clone();
 	}
 
 	@Test
@@ -199,15 +200,15 @@ public class LeerlingTest {
 		assertTrue(leerling.compareTo(leerlingGelijk) == 0);
 		assertTrue(leerlingOngelijk.compareTo(leerling) < 0);
 	}
-	
+
 	@Test
 	public void test_CompareTo_False() {
 		assertFalse(leerling.compareTo(leerlingOngelijk) < 0);
 		assertFalse(leerling.compareTo(leerlingGelijk) > 0);
 		assertFalse(leerlingOngelijk.compareTo(leerling) == 0);
 	}
-	
-	@Test (expected = IllegalArgumentException.class)
+
+	@Test(expected = IllegalArgumentException.class)
 	public void test_CompareTo_Exception_Als_waarde_null() {
 		leerlingOngelijk = null;
 		leerling.compareTo(leerlingOngelijk);

@@ -153,8 +153,9 @@ public class DatumGregorian implements Comparable<DatumGregorian> {
 	 * 
 	 */
 	public String getDatumInAmerikaansFormaat() {
-		return calender.get(Calendar.YEAR) + "/" + (calender.get(Calendar.MONTH)+1)
-				+ "/" + calender.get(Calendar.DATE);
+		return calender.get(Calendar.YEAR) + "/"
+				+ (calender.get(Calendar.MONTH) + 1) + "/"
+				+ calender.get(Calendar.DATE);
 	}
 
 	/**
@@ -165,8 +166,9 @@ public class DatumGregorian implements Comparable<DatumGregorian> {
 	 * 
 	 */
 	public String getDatumInEuropeesFormaat() {
-		return calender.get(Calendar.DATE) + "/" + (calender.get(Calendar.MONTH)+1)
-				+ "/" + calender.get(Calendar.YEAR);
+		return calender.get(Calendar.DATE) + "/"
+				+ (calender.get(Calendar.MONTH) + 1) + "/"
+				+ calender.get(Calendar.YEAR);
 	}
 
 	/**

@@ -72,14 +72,14 @@ public class OpdrachtCatalogusTest {
 		assertEquals(catalogus.getOpdrachten().size(), 1);
 	}
 
-	@Test (expected=IllegalArgumentException.class)
+	@Test(expected = IllegalArgumentException.class)
 	public void test_verwijderOpdracht_Fout_NietInCatalogus() {
 		Opdracht opd = new Opdracht("nn", "ll",
 				OpdrachtCategorie.NederlandseTaal, Leraar.Robrecht, new Datum());
 		catalogus.verwijderOpdracht(opd);
 	}
-	
-	@Test (expected=IllegalArgumentException.class)
+
+	@Test(expected = IllegalArgumentException.class)
 	public void test_verwijderOpdracht_Fout_AanQuizGelinkt() {
 		Quiz quiz = new Quiz("rrrr", Leraar.Sven, true, 5);
 		QuizOpdracht.koppelOpdrachtAanQuiz(quiz, opdracht1, 5);

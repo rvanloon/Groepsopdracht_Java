@@ -88,20 +88,20 @@ public class QuizCatalogusTest {
 		catalogus.verwijderQuiz(quiz1);
 		assertEquals(list, catalogus.getQuizzen());
 	}
-	
-	@Test (expected = IllegalArgumentException.class)
+
+	@Test(expected = IllegalArgumentException.class)
 	public void test_VerwijderQuiz_Exception_Als_status_quiz_fout() {
 		quiz1.setStatus(QuizStatus.opengesteld);
 		catalogus.verwijderQuiz(quiz1);
 	}
-	
-	@Test (expected = IllegalArgumentException.class)
+
+	@Test(expected = IllegalArgumentException.class)
 	public void test_VerwijderQuiz_Exception_Als_waarde_null() {
 		quiz1 = null;
 		catalogus.verwijderQuiz(quiz1);
 	}
-	
-	@Test (expected = IllegalArgumentException.class)
+
+	@Test(expected = IllegalArgumentException.class)
 	public void test_VerwijderQuiz_Exception_Als_quiz_niet_aanwezig() {
 		Quiz quiz3 = new Quiz("Geologie", Leraar.Sven, true, 1);
 		catalogus.verwijderQuiz(quiz3);
@@ -112,13 +112,13 @@ public class QuizCatalogusTest {
 		QuizCatalogus clone = catalogus.clone();
 		QuizCatalogus qc2 = new QuizCatalogus();
 		assertTrue(catalogus.equals(clone));
-		assertFalse(catalogus.equals(qc2));		
+		assertFalse(catalogus.equals(qc2));
 	}
-	
+
 	@Test
 	public void test_EqualsObject_False_als_waarde_null() {
 		QuizCatalogus qc2 = null;
-		assertFalse(catalogus.equals(qc2));		
+		assertFalse(catalogus.equals(qc2));
 	}
 
 	@Test

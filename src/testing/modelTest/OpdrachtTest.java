@@ -63,9 +63,9 @@ public class OpdrachtTest {
 	@Test(expected = IllegalArgumentException.class)
 	public void test_Constructor_fout_antwoord_null() {
 		@SuppressWarnings("unused")
-		Opdracht opdracht = new Opdracht("Welke zee grenst aan Belgi�?", null,
-				OpdrachtCategorie.algemeneKennis, Leraar.Alain, new Datum(20,
-						10, 2012));
+		Opdracht opdracht = new Opdracht("Welke zee grenst aan Belgi�?",
+				null, OpdrachtCategorie.algemeneKennis, Leraar.Alain,
+				new Datum(20, 10, 2012));
 	}
 
 	@Test(expected = IllegalArgumentException.class)
@@ -199,7 +199,8 @@ public class OpdrachtTest {
 	 * 
 	 * @Test public void testCompareTo() { fail("Not yet implemented"); }
 	 * 
-	 * @Test public void testIsOpdrachtWijzigbaar() { fail("Not yet implemented"); }
+	 * @Test public void testIsOpdrachtWijzigbaar() {
+	 * fail("Not yet implemented"); }
 	 */
 
 }

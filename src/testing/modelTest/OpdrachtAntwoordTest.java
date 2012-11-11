@@ -1,7 +1,6 @@
 package testing.modelTest;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import model.Leerling;
 import model.Leraar;
@@ -31,31 +30,34 @@ public class OpdrachtAntwoordTest {
 	public void setUp() throws Exception {
 		antwoord = "Parijs";
 		pogingen = 2;
-		tijd = 5;		
+		tijd = 5;
 		Leerling leerling = new Leerling("Mathias", 5);
-		Opdracht opdracht = new Opdracht("Hoofdstad Frankrijk", "Parijs", OpdrachtCategorie.algemeneKennis, Leraar.Alain, new Datum());
+		Opdracht opdracht = new Opdracht("Hoofdstad Frankrijk", "Parijs",
+				OpdrachtCategorie.algemeneKennis, Leraar.Alain, new Datum());
 		opdracht.setMaxAntwoordTijd(10);
 		Quiz quiz = new Quiz("Hoofdsteden", Leraar.Alain, true, 5);
 		QuizOpdracht.koppelOpdrachtAanQuiz(quiz, opdracht, 5);
 		QuizDeelname.KoppelLeerlingAanQuiz(quiz, leerling, new Datum());
 		quizDeelname = quiz.getQuizDeelnames().get(0);
-		quizOpdracht = quiz.getOpdrachten().get(0);;
-		OpdrachtAntwoord.koppelOpdrachtAanDeelname(antwoord, pogingen, tijd, quizOpdracht, quizDeelname);
+		quizOpdracht = quiz.getOpdrachten().get(0);
+		;
+		OpdrachtAntwoord.koppelOpdrachtAanDeelname(antwoord, pogingen, tijd,
+				quizOpdracht, quizDeelname);
 		opdrachtAntwoord = quizOpdracht.getOpdrachtAntwoorden().get(0);
 	}
-	
+
 	@Test
 	public void test_GetLaatsteAntwoord_OK() {
 		assertEquals("Parijs", opdrachtAntwoord.getLaatsteAntwoord());
 	}
 
-	@Test (expected = IllegalArgumentException.class)
+	@Test(expected = IllegalArgumentException.class)
 	public void test_SetLaatsteAntwoord_Exception_als_antwoord_null() {
 		antwoord = null;
 		opdrachtAntwoord.setLaatsteAntwoord(antwoord);
 	}
-	
-	@Test (expected = IllegalArgumentException.class)
+
+	@Test(expected = IllegalArgumentException.class)
 	public void test_SetLaatsteAntwoord_Exception_als_antwoord_leeg() {
 		antwoord = "";
 		opdrachtAntwoord.setLaatsteAntwoord(antwoord);
@@ -76,17 +78,18 @@ public class OpdrachtAntwoordTest {
 		assertEquals(1, opdrachtAntwoord.getAantalPogingen());
 	}
 
-	@Test (expected = IllegalArgumentException.class)
+	@Test(expected = IllegalArgumentException.class)
 	public void test_SetAantalPogingen_Exception_als_waarde_negatief() {
 		pogingen = -5;
 		opdrachtAntwoord.setAantalPogingen(pogingen);
 	}
-	
-	@Test (expected = IllegalArgumentException.class)
+
+	@Test(expected = IllegalArgumentException.class)
 	public void test_SetAantalPogingen_Exception_als_waarde_nul() {
 		pogingen = 0;
 		opdrachtAntwoord.setAantalPogingen(pogingen);
 	}
+
 	@Test
 	public void test_GetAntwoordTijd_OK() {
 		assertEquals(5, opdrachtAntwoord.getAntwoordTijd());
@@ -101,14 +104,14 @@ public class OpdrachtAntwoordTest {
 		opdrachtAntwoord.setAntwoordTijd(tijd);
 		assertEquals(10, opdrachtAntwoord.getAntwoordTijd());
 	}
-	
-	@Test (expected = IllegalArgumentException.class)
+
+	@Test(expected = IllegalArgumentException.class)
 	public void test_SetAntwoordTijd_Exception_Als_waarde_negatief() {
 		tijd = -1;
 		opdrachtAntwoord.setAntwoordTijd(tijd);
 	}
-	
-	@Test (expected = IllegalArgumentException.class)
+
+	@Test(expected = IllegalArgumentException.class)
 	public void test_SetAntwoordTijd_Exception_Als_waarde_nul() {
 		tijd = 0;
 		opdrachtAntwoord.setAntwoordTijd(tijd);
@@ -118,8 +121,8 @@ public class OpdrachtAntwoordTest {
 	public void test_GetQuizopdracht_OK() {
 		assertEquals(quizOpdracht, opdrachtAntwoord.getQuizopdracht());
 	}
-	
-	@Test (expected = IllegalArgumentException.class)
+
+	@Test(expected = IllegalArgumentException.class)
 	public void test_SetQuizopdracht_Exception_Als_waarde_null() {
 		qOpdracht2 = null;
 		opdrachtAntwoord.setQuizopdracht(qOpdracht2);
@@ -129,8 +132,8 @@ public class OpdrachtAntwoordTest {
 	public void test_GetQuizdeelname_OK() {
 		assertEquals(quizDeelname, opdrachtAntwoord.getQuizdeelname());
 	}
-	
-	@Test (expected = IllegalArgumentException.class)
+
+	@Test(expected = IllegalArgumentException.class)
 	public void test_SetQuizdeelname_Exception_Als_waarde_null() {
 		QuizDeelname qd2 = null;
 		opdrachtAntwoord.setQuizdeelname(qd2);
@@ -141,13 +144,13 @@ public class OpdrachtAntwoordTest {
 		opdrachtAntwoord.setAantalPogingen(1);
 		assertEquals(5, opdrachtAntwoord.GetOpdrachtScore(), 0.1);
 	}
-	
+
 	@Test
 	public void test_GetOpdrachtScore_Halve_score_juist_antwoord_meerdere_pogingen() {
 		opdrachtAntwoord.setAantalPogingen(2);
 		assertEquals(2.5, opdrachtAntwoord.GetOpdrachtScore(), 0.1);
 	}
-	
+
 	@Test
 	public void test_GetOpdrachtScore_Geen_score_fout_antwoord() {
 		opdrachtAntwoord.setLaatsteAntwoord("Frankrijk");
@@ -168,7 +171,7 @@ public class OpdrachtAntwoordTest {
 	@Test
 	public void test_CompareTo() {
 		opdrachtAntwoord2 = quizOpdracht.getOpdrachtAntwoorden().get(0);
-		assertTrue(opdrachtAntwoord.compareTo(opdrachtAntwoord2)==0);
+		assertTrue(opdrachtAntwoord.compareTo(opdrachtAntwoord2) == 0);
 	}
 
 }

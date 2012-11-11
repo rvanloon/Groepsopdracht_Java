@@ -73,18 +73,20 @@ public class QuizOpdrachtTest {
 	}
 
 	// Nog testen op opdracht en quiz niet gelijk TODO
-	
+
 	@Test
 	public void test_GetGemiddeldeScore_ok() {
 		Leerling leerling = new Leerling("Peter", 4);
 		opdracht.setMaxAntwoordTijd(10);
-		QuizDeelname.KoppelLeerlingAanQuiz(quiz, leerling, new Datum(4,11,2012));		
+		QuizDeelname.KoppelLeerlingAanQuiz(quiz, leerling, new Datum(4, 11,
+				2012));
 		QuizDeelname qd = quiz.getQuizDeelnames().get(0);
-		OpdrachtAntwoord.koppelOpdrachtAanDeelname("Noordzee", 1, 5, quiz.getOpdrachten().get(0), qd);
-		OpdrachtAntwoord.koppelOpdrachtAanDeelname("Noordzee", 2, 5, quiz.getOpdrachten().get(0), qd);
+		OpdrachtAntwoord.koppelOpdrachtAanDeelname("Noordzee", 1, 5, quiz
+				.getOpdrachten().get(0), qd);
+		OpdrachtAntwoord.koppelOpdrachtAanDeelname("Noordzee", 2, 5, quiz
+				.getOpdrachten().get(0), qd);
 		// 3 punten + 1.5 punten = 4.5/2
 		assertEquals(2.25, quizOpdracht.getGemiddeldeScore(), 0);
-		
 
 	}
 }

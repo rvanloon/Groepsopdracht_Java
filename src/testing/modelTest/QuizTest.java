@@ -41,13 +41,13 @@ public class QuizTest {
 		quiz3.setStatus(QuizStatus.laatsteKans);
 		list = new ArrayList<Integer>();
 		datum = new DatumGregorian();
-		 opdracht = new Opdracht("De hoofdstad van Frankrijk",
-				"Parijs", OpdrachtCategorie.algemeneKennis, Leraar.Alain,
-				new Datum(21, 1, 2012));
+		opdracht = new Opdracht("De hoofdstad van Frankrijk", "Parijs",
+				OpdrachtCategorie.algemeneKennis, Leraar.Alain, new Datum(21,
+						1, 2012));
 		QuizOpdracht.koppelOpdrachtAanQuiz(quiz, opdracht, 5);
-		nieuweOpdracht = new Opdracht("De hoofdstad van Belgie",
-				"Brussel", OpdrachtCategorie.algemeneKennis, Leraar.Alain,
-				new Datum(22, 1, 2012));
+		nieuweOpdracht = new Opdracht("De hoofdstad van Belgie", "Brussel",
+				OpdrachtCategorie.algemeneKennis, Leraar.Alain, new Datum(22,
+						1, 2012));
 		QuizOpdracht.koppelOpdrachtAanQuiz(quiz, nieuweOpdracht, 5);
 		qoList = new ArrayList<QuizOpdracht>();
 	}
@@ -105,8 +105,9 @@ public class QuizTest {
 
 	@Test(expected = IllegalArgumentException.class)
 	public void test_SetLeerjaren_Exception_Als_waarde_te_groot_of_te_klein() {
-		quiz.setLeerjaren(0); // Hier stopt het al. Volgende wordt nooit uitgevoerd
-		quiz.setLeerjaren(-5); 
+		quiz.setLeerjaren(0); // Hier stopt het al. Volgende wordt nooit
+								// uitgevoerd
+		quiz.setLeerjaren(-5);
 		quiz.setLeerjaren(7);
 		quiz.setLeerjaren(1, 5, 7);
 		int[] intArray = { 5, 6, 7 };
@@ -188,21 +189,21 @@ public class QuizTest {
 		QuizStatus status = null;
 		quiz.setStatus(status);
 	}
-	
-	@Test (expected = IllegalArgumentException.class)
+
+	@Test(expected = IllegalArgumentException.class)
 	public void test_SetOpdrachten_Exception_Indien_waarde_null() {
 		qoList = null;
 		quiz2.setOpdrachten(qoList);
 	}
-	
-	@Test (expected = IllegalArgumentException.class)
+
+	@Test(expected = IllegalArgumentException.class)
 	public void test_SetOpdrachten_Exception_Als_lijst_leeg() {
 		quiz2.setOpdrachten(qoList);
 	}
 
 	@Test
 	public void test_Constructor_Correcte_waarden_Wordt_aanvaard() {
-		quiz4 = new Quiz("Biologie", Leraar.Alain, true, 4,5,6);
+		quiz4 = new Quiz("Biologie", Leraar.Alain, true, 4, 5, 6);
 		assertEquals("Biologie", quiz4.getOnderwerp());
 		assertEquals(Leraar.Alain, quiz4.getAuteur());
 		assertTrue(quiz4.getIsTest());
@@ -212,50 +213,50 @@ public class QuizTest {
 		assertEquals(list, quiz4.getLeerjaren());
 		assertEquals(QuizStatus.InConstructie, quiz4.getStatus());
 	}
-	
-	@Test (expected = IllegalArgumentException.class)
+
+	@Test(expected = IllegalArgumentException.class)
 	public void test_Constructor_Exception_Als_onderwerp_null() {
 		String onderwerp = null;
-		quiz4 = new Quiz(onderwerp, Leraar.Alain, true, 4,5,6);
+		quiz4 = new Quiz(onderwerp, Leraar.Alain, true, 4, 5, 6);
 	}
-	
-	@Test (expected = IllegalArgumentException.class)
+
+	@Test(expected = IllegalArgumentException.class)
 	public void test_Constructor_Exception_Als_onderwerp_leeg() {
 		String onderwerp = "";
-		quiz4 = new Quiz(onderwerp, Leraar.Alain, true, 4,5,6);
+		quiz4 = new Quiz(onderwerp, Leraar.Alain, true, 4, 5, 6);
 	}
-	
-	@Test (expected = IllegalArgumentException.class)
+
+	@Test(expected = IllegalArgumentException.class)
 	public void test_Constructor_Exception_Als_auteur_null() {
 		Leraar auteur = null;
-		quiz4 = new Quiz("Aardrijkskunde", auteur, true, 4,5,6);
+		quiz4 = new Quiz("Aardrijkskunde", auteur, true, 4, 5, 6);
 	}
-	
-	@Test (expected = IllegalArgumentException.class)
+
+	@Test(expected = IllegalArgumentException.class)
 	public void test_Constructor_Exception_Als_test_null() {
 		Boolean test = null;
-		quiz4 = new Quiz("Aardrijkskunde", Leraar.Alain, test, 4,5,6);
+		quiz4 = new Quiz("Aardrijkskunde", Leraar.Alain, test, 4, 5, 6);
 	}
-	
-	@Test (expected = IllegalArgumentException.class)
+
+	@Test(expected = IllegalArgumentException.class)
 	public void test_Constructor_Exception_Als_leerjaar_te_groot() {
-		quiz4 = new Quiz("Aardrijkskunde", Leraar.Alain, true, 5,6,7);
+		quiz4 = new Quiz("Aardrijkskunde", Leraar.Alain, true, 5, 6, 7);
 	}
-	
-	@Test (expected = IllegalArgumentException.class)
+
+	@Test(expected = IllegalArgumentException.class)
 	public void test_Constructor_Exception_Als_leerjaar_te_klein() {
-		quiz4 = new Quiz("Aardrijkskunde", Leraar.Alain, true, 0,1,2);
+		quiz4 = new Quiz("Aardrijkskunde", Leraar.Alain, true, 0, 1, 2);
 	}
-	
-	@Test (expected = IllegalArgumentException.class)
+
+	@Test(expected = IllegalArgumentException.class)
 	public void test_Constructor_Exception_Als_leerjaar_null() {
 		int[] jaren = null;
 		quiz4 = new Quiz("Aardrijkskunde", Leraar.Alain, true, jaren);
 	}
-	
+
 	@Test
 	public void test_Constructor_Dubbele_waarde_leerjaar_Wordt_aanvaard() {
-		quiz4 = new Quiz("Aardrijkskunde", Leraar.Alain, true, 4,4,5,6);
+		quiz4 = new Quiz("Aardrijkskunde", Leraar.Alain, true, 4, 4, 5, 6);
 		list.add(4);
 		list.add(5);
 		list.add(6);
@@ -272,12 +273,12 @@ public class QuizTest {
 		Quiz quiz5 = quiz.clone();
 		assertTrue(quiz.equals(quiz5));
 	}
-	
+
 	@Test
 	public void test_EqualsObject_Ongelijke_waarde_Wordt_aanvaard() {
 		assertFalse(quiz.equals(quiz2));
 	}
-	
+
 	@Test
 	public void test_EqualsObject_False_Indien_waarde_null() {
 		quiz2 = null;
@@ -286,13 +287,13 @@ public class QuizTest {
 
 	@Test
 	public void test_CompareTo_OK() {
-		assertTrue((quiz.compareTo(quiz2)>0));
-		assertTrue((quiz2.compareTo(quiz)<0));
+		assertTrue((quiz.compareTo(quiz2) > 0));
+		assertTrue((quiz2.compareTo(quiz) < 0));
 		quiz2 = quiz.clone();
-		assertTrue((quiz.compareTo(quiz2)==0));
+		assertTrue((quiz.compareTo(quiz2) == 0));
 	}
-	
-	@Test (expected = IllegalArgumentException.class)
+
+	@Test(expected = IllegalArgumentException.class)
 	public void test_CompareTo_Exception_Als_waarde_null() {
 		quiz2 = null;
 		quiz.compareTo(quiz2);

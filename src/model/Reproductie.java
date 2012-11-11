@@ -4,6 +4,12 @@ import java.util.ArrayList;
 
 import utils.Datum;
 
+/**
+ * 
+ * @author rvanloon
+ * @version 1
+ * 
+ */
 public class Reproductie extends Opdracht {
 
 	private ArrayList<String> trefwoorden;
@@ -104,6 +110,28 @@ public class Reproductie extends Opdracht {
 	}
 
 	/*
+	 * Geeft true als het antwoord het minimum aantal trefwoorden bevat. Anders
+	 * false.
+	 * 
+	 * @see model.Opdracht#isJuisteAntwoord(java.lang.String)
+	 */
+	@Override
+	public Boolean isJuisteAntwoord(String antwoord) {
+		if (antwoord == null || antwoord.isEmpty()) {
+			throw new IllegalArgumentException("antwoord is leeg of null");
+		}
+
+		int aantalTrefwoorden = 0;
+		for (String trefwoord : trefwoorden) {
+			if (antwoord.contains(trefwoord)) {
+				aantalTrefwoorden++;
+			}
+		}
+
+		return minAantalJuisteTrefwoorden > aantalTrefwoorden ? false : true;
+	}
+
+	/*
 	 * (non-Javadoc)
 	 * 
 	 * @see java.lang.Object#hashCode()
@@ -140,28 +168,6 @@ public class Reproductie extends Opdracht {
 		} else if (!trefwoorden.equals(other.trefwoorden))
 			return false;
 		return true;
-	}
-
-	/*
-	 * Geeft true als het antwoord het minimum aantal trefwoorden bevat. Anders
-	 * false.
-	 * 
-	 * @see model.Opdracht#isJuisteAntwoord(java.lang.String)
-	 */
-	@Override
-	public Boolean isJuisteAntwoord(String antwoord) {
-		if (antwoord == null || antwoord.isEmpty()) {
-			throw new IllegalArgumentException("antwoord is leeg of null");
-		}
-
-		int aantalTrefwoorden = 0;
-		for (String trefwoord : trefwoorden) {
-			if (antwoord.contains(trefwoord)) {
-				aantalTrefwoorden++;
-			}
-		}
-
-		return minAantalJuisteTrefwoorden > aantalTrefwoorden ? false : true;
 	}
 
 	/*
