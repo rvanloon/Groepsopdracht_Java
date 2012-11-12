@@ -10,7 +10,7 @@ import utils.DatumGregorian;
  * @author sven
  * 
  */
-public class QuizCatalogus implements Iterable<Quiz>, Cloneable {
+public class QuizCatalogus extends FileContainer implements Iterable<Quiz>, Cloneable, PersisteerbaarAlsTekst {
 
 	private ArrayList<Quiz> quizzen;
 
@@ -140,5 +140,34 @@ public class QuizCatalogus implements Iterable<Quiz>, Cloneable {
 	@Override
 	public Iterator<Quiz> iterator() {
 		return quizzen.iterator();
+	}
+
+	@Override
+	public String getFile() {
+		//TODO
+		return null;
+	}
+
+	@Override
+	public void toevoegenLijn(String lijn) {
+		String[] velden = lijn.split(splitteken);
+		maakObjectVanLijn(velden);		
+	}
+
+	@Override
+	public void SchrijfCatalogusNaarFile() {
+		
+		
+	}
+	
+	@Override
+	public void maakObjectVanLijn(String[] velden) {
+		String onderwerp = velden[0];
+	}
+
+	@Override
+	public String MaakLijnVanObject(Object o) {
+		if(o instanceof Quiz)
+		return null;
 	}
 }
