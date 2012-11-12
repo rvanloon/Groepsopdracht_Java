@@ -306,23 +306,34 @@ public class Opdracht implements Comparable<Opdracht> {
 		return true;
 	}
 
-	/**
-	 * Berekent een hashcode op basis van categorie, vraag en juisteAntwoord.
+	
+	/* (non-Javadoc)
+	 * @see java.lang.Object#hashCode()
 	 */
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result
+				+ ((antwoordHints == null) ? 0 : antwoordHints.hashCode());
+		result = prime * result + ((auteur == null) ? 0 : auteur.hashCode());
+		result = prime * result
 				+ ((categorie == null) ? 0 : categorie.hashCode());
+		result = prime
+				* result
+				+ ((datumRegistratie == null) ? 0 : datumRegistratie.hashCode());
 		result = prime * result
 				+ ((juisteAntwoord == null) ? 0 : juisteAntwoord.hashCode());
+		result = prime * result + maxAantalPogingen;
+		result = prime * result + maxAntwoordTijd;
+		result = prime * result
+				+ ((quizOpdracten == null) ? 0 : quizOpdracten.hashCode());
 		result = prime * result + ((vraag == null) ? 0 : vraag.hashCode());
 		return result;
 	}
 
-	/**
-	 * Houd rekening met categorie, vraag en juisteAntwoord.
+	/* (non-Javadoc)
+	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
 	@Override
 	public boolean equals(Object obj) {
@@ -333,12 +344,33 @@ public class Opdracht implements Comparable<Opdracht> {
 		if (getClass() != obj.getClass())
 			return false;
 		Opdracht other = (Opdracht) obj;
+		if (antwoordHints == null) {
+			if (other.antwoordHints != null)
+				return false;
+		} else if (!antwoordHints.equals(other.antwoordHints))
+			return false;
+		if (auteur != other.auteur)
+			return false;
 		if (categorie != other.categorie)
+			return false;
+		if (datumRegistratie == null) {
+			if (other.datumRegistratie != null)
+				return false;
+		} else if (!datumRegistratie.equals(other.datumRegistratie))
 			return false;
 		if (juisteAntwoord == null) {
 			if (other.juisteAntwoord != null)
 				return false;
 		} else if (!juisteAntwoord.equals(other.juisteAntwoord))
+			return false;
+		if (maxAantalPogingen != other.maxAantalPogingen)
+			return false;
+		if (maxAntwoordTijd != other.maxAntwoordTijd)
+			return false;
+		if (quizOpdracten == null) {
+			if (other.quizOpdracten != null)
+				return false;
+		} else if (!quizOpdracten.equals(other.quizOpdracten))
 			return false;
 		if (vraag == null) {
 			if (other.vraag != null)
