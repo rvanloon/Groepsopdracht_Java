@@ -69,18 +69,18 @@ public class Meerkeuze extends Opdracht implements Valideerbaar {
 
 	/**
 	 * Geeft aan of een antwoord juist of fout is. Kijkt of het ingegeven nummer
-	 * overeenkomt met het juiste antwoord.
-	 * geeft een exception als het antwoord niet valide is.
+	 * overeenkomt met het juiste antwoord. geeft een exception als het antwoord
+	 * niet valide is.
 	 */
 	@Override
 	public Boolean isJuisteAntwoord(String antwoord) {
 		if (!(isValide(antwoord))) {
 			throw new IllegalArgumentException(getValideertekst());
 		}
-		
+
 		int antwoordNummer = Integer.parseInt(antwoord);
 		String keuze = keuzes.get(antwoordNummer - 1);
-		
+
 		if (keuze.equals(getJuisteAntwoord())) {
 			return true;
 		}
@@ -94,6 +94,7 @@ public class Meerkeuze extends Opdracht implements Valideerbaar {
 	public boolean isValide(String antwoord) {
 		try {
 			int antwoordNummer = Integer.parseInt(antwoord);
+			@SuppressWarnings("unused")
 			String keuze = keuzes.get(antwoordNummer - 1);
 		} catch (Exception e) {
 			return false;
@@ -184,17 +185,18 @@ public class Meerkeuze extends Opdracht implements Valideerbaar {
 	}
 
 	public static void main(String[] args) {
-		Meerkeuze meerkeuze = new Meerkeuze("xxx", "aaa", OpdrachtCategorie.NederlandseTaal, Leraar.Sven, new Datum());
+		Meerkeuze meerkeuze = new Meerkeuze("xxx", "aaa",
+				OpdrachtCategorie.NederlandseTaal, Leraar.Sven, new Datum());
 		meerkeuze.voegKeuzeToe("bbb");
 		meerkeuze.voegKeuzeToe("ccc");
 		meerkeuze.voegKeuzeToe("aaa");
-		
+
 		try {
 			meerkeuze.isJuisteAntwoord("ccc");
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}
-		
+
 	}
 
 }

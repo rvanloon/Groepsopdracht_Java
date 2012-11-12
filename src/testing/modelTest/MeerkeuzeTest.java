@@ -3,8 +3,9 @@
  */
 package testing.modelTest;
 
-import static org.junit.Assert.*;
-
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 import model.Leraar;
 import model.Meerkeuze;
 import model.OpdrachtCategorie;
@@ -36,7 +37,7 @@ public class MeerkeuzeTest {
 		meerkeuze.voegKeuzeToe("bbb");
 		meerkeuze.voegKeuzeToe("ccc");
 		meerkeuze.voegKeuzeToe("aaa");
-		
+
 		valideertekst = "Geef het nummer in behorende tot het juiste antwoord.";
 	}
 
@@ -64,12 +65,12 @@ public class MeerkeuzeTest {
 	public void test_IsJuisteAntwoord_fout_nummer_te_groot_meegegeven() {
 		meerkeuze.isJuisteAntwoord("4");
 	}
-	
+
 	@Test(expected = IllegalArgumentException.class)
 	public void test_IsJuisteAntwoord_fout_null_meegegeven() {
 		meerkeuze.isJuisteAntwoord(null);
 	}
-	
+
 	@Test
 	public void test_IsJuisteAntwoord_OK_Juiste_valideertekst() {
 		String message = "";
