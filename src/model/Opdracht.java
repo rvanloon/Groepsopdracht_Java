@@ -21,6 +21,7 @@ public class Opdracht implements Comparable<Opdracht> {
 	private ArrayList<QuizOpdracht> quizOpdracten;
 	private Leraar auteur;
 	private Datum datumRegistratie;
+	private int key;
 
 	/**
 	 * Constructor. Maakt een nieuwe opdracht aan.
@@ -41,6 +42,7 @@ public class Opdracht implements Comparable<Opdracht> {
 
 		this.antwoordHints = new ArrayList<String>();
 		this.quizOpdracten = new ArrayList<QuizOpdracht>();
+		this.setKey(-1);
 	}
 
 	/**
@@ -216,6 +218,20 @@ public class Opdracht implements Comparable<Opdracht> {
 					"datumRegistratie mag niet null zijn");
 		}
 		this.datumRegistratie = datumRegistratie;
+	}
+
+	/**
+	 * @return the key
+	 */
+	public int getKey() {
+		return key;
+	}
+
+	/**
+	 * @param key the key to set
+	 */
+	public void setKey(int key) {
+		this.key = key;
 	}
 
 	/**

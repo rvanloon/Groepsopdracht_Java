@@ -15,6 +15,8 @@ import java.util.Formatter;
  * 
  */
 public abstract class FileContainer {
+	
+	public static final String splitteken = "|";
 
 	public void lezen() {
 		try {
@@ -29,7 +31,7 @@ public abstract class FileContainer {
 		}
 	}
 
-	public void Schrijven(ArrayList<String> lijnen) throws Exception {
+	public void schrijven(ArrayList<String> lijnen) throws Exception {
 		Formatter schrijver = null;
 
 		try {
@@ -57,6 +59,6 @@ public abstract class FileContainer {
 
 	public abstract void toevoegenLijn(String lijn);
 	
-	public abstract void SchrijfCatalogusNaarFile();
+	public abstract void schrijfCatalogusNaarFile() throws Exception;
 
 }

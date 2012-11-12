@@ -1,6 +1,7 @@
 package model;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Hashtable;
 import java.util.Iterator;
 
@@ -10,9 +11,10 @@ import java.util.Iterator;
  * @version 1
  * 
  */
-public class OpdrachtCatalogus extends FileContainer implements Iterable<Opdracht>, PersisteerbaarAlsTekst{
+public class OpdrachtCatalogus extends FileContainer implements
+		Iterable<Opdracht>, PersisteerbaarAlsTekst {
 
-	//private ArrayList<Opdracht> opdrachten;
+	// private ArrayList<Opdracht> opdrachten;
 	private Hashtable<Integer, Opdracht> opdrachten;
 
 	/**
@@ -49,7 +51,20 @@ public class OpdrachtCatalogus extends FileContainer implements Iterable<Opdrach
 		if (opdrachten.contains(opdracht)) {
 			throw new IllegalArgumentException("Opdracht reeds in catalogus.");
 		}
-		opdrachten.put(opdracht.hashCode(), opdracht);
+
+		int key = 0;
+
+		try {
+			key = Collections.max(opdrachten.keySet());
+		} catch (Exception e) {
+			key = 0;
+		}
+
+		key++;
+
+		opdracht.setKey(key);
+
+		opdrachten.put(key, opdracht);
 	}
 
 	/**
@@ -70,19 +85,35 @@ public class OpdrachtCatalogus extends FileContainer implements Iterable<Opdrach
 			throw new IllegalArgumentException(
 					"Deze opdracht is aan een quiz gekoppeld.");
 		}
-		opdrachten.remove(opdracht.hashCode());
+		opdrachten.remove(opdracht.getKey());
 	}
 
 	@Override
 	public void maakObjectVanLijn(String[] velden) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
+	/**
+	 * geeft een string met alle waarden van de meegegeven opdracht om deze te
+	 * 
+	 * @param o
+	 * @return
+	 */
 	@Override
 	public String MaakLijnVanObject(Object o) {
-		// TODO Auto-generated method stub
-		return null;
+		if (!(o.getClass().equals(Opdracht.class))) {
+			throw new IllegalArgumentException("Meegeleverde object moet een opdracht zijn");
+		}
+		
+		Opdracht opdracht;
+		String lijn = "";
+		
+		opdracht = (Opdracht) o;
+		
+		lijn = lijn + opdracht.getVraag() + 
+		
+		return lijn;
 	}
 
 	@Override
@@ -93,13 +124,28 @@ public class OpdrachtCatalogus extends FileContainer implements Iterable<Opdrach
 	@Override
 	public void toevoegenLijn(String lijn) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
+	/**
+	 * Schrijft de volledige catalogus weg in een textfile.
+	 * 
+	 * @throws Exception
+	 * 
+	 */
 	@Override
-	public void SchrijfCatalogusNaarFile() {
-		// TODO Auto-generated method stub
-		
+	public void SchrijfCatalogusNaarFile() throws Exception {
+		ArrayList<String> lijnen = new ArrayList<String>();
+
+		for (Opdracht opdracht : opdrachten.values()) {
+			lijnen.add(MaakLijnVanObject(opdracht));
+		}
+
+		try {
+			schrijven(lijnen);
+		} catch (Exception e) {
+			throw new Exception("Probleem bij wegschrijven file0.");
+		}
 	}
 
 	@Override
