@@ -107,7 +107,7 @@ public class Opdracht implements Comparable<Opdracht> {
 		return antwoordHints;
 	}
 
-	private void setAntwoordHints(ArrayList<String> antwoordHints) {
+	public void setAntwoordHints(ArrayList<String> antwoordHints) {
 		if (antwoordHints == null) {
 			throw new IllegalArgumentException(
 					"antwoordHints mag niet null zijn.");

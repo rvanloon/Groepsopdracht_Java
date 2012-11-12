@@ -184,6 +184,7 @@ public class Reproductie extends Opdracht {
 		clone.setMaxAantalPogingen(getMaxAantalPogingen());
 		clone.setMaxAntwoordTijd(getMaxAntwoordTijd());
 		clone.setTrefwoorden((ArrayList<String>) getTrefwoorden().clone());
+		clone.setAntwoordHints((ArrayList<String>) getAntwoordHints().clone());
 
 		return clone;
 

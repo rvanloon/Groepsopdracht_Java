@@ -70,13 +70,26 @@ public class Meerkeuze extends Opdracht implements Valideerbaar {
 	/**
 	 * Geeft aan of een antwoord juist of fout is. Kijkt of het ingegeven nummer
 	 * overeenkomt met het juiste antwoord.
+	 * geeft een exception als het antwoord niet valide is.
 	 */
 	@Override
 	public Boolean isJuisteAntwoord(String antwoord) {
-		Vervangen door valideer.		
-		return true;
+		if (!(isValide(antwoord))) {
+			throw new IllegalArgumentException(getValideertekst());
+		}
+		
+		int antwoordNummer = Integer.parseInt(antwoord);
+		String keuze = keuzes.get(antwoordNummer - 1);
+		
+		if (keuze.equals(getJuisteAntwoord())) {
+			return true;
+		}
+		return false;
 	}
 
+	/**
+	 * Kijkt na of het antwoord voldoet aan de juiste vorm.
+	 */
 	@Override
 	public boolean isValide(String antwoord) {
 		try {
@@ -88,9 +101,13 @@ public class Meerkeuze extends Opdracht implements Valideerbaar {
 		return true;
 	}
 
+	/**
+	 * Geeft een tekst die tips hoe een geldig antwoord geformuleert moet
+	 * worden.
+	 */
 	@Override
 	public String getValideertekst() {
-		return "Geef het nummer in behorende tot hzet juiste antwoord.";
+		return "Geef het nummer in behorende tot het juiste antwoord.";
 	}
 
 	/*
@@ -106,6 +123,7 @@ public class Meerkeuze extends Opdracht implements Valideerbaar {
 		clone.setMaxAantalPogingen(getMaxAantalPogingen());
 		clone.setMaxAntwoordTijd(getMaxAntwoordTijd());
 		clone.setKeuzes((ArrayList<String>) getKeuzes().clone());
+		clone.setAntwoordHints((ArrayList<String>) getAntwoordHints().clone());
 
 		return clone;
 	}
@@ -166,7 +184,17 @@ public class Meerkeuze extends Opdracht implements Valideerbaar {
 	}
 
 	public static void main(String[] args) {
-
+		Meerkeuze meerkeuze = new Meerkeuze("xxx", "aaa", OpdrachtCategorie.NederlandseTaal, Leraar.Sven, new Datum());
+		meerkeuze.voegKeuzeToe("bbb");
+		meerkeuze.voegKeuzeToe("ccc");
+		meerkeuze.voegKeuzeToe("aaa");
+		
+		try {
+			meerkeuze.isJuisteAntwoord("ccc");
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+		
 	}
 
 }

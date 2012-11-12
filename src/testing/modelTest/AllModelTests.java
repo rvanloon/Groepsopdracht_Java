@@ -6,9 +6,10 @@ import org.junit.runners.Suite.SuiteClasses;
 
 @RunWith(Suite.class)
 @SuiteClasses({ LeerlingContainerTest.class, LeerlingTest.class,
-		OpdrachtAntwoordTest.class, OpdrachtCatalogusTest.class,
-		OpdrachtTest.class, QuizCatalogusTest.class, QuizDeelnameTest.class,
-		QuizOpdrachtTest.class, QuizTest.class })
+		MeerkeuzeTest.class, OpdrachtAntwoordTest.class,
+		OpdrachtCatalogusTest.class, OpdrachtTest.class, OpsommingTest.class,
+		QuizCatalogusTest.class, QuizDeelnameTest.class,
+		QuizOpdrachtTest.class, QuizTest.class, ReproductieTest.class })
 public class AllModelTests {
 
 }
