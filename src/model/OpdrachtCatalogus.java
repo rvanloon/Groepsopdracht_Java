@@ -1,6 +1,7 @@
 package model;
 
 import java.util.ArrayList;
+import java.util.Hashtable;
 import java.util.Iterator;
 
 /**
@@ -9,15 +10,16 @@ import java.util.Iterator;
  * @version 1
  * 
  */
-public class OpdrachtCatalogus implements Iterable<Opdracht> {
+public class OpdrachtCatalogus extends FileContainer implements Iterable<Opdracht>, PersisteerbaarAlsTekst{
 
-	private ArrayList<Opdracht> opdrachten;
+	//private ArrayList<Opdracht> opdrachten;
+	private Hashtable<Integer, Opdracht> opdrachten;
 
 	/**
 	 * Default constructor.
 	 */
 	public OpdrachtCatalogus() {
-		opdrachten = new ArrayList<Opdracht>();
+		opdrachten = new Hashtable<Integer, Opdracht>();
 	}
 
 	/**
@@ -25,11 +27,11 @@ public class OpdrachtCatalogus implements Iterable<Opdracht> {
 	 * 
 	 * @return arraylist<Opdracht>
 	 */
-	public ArrayList<Opdracht> getOpdrachten() {
+	public Hashtable<Integer, Opdracht> getOpdrachten() {
 		return opdrachten;
 	}
 
-	private void setOpdrachten(ArrayList<Opdracht> opdrachten) {
+	private void setOpdrachten(Hashtable<Integer, Opdracht> opdrachten) {
 		this.opdrachten = opdrachten;
 	}
 
@@ -47,7 +49,7 @@ public class OpdrachtCatalogus implements Iterable<Opdracht> {
 		if (opdrachten.contains(opdracht)) {
 			throw new IllegalArgumentException("Opdracht reeds in catalogus.");
 		}
-		opdrachten.add(opdracht);
+		opdrachten.put(opdracht.hashCode(), opdracht);
 	}
 
 	/**
@@ -68,12 +70,41 @@ public class OpdrachtCatalogus implements Iterable<Opdracht> {
 			throw new IllegalArgumentException(
 					"Deze opdracht is aan een quiz gekoppeld.");
 		}
-		opdrachten.remove(opdracht);
+		opdrachten.remove(opdracht.hashCode());
+	}
+
+	@Override
+	public void maakObjectVanLijn(String[] velden) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public String MaakLijnVanObject(Object o) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String getFile() {
+		return "bestanden\\opdrachten.txt";
+	}
+
+	@Override
+	public void toevoegenLijn(String lijn) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void SchrijfCatalogusNaarFile() {
+		// TODO Auto-generated method stub
+		
 	}
 
 	@Override
 	public Iterator<Opdracht> iterator() {
-		return opdrachten.iterator();
+		return opdrachten.values().iterator();
 	}
 
 	/*

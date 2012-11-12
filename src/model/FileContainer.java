@@ -31,9 +31,9 @@ public abstract class FileContainer {
 
 	public void Schrijven(ArrayList<String> lijnen) throws Exception {
 		Formatter schrijver = null;
-		File file = new File(getFile());
 
 		try {
+			File file = new File(getFile());
 			// open file
 			schrijver = new Formatter(file);
 
@@ -56,5 +56,7 @@ public abstract class FileContainer {
 	public abstract String getFile();
 
 	public abstract void toevoegenLijn(String lijn);
+	
+	public abstract void SchrijfCatalogusNaarFile();
 
 }
