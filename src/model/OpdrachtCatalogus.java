@@ -103,16 +103,21 @@ public class OpdrachtCatalogus extends FileContainer implements
 	@Override
 	public String MaakLijnVanObject(Object o) {
 		if (!(o.getClass().equals(Opdracht.class))) {
-			throw new IllegalArgumentException("Meegeleverde object moet een opdracht zijn");
+			throw new IllegalArgumentException(
+					"Meegeleverde object moet een opdracht zijn");
 		}
-		
+
 		Opdracht opdracht;
 		String lijn = "";
-		
+
 		opdracht = (Opdracht) o;
-		
-		lijn = lijn + opdracht.getVraag() + 
-		
+
+		lijn = lijn + opdracht.getKey() + splitteken;
+		lijn = lijn + opdracht.getVraag() + splitteken;
+		lijn = lijn + opdracht.getJuisteAntwoord() + splitteken;
+		lijn = lijn + opdracht.getJuisteAntwoord() + splitteken;
+		//TODO verder aanvullen.
+
 		return lijn;
 	}
 
@@ -134,7 +139,7 @@ public class OpdrachtCatalogus extends FileContainer implements
 	 * 
 	 */
 	@Override
-	public void SchrijfCatalogusNaarFile() throws Exception {
+	public void schrijfCatalogusNaarFile() throws Exception {
 		ArrayList<String> lijnen = new ArrayList<String>();
 
 		for (Opdracht opdracht : opdrachten.values()) {
@@ -144,7 +149,7 @@ public class OpdrachtCatalogus extends FileContainer implements
 		try {
 			schrijven(lijnen);
 		} catch (Exception e) {
-			throw new Exception("Probleem bij wegschrijven file0.");
+			throw new Exception("Probleem bij wegschrijven file.");
 		}
 	}
 
