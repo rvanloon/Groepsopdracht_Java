@@ -3,7 +3,7 @@ package model;
 import java.util.ArrayList;
 import java.util.List;
 
-import utils.DatumGregorian;
+import utils.Datum;
 
 /**
  * 
@@ -15,7 +15,7 @@ public class Quiz implements Cloneable, Comparable<Quiz> {
 	private String onderwerp;
 	private ArrayList<Integer> leerjaren;
 	private Leraar auteur;
-	private DatumGregorian datumRegistratie;
+	private Datum datumRegistratie;
 	private Boolean isTest;
 	private QuizStatus status;
 	private ArrayList<QuizOpdracht> opdrachten;
@@ -138,7 +138,7 @@ public class Quiz implements Cloneable, Comparable<Quiz> {
 	 * @throws NullPointerException
 	 *             als de datum null is
 	 */
-	public DatumGregorian getDatumRegistratie() {
+	public Datum getDatumRegistratie() {
 		return this.datumRegistratie;
 	}
 
@@ -150,7 +150,7 @@ public class Quiz implements Cloneable, Comparable<Quiz> {
 	 * @throws IllegalArgumentException
 	 *             indien de meegegeven datum null is
 	 */
-	public void setDatumRegistratie(DatumGregorian datumRegistratie)
+	public void setDatumRegistratie(Datum datumRegistratie)
 			throws IllegalArgumentException {
 		if (datumRegistratie == null) {
 			throw new IllegalArgumentException("Datum mag niet null zijn");
@@ -254,7 +254,7 @@ public class Quiz implements Cloneable, Comparable<Quiz> {
 		setLeerjaren(jaren);
 		this.opdrachten = new ArrayList<QuizOpdracht>();
 		this.setStatus(QuizStatus.InConstructie);
-		this.setDatumRegistratie(new DatumGregorian());
+		this.setDatumRegistratie(new Datum());
 		quizDeelnames = new ArrayList<QuizDeelname>();
 	}
 

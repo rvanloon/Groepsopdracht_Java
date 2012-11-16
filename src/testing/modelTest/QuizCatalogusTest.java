@@ -126,5 +126,15 @@ public class QuizCatalogusTest {
 		QuizCatalogus clone = catalogus.clone();
 		assertTrue(catalogus.equals(clone));
 	}
+	
+	@Test
+	public void test_SchrijfCatalogusNaarFile() throws Exception{
+		catalogus.schrijfCatalogusNaarFile();
+	}
+	
+	@Test
+	public void test_Lezen_ok(){
+		//TODO
+	}
 
 }

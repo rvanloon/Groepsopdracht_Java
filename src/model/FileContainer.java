@@ -16,7 +16,7 @@ import java.util.Formatter;
  */
 public abstract class FileContainer {
 	
-	public static final String splitteken = "|";
+	public static final String splitteken = "#";
 
 	public void lezen() {
 		try {

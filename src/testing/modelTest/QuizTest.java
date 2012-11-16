@@ -17,7 +17,6 @@ import org.junit.Before;
 import org.junit.Test;
 
 import utils.Datum;
-import utils.DatumGregorian;
 
 public class QuizTest {
 	private Quiz quiz;
@@ -27,7 +26,7 @@ public class QuizTest {
 	private ArrayList<Integer> list;
 	Opdracht opdracht;
 	Opdracht nieuweOpdracht;
-	DatumGregorian datum;
+	Datum datum;
 	QuizOpdracht qo;
 	QuizOpdracht qo2;
 	ArrayList<QuizOpdracht> qoList;
@@ -40,7 +39,7 @@ public class QuizTest {
 		quiz3 = new Quiz("Zorro", Leraar.Sven, false, 4, 5, 6);
 		quiz3.setStatus(QuizStatus.laatsteKans);
 		list = new ArrayList<Integer>();
-		datum = new DatumGregorian();
+		datum = new Datum();
 		opdracht = new Opdracht("De hoofdstad van Frankrijk", "Parijs",
 				OpdrachtCategorie.algemeneKennis, Leraar.Alain, new Datum(21,
 						1, 2012));
@@ -160,7 +159,7 @@ public class QuizTest {
 
 	@Test
 	public void test_SetDatumRegistratie_Correcte_waarde_Wordt_aanvaard() {
-		datum = new DatumGregorian(15, 04, 2012);
+		datum = new Datum(15, 04, 2012);
 		quiz.setDatumRegistratie(datum);
 		assertEquals(datum, quiz.getDatumRegistratie());
 	}

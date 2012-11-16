@@ -115,6 +115,66 @@ public class Datum implements Comparable<Datum> {
 		this.maand = maand;
 		this.jaar = jaar;
 	}
+	
+	/**
+	 * maakt een datum aan op basis van een int voor de dag, een maanden enum voor de maand en een int voor het jaar
+	 * @param dag
+	 * @param maand
+	 * @param jaar
+	 * @throws IllegalArgumentException
+	 */
+	public Datum(int dag, maanden maand, int jaar) throws IllegalArgumentException {
+		if(maand == null){
+			throw new IllegalArgumentException("maand mag niet null zijn");
+		}
+		int m;
+		switch(maand){
+		case januari:
+			m = 1;
+			break;
+		case februari:
+			m = 2;
+			break;
+		case maart:
+			m = 3;
+			break;
+		case april:
+			m = 4;
+			break;
+		case mei:
+			m = 5;
+			break;
+		case juni:
+			m = 6;
+			break;
+		case juli:
+			m = 7;
+			break;
+		case augustus:
+			m = 8;
+			break;
+		case september:
+			m = 9;
+			break;
+		case oktober:
+			m = 10;
+			break;
+		case november:
+			m = 11;
+			break;
+		case december:
+			m = 12;
+			break;
+		default:
+			throw new IllegalArgumentException("Geen geldige maand meegegeven");
+		}
+		//voor testen invoer andere constructor aanroepen
+		Datum datum = new Datum(dag, m, jaar);
+		
+		this.dag = datum.dag;
+		this.jaar = datum.jaar;
+		this.maand = datum.maand;
+	}
 
 	/**
 	 * Maakt een Datum-object op basis van een String

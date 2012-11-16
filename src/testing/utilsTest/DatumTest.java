@@ -8,6 +8,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import utils.Datum;
+import utils.maanden;
 
 /**
  * 
@@ -33,7 +34,7 @@ public class DatumTest {
 		datumVandaag = new Datum();
 
 		// Aanpassen alvorens de tests te runnen
-		vandaagInEuropeesFormaat = "1/11/2012";
+		vandaagInEuropeesFormaat = "16/11/2012";
 
 	}
 
@@ -63,16 +64,19 @@ public class DatumTest {
 
 	@Test(expected = IllegalArgumentException.class)
 	public void test_Constructor_fout_IntIntInt_ongeldige_dag() {
+		@SuppressWarnings("unused")
 		Datum d = new Datum(33, 02, 1980);
 	}
 
 	@Test(expected = IllegalArgumentException.class)
 	public void test_Constructor_fout_IntIntInt_ongeldige_maand() {
+		@SuppressWarnings("unused")
 		Datum d = new Datum(33, 15, 1980);
 	}
 
 	@Test(expected = IllegalArgumentException.class)
 	public void test_Constructor_fout_IntIntInt_ongeldige_combinatie() {
+		@SuppressWarnings("unused")
 		Datum d = new Datum(30, 02, 1980);
 	}
 
@@ -84,12 +88,28 @@ public class DatumTest {
 
 	@Test(expected = NumberFormatException.class)
 	public void test_contructor_fout_LegeStringParameter() {
+		@SuppressWarnings("unused")
 		Datum d = new Datum("");
 	}
 
 	@Test(expected = NumberFormatException.class)
 	public void test_contructor_fout_fouteStringParameter() {
+		@SuppressWarnings("unused")
 		Datum d = new Datum("18/feb/1980");
+	}
+	
+	@Test
+	public void test_Constructor_int_maanden_int_OK(){
+		Datum d = new Datum(18, maanden.februari, 2012);
+		Datum d2 = new Datum(18,2,2012);
+		assertEquals(d, d2);
+	}
+	
+	@Test (expected = IllegalArgumentException.class)
+	public void test_Constructor_int_maanden_int_Exception_als_maand_null(){
+		maanden maand = null;
+		@SuppressWarnings("unused")
+		Datum d = new Datum(18, maand, 2012);
 	}
 
 	@Test

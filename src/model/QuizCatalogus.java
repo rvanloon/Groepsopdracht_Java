@@ -3,7 +3,10 @@ package model;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-import utils.DatumGregorian;
+import javax.net.ssl.SSLEngineResult.Status;
+
+import utils.Datum;
+import utils.maanden;
 
 /**
  * 
@@ -63,7 +66,7 @@ public class QuizCatalogus extends FileContainer implements Iterable<Quiz>, Clon
 		} else if (bestaatOnderwerp(quiz.getOnderwerp())) {
 			throw new IllegalArgumentException("Onderwerp quiz bestaat al");
 		}
-		quiz.setDatumRegistratie(new DatumGregorian());
+		quiz.setDatumRegistratie(new Datum());
 		quizzen.add(quiz);
 	}
 
@@ -99,7 +102,21 @@ public class QuizCatalogus extends FileContainer implements Iterable<Quiz>, Clon
 		}
 		return test;
 	}
-
+	
+	@Override
+	public String toString(){
+		String output = "";
+		for (Quiz quiz : quizzen){
+			output += quiz + "\n";
+		}
+		return output;
+	}
+	
+	/*
+	 * 
+	 * (non-Javadoc)
+	 * @see java.lang.Object#hashCode()
+	 */
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -107,7 +124,11 @@ public class QuizCatalogus extends FileContainer implements Iterable<Quiz>, Clon
 		result = prime * result + ((quizzen == null) ? 0 : quizzen.hashCode());
 		return result;
 	}
-
+	
+	/*
+	 * (non-Javadoc)
+	 * @see java.lang.Object#equals(java.lang.Object)
+	 */
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -125,10 +146,9 @@ public class QuizCatalogus extends FileContainer implements Iterable<Quiz>, Clon
 		return true;
 	}
 
-	/**
-	 * Functie om een QuizCatalogus te klonen
-	 * 
-	 * @return QuizCatalogus
+	/*
+	 * (non-Javadoc)
+	 * @see java.lang.Object#clone()
 	 */
 	@Override
 	public QuizCatalogus clone() {
@@ -136,7 +156,11 @@ public class QuizCatalogus extends FileContainer implements Iterable<Quiz>, Clon
 		catalogusClone.setQuizzen(this.getQuizzen());
 		return catalogusClone;
 	}
-
+	
+	/*
+	 * (non-Javadoc)
+	 * @see java.lang.Iterable#iterator()
+	 */
 	@Override
 	public Iterator<Quiz> iterator() {
 		return quizzen.iterator();
@@ -144,8 +168,7 @@ public class QuizCatalogus extends FileContainer implements Iterable<Quiz>, Clon
 
 	@Override
 	public String getFile() {
-		//TODO
-		return null;
+		return "TextFiles\\QuizCatalogus.txt";
 	}
 
 	@Override
@@ -153,21 +176,68 @@ public class QuizCatalogus extends FileContainer implements Iterable<Quiz>, Clon
 		String[] velden = lijn.split(splitteken);
 		maakObjectVanLijn(velden);		
 	}
-
-	@Override
-	public void SchrijfCatalogusNaarFile() {
-		
-		
-	}
 	
 	@Override
 	public void maakObjectVanLijn(String[] velden) {
 		String onderwerp = velden[0];
+		Leraar auteur = Leraar.valueOf(velden[1]);
+		Boolean test = Boolean.parseBoolean(velden[2]);
+		String[] leerjarenString = velden[3].split(",");
+		int[] leerjarenInt = new int[leerjarenString.length];
+		int i = 0;
+		for(String s : leerjarenString){
+			leerjarenInt[i] = Integer.parseInt(s);
+			i++;
+		}
+		Quiz quiz = new Quiz(onderwerp, auteur, test, leerjarenInt);
+		String[] datumString = velden[4].split(" ");
+		quiz.setDatumRegistratie(new Datum(Integer.parseInt(datumString[0]), maanden.valueOf(datumString[1]), Integer.parseInt(datumString[2])));
+		quiz.setStatus(QuizStatus.valueOf(velden[5]));
+		quizzen.add(quiz);
+		
 	}
 
 	@Override
-	public String MaakLijnVanObject(Object o) {
-		if(o instanceof Quiz)
-		return null;
+	public String MaakLijnVanObject(Object o) throws IllegalArgumentException{
+		if(o == null){
+			throw new IllegalArgumentException("Quiz mag niet null zijn");
+		}
+		if(!(o instanceof Quiz)){
+			throw new IllegalArgumentException("Meegegeven object moet een quiz zijn");
+		}
+		Quiz quiz = (Quiz)o;
+		String quizString = "";
+		quizString += quiz.getOnderwerp() + splitteken;
+		quizString += quiz.getAuteur() + splitteken;
+		quizString += quiz.getIsTest() + splitteken;
+		String s = "";
+		for(int i : quiz.getLeerjaren()){
+			s += i + ",";
+		}
+		quizString += s.substring(0, s.length() -1) + splitteken;
+		quizString += quiz.getDatumRegistratie() + splitteken;
+		quizString += quiz.getStatus() + splitteken;
+		//TODO quizopdrachten, verwijzing naar opdracht nodig				
+		return quizString;
+	}
+
+	@Override
+	public void schrijfCatalogusNaarFile() throws Exception {
+		ArrayList<String> lijnen = new ArrayList<String>();
+		for(Quiz quiz : quizzen){
+			lijnen.add(MaakLijnVanObject(quiz));
+		}
+		try {
+			schrijven(lijnen);
+		} catch (Exception e) {
+			throw new Exception("Probleem opgetreden met schrijven van file");
+		}
+	}
+	
+	public static void main(String[] args){
+		QuizCatalogus cq = new QuizCatalogus();
+		cq.lezen();
+		System.out.println(cq.quizzen.get(0).getDatumRegistratie());
+		System.out.println(cq);
 	}
 }
