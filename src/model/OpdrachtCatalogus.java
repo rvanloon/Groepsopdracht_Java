@@ -5,6 +5,10 @@ import java.util.Collections;
 import java.util.Hashtable;
 import java.util.Iterator;
 
+import com.sun.xml.internal.ws.api.model.wsdl.WSDLBoundOperation.ANONYMOUS;
+
+import utils.Datum;
+
 /**
  * 
  * @author rvanloon
@@ -25,9 +29,9 @@ public class OpdrachtCatalogus extends FileContainer implements
 	}
 
 	/**
-	 * Geeft een arraylist terug met alle opdrachten.
+	 * Geeft een Hashtable terug met alle opdrachten.
 	 * 
-	 * @return arraylist<Opdracht>
+	 * @return Hashtable<int, Opdracht>
 	 */
 	public Hashtable<Integer, Opdracht> getOpdrachten() {
 		return opdrachten;
@@ -88,48 +92,128 @@ public class OpdrachtCatalogus extends FileContainer implements
 		opdrachten.remove(opdracht.getKey());
 	}
 
+	/**
+	 * Geeft een opdracht uit de catalogus met de juiste id.
+	 * @param id
+	 * @return
+	 */
+	public Opdracht getOpdrachtById(int id) {
+		if (opdrachten.containsKey(id)) {
+			return opdrachten.get(id);
+		} else {
+			throw new IllegalArgumentException("Deze id bestaat niet");
+		}
+	}
+
+	/**
+	 * Maakt een nieuw opdrachtobject met de meegeleverde velden en voegt die
+	 * toe aan de catalogus.
+	 */
 	@Override
 	public void maakObjectVanLijn(String[] velden) {
-		// TODO Auto-generated method stub
+		try {
+			String type = velden[0];
+			int id = Integer.parseInt(velden[1]);
+			String vraag = velden[2];
+			String antwoord = velden[3];
+			Leraar auteur = Leraar.valueOf(velden[4]);
+			OpdrachtCategorie categorie = OpdrachtCategorie.valueOf(velden[5]);
+			String[] datumString = velden[6].split(" ");
+			int maxAantalPogingen = Integer.parseInt(velden[7]);
+			int maxAtwoordtijd = Integer.parseInt(velden[8]);
+			String[] hints = velden[9].split("§");
+
+			String[] keuzes = type.equals("Meerkeuze") ? velden[10].split("§")
+					: null;
+			Boolean inJuisteVolgorde = type.equals("Opsomming")
+					&& velden[10].equals("true") ? true : false;
+
+		} catch (Exception e) {
+			throw new IllegalArgumentException("de velden voldoen niet");
+		}
 
 	}
 
 	/**
-	 * geeft een string met alle waarden van de meegegeven opdracht om deze te
+	 * geeft een string met alle waarden van de meegegeven opdracht om deze weg
+	 * te schrijven.
 	 * 
 	 * @param o
 	 * @return
 	 */
 	@Override
 	public String MaakLijnVanObject(Object o) {
-		if (!(o.getClass().equals(Opdracht.class))) {
+		if (o == null) {
+			throw new IllegalArgumentException("o mag niet null zijn");
+		}
+		if (!(o instanceof Opdracht)) {
 			throw new IllegalArgumentException(
 					"Meegeleverde object moet een opdracht zijn");
 		}
 
 		Opdracht opdracht;
 		String lijn = "";
+		// Eerst type wegschrijven
+		lijn += o.getClass().getSimpleName() + splitteken;
 
+		// Dan alle algemene velden wegschrijven
 		opdracht = (Opdracht) o;
 
-		lijn = lijn + opdracht.getKey() + splitteken;
-		lijn = lijn + opdracht.getVraag() + splitteken;
-		lijn = lijn + opdracht.getJuisteAntwoord() + splitteken;
-		lijn = lijn + opdracht.getJuisteAntwoord() + splitteken;
-		//TODO verder aanvullen.
+		lijn += opdracht.getKey() + splitteken;
+		lijn += opdracht.getVraag() + splitteken;
+		lijn += opdracht.getJuisteAntwoord() + splitteken;
+		lijn += opdracht.getAuteur() + splitteken;
+		lijn += opdracht.getCategorie() + splitteken;
+		lijn += opdracht.getDatumRegistratie() + splitteken;
+		lijn += opdracht.getMaxAantalPogingen() + splitteken;
+		lijn += opdracht.getMaxAntwoordTijd() + splitteken;
+		String s = "";
+		for (String antwoordhint : opdracht.getAntwoordHints()) {
+			s += antwoordhint + "§";
+		}
+		lijn += s.length() < 1 ? splitteken : s.substring(0, s.length() - 1)
+				+ splitteken;
+
+		// Nu alle overervende elementen wegschrijven.
+		if (opdracht instanceof Meerkeuze) {
+			s = "";
+			for (String keuze : ((Meerkeuze) opdracht).getKeuzes()) {
+				s += keuze + "§";
+			}
+			lijn += s.length() < 1 ? splitteken : s
+					.substring(0, s.length() - 1) + splitteken;
+		}
+
+		if (opdracht instanceof Opsomming) {
+			lijn += ((Opsomming) opdracht).isInJuisteVolgorde();
+		}
+
+		if (opdracht instanceof Reproductie) {
+			s = "";
+			for (String trefwoord : ((Reproductie) opdracht).getTrefwoorden()) {
+				s += trefwoord + "§";
+			}
+			lijn += s.length() < 1 ? splitteken : s
+					.substring(0, s.length() - 1) + splitteken;
+			lijn += ((Reproductie) opdracht).getMinAantalJuisteTrefwoorden();
+		}
 
 		return lijn;
 	}
 
 	@Override
 	public String getFile() {
-		return "bestanden\\opdrachten.txt";
+		return "TextFiles\\Opdrachtcatalogus.txt";
 	}
 
+	/**
+	 * Maakt een nieuw opdrachtobject met de meegeleverde string en voegt die
+	 * toe aan de catalogus.
+	 */
 	@Override
 	public void toevoegenLijn(String lijn) {
-		// TODO Auto-generated method stub
-
+		String[] velden = lijn.split(splitteken);
+		maakObjectVanLijn(velden);
 	}
 
 	/**
@@ -207,7 +291,41 @@ public class OpdrachtCatalogus extends FileContainer implements
 	}
 
 	public static void main(String[] args) {
+		Opdracht o1 = new Opdracht("aaa", "bbb",
+				OpdrachtCategorie.algemeneKennis, Leraar.Alain, new Datum());
 
+		Opdracht o2 = new Opdracht("cccc", "dddd",
+				OpdrachtCategorie.FranseTaal, Leraar.Sven, new Datum());
+		o2.addAntwoordHint("na de c");
+		o2.addAntwoordHint("voor de e");
+
+		Meerkeuze o3 = new Meerkeuze("ooo", "xxx", OpdrachtCategorie.rekenen,
+				Leraar.Robrecht, new Datum());
+		o3.voegKeuzeToe("YYY");
+		o3.voegKeuzeToe("xxx");
+
+		Reproductie o4 = new Reproductie("ppp", OpdrachtCategorie.FranseTaal,
+				Leraar.Alain, new Datum(), 4);
+		o4.VoegTrefwoordToe("jn");
+		o4.VoegTrefwoordToe("ok");
+		o4.VoegTrefwoordToe("sdse");
+
+		Opsomming o5 = new Opsomming("lplp", "aaa;bbb;ccc", true,
+				OpdrachtCategorie.NederlandseTaal, Leraar.Sven, new Datum());
+
+		OpdrachtCatalogus cat = new OpdrachtCatalogus();
+		cat.addOpdracht(o1);
+		cat.addOpdracht(o2);
+		cat.addOpdracht(o3);
+		cat.addOpdracht(o4);
+		cat.addOpdracht(o5);
+
+		try {
+			cat.schrijfCatalogusNaarFile();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 }
