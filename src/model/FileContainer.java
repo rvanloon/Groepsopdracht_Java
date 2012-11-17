@@ -18,7 +18,11 @@ public abstract class FileContainer {
 	
 	public static final String splitteken = "#";
 
-	public void lezen() {
+	/**
+	 * Leest de lijnen uit een textfile en geeft deze door voor omzetting naar objecten.
+	 * @throws Exception
+	 */
+	public void lezen() throws Exception {
 		try {
 			File file = new File(getFile());
 			BufferedReader reader = new BufferedReader(new FileReader(file));
@@ -28,9 +32,15 @@ public abstract class FileContainer {
 			}
 			reader.close();
 		} catch (Exception ex) {
+			throw ex;
 		}
 	}
 
+	/**
+	 * Schrijft een arraylist van lijnen weg naar een textfile
+	 * @param lijnen
+	 * @throws Exception
+	 */
 	public void schrijven(ArrayList<String> lijnen) throws Exception {
 		Formatter schrijver = null;
 
@@ -43,6 +53,8 @@ public abstract class FileContainer {
 			for (String s : lijnen) {
 				schrijver.format("%s%n", s);
 			}
+			// "EINDE" toevoegen
+			schrijver.format("%s", "EINDE");
 		} catch (SecurityException ex) {
 			throw new Exception("Geen schrijftoegeang tot bestand");
 		} catch (FileNotFoundException ex) {

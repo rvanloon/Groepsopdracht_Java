@@ -1,5 +1,11 @@
-Opsomming#5#lplp#aaa;bbb;ccc#Sven#NederlandseTaal#17 november 2012#1#0##true
-Reproductie#4#ppp#ZIE TREFWOORDEN#Alain#FranseTaal#17 november 2012#1#0##jn§ok§sdse#4
-Meerkeuze#3#ooo#xxx#Robrecht#rekenen#17 november 2012#1#0##YYY§xxx#
-Opdracht#2#cccc#dddd#Sven#FranseTaal#17 november 2012#1#0#na de c§voor de e#
-Opdracht#1#aaa#bbb#Alain#algemeneKennis#17 november 2012#1#0##
+Opsomming#10#lplp#aaa;bbb;ccc#Sven#NederlandseTaal#17 november 2012#1#4##true# 
+Reproductie#9#ppp#ZIE TREFWOORDEN#Alain#FranseTaal#17 november 2012#1#4##jn§ok§sdse#4# 
+Meerkeuze#8#ooo#xxx#Robrecht#rekenen#17 november 2012#1#4##YYY§xxx# 
+Opdracht#7#cccc#dddd#Sven#FranseTaal#17 november 2012#1#4#na de c§voor de e# 
+Opdracht#6#aaa#bbb#Alain#algemeneKennis#17 november 2012#1#4## 
+Opsomming#5#lplp#aaaa;bbb;ccc#Sven#NederlandseTaal#17 november 2012#1#4##true# 
+Reproductie#4#pppp#ZIE TREFWOORDEN#Alain#FranseTaal#17 november 2012#1#4##jn§ok§sdse#4# 
+Meerkeuze#3#oooo#xxx#Robrecht#rekenen#17 november 2012#1#4##YYY§xxx# 
+Opdracht#2#ccccc#dddd#Sven#FranseTaal#17 november 2013#1#4#na de c§voor de e# 
+Opdracht#1#aaaa#bbb#Alain#algemeneKennis#17 november 2012#1#4## 
+EINDE

@@ -5,9 +5,8 @@ import java.util.Collections;
 import java.util.Hashtable;
 import java.util.Iterator;
 
-import com.sun.xml.internal.ws.api.model.wsdl.WSDLBoundOperation.ANONYMOUS;
-
 import utils.Datum;
+import utils.maanden;
 
 /**
  * 
@@ -94,6 +93,7 @@ public class OpdrachtCatalogus extends FileContainer implements
 
 	/**
 	 * Geeft een opdracht uit de catalogus met de juiste id.
+	 * 
 	 * @param id
 	 * @return
 	 */
@@ -112,6 +112,7 @@ public class OpdrachtCatalogus extends FileContainer implements
 	@Override
 	public void maakObjectVanLijn(String[] velden) {
 		try {
+			// Eerst alle velden naar het juiste type omzetten.
 			String type = velden[0];
 			int id = Integer.parseInt(velden[1]);
 			String vraag = velden[2];
@@ -119,17 +120,69 @@ public class OpdrachtCatalogus extends FileContainer implements
 			Leraar auteur = Leraar.valueOf(velden[4]);
 			OpdrachtCategorie categorie = OpdrachtCategorie.valueOf(velden[5]);
 			String[] datumString = velden[6].split(" ");
+			Datum datum = new Datum(Integer.parseInt(datumString[0]),
+					maanden.valueOf(datumString[1]),
+					Integer.parseInt(datumString[2]));
 			int maxAantalPogingen = Integer.parseInt(velden[7]);
 			int maxAtwoordtijd = Integer.parseInt(velden[8]);
 			String[] hints = velden[9].split("§");
 
-			String[] keuzes = type.equals("Meerkeuze") ? velden[10].split("§")
-					: null;
-			Boolean inJuisteVolgorde = type.equals("Opsomming")
-					&& velden[10].equals("true") ? true : false;
+			String[] keuzes = type.equals(Meerkeuze.class.getSimpleName()) ? velden[10]
+					.split("§") : null;
+			Boolean inJuisteVolgorde = type.equals(Opsomming.class
+					.getSimpleName()) && velden[10].equals("true") ? true
+					: false;
+			String[] trefwoorden = type.equals(Reproductie.class
+					.getSimpleName()) ? velden[10].split("§") : null;
+			int minAantalTrefwworden = type.equals(Reproductie.class
+					.getSimpleName()) ? Integer.parseInt(velden[11]) : 0;
+
+			// Het juiste object aanmaken a.h.v. het type en de bijhorende
+			// specifieke velden invullen.
+			Opdracht opdracht;
+
+			if (type.equals(Meerkeuze.class.getSimpleName())) {
+				opdracht = new Meerkeuze(vraag, antwoord, categorie, auteur,
+						datum);
+				for (String keuze : keuzes) {
+					if (!(keuze.equals("")))
+						((Meerkeuze) opdracht).voegKeuzeToe(keuze);
+				}
+
+			} else if (type.equals(Opsomming.class.getSimpleName())) {
+				opdracht = new Opsomming(vraag, antwoord, inJuisteVolgorde,
+						categorie, auteur, datum);
+
+			} else if (type.equals(Reproductie.class.getSimpleName())) {
+				opdracht = new Reproductie(vraag, categorie, auteur, datum,
+						minAantalTrefwworden);
+				for (String trefwoord : trefwoorden) {
+					if (!(trefwoord.equals("")))
+						((Reproductie) opdracht).VoegTrefwoordToe(trefwoord);
+				}
+
+			} else if (type.equals(Opdracht.class.getSimpleName())) {
+				opdracht = new Opdracht(vraag, antwoord, categorie, auteur,
+						datum);
+
+			} else {
+				throw new Exception("type niet ondersteund");
+			}
+
+			// Nu de overige velden invullen;
+			for (String hint : hints) {
+				if (!(hint.equals("")))
+					opdracht.addAntwoordHint(hint);
+			}
+			opdracht.setMaxAantalPogingen(maxAantalPogingen);
+			opdracht.setMaxAntwoordTijd(maxAtwoordtijd);
+			opdracht.setKey(id);
+
+			opdrachten.put(id, opdracht);
 
 		} catch (Exception e) {
-			throw new IllegalArgumentException("de velden voldoen niet");
+			throw new IllegalArgumentException("de velden voldoen niet: \n"
+					+ e.getMessage());
 		}
 
 	}
@@ -185,7 +238,7 @@ public class OpdrachtCatalogus extends FileContainer implements
 		}
 
 		if (opdracht instanceof Opsomming) {
-			lijn += ((Opsomming) opdracht).isInJuisteVolgorde();
+			lijn += ((Opsomming) opdracht).isInJuisteVolgorde() + splitteken;
 		}
 
 		if (opdracht instanceof Reproductie) {
@@ -195,12 +248,20 @@ public class OpdrachtCatalogus extends FileContainer implements
 			}
 			lijn += s.length() < 1 ? splitteken : s
 					.substring(0, s.length() - 1) + splitteken;
-			lijn += ((Reproductie) opdracht).getMinAantalJuisteTrefwoorden();
+			lijn += ((Reproductie) opdracht).getMinAantalJuisteTrefwoorden()
+					+ splitteken;
 		}
+
+		// nog een spatie toevoegen aan het einde van de lijn. Anders wordt het
+		// laatste veld overgeslagen als dit leeg is.
+		lijn += " ";
 
 		return lijn;
 	}
 
+	/**
+	 * Geeft de locatie van een textfile terug die gebruikt wordt als opslag.
+	 */
 	@Override
 	public String getFile() {
 		return "TextFiles\\Opdrachtcatalogus.txt";
@@ -212,8 +273,12 @@ public class OpdrachtCatalogus extends FileContainer implements
 	 */
 	@Override
 	public void toevoegenLijn(String lijn) {
-		String[] velden = lijn.split(splitteken);
-		maakObjectVanLijn(velden);
+		try {
+			String[] velden = lijn.split(splitteken);
+			maakObjectVanLijn(velden);
+		} catch (Exception e) {
+			throw new IllegalArgumentException("Fout bij deze lijn: \n" + lijn);
+		}
 	}
 
 	/**
@@ -291,34 +356,47 @@ public class OpdrachtCatalogus extends FileContainer implements
 	}
 
 	public static void main(String[] args) {
-		Opdracht o1 = new Opdracht("aaa", "bbb",
-				OpdrachtCategorie.algemeneKennis, Leraar.Alain, new Datum());
-
-		Opdracht o2 = new Opdracht("cccc", "dddd",
-				OpdrachtCategorie.FranseTaal, Leraar.Sven, new Datum());
-		o2.addAntwoordHint("na de c");
-		o2.addAntwoordHint("voor de e");
-
-		Meerkeuze o3 = new Meerkeuze("ooo", "xxx", OpdrachtCategorie.rekenen,
-				Leraar.Robrecht, new Datum());
-		o3.voegKeuzeToe("YYY");
-		o3.voegKeuzeToe("xxx");
-
-		Reproductie o4 = new Reproductie("ppp", OpdrachtCategorie.FranseTaal,
-				Leraar.Alain, new Datum(), 4);
-		o4.VoegTrefwoordToe("jn");
-		o4.VoegTrefwoordToe("ok");
-		o4.VoegTrefwoordToe("sdse");
-
-		Opsomming o5 = new Opsomming("lplp", "aaa;bbb;ccc", true,
-				OpdrachtCategorie.NederlandseTaal, Leraar.Sven, new Datum());
 
 		OpdrachtCatalogus cat = new OpdrachtCatalogus();
-		cat.addOpdracht(o1);
-		cat.addOpdracht(o2);
-		cat.addOpdracht(o3);
-		cat.addOpdracht(o4);
-		cat.addOpdracht(o5);
+		try {
+			cat.lezen();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+//		Opdracht o1 = new Opdracht("aaa", "bbb",
+//				OpdrachtCategorie.algemeneKennis, Leraar.Alain, new Datum());
+//
+//		Opdracht o2 = new Opdracht("cccc", "dddd",
+//				OpdrachtCategorie.FranseTaal, Leraar.Sven, new Datum());
+//		o2.addAntwoordHint("na de c");
+//		o2.addAntwoordHint("voor de e");
+//
+//		Meerkeuze o3 = new Meerkeuze("ooo", "xxx", OpdrachtCategorie.rekenen,
+//				Leraar.Robrecht, new Datum());
+//		o3.voegKeuzeToe("YYY");
+//		o3.voegKeuzeToe("xxx");
+//
+//		Reproductie o4 = new Reproductie("ppp", OpdrachtCategorie.FranseTaal,
+//				Leraar.Alain, new Datum(), 4);
+//		o4.VoegTrefwoordToe("jn");
+//		o4.VoegTrefwoordToe("ok");
+//		o4.VoegTrefwoordToe("sdse");
+//
+//		Opsomming o5 = new Opsomming("lplp", "aaa;bbb;ccc", true,
+//				OpdrachtCategorie.NederlandseTaal, Leraar.Sven, new Datum());
+//
+//		// OpdrachtCatalogus cat = new OpdrachtCatalogus();
+//		cat.addOpdracht(o1);
+//		cat.addOpdracht(o2);
+//		cat.addOpdracht(o3);
+//		cat.addOpdracht(o4);
+//		cat.addOpdracht(o5);
+		
+		for (Opdracht opdracht : cat) {
+			opdracht.setMaxAntwoordTijd(opdracht.getMaxAntwoordTijd()+1);
+		}
 
 		try {
 			cat.schrijfCatalogusNaarFile();
@@ -326,6 +404,7 @@ public class OpdrachtCatalogus extends FileContainer implements
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+
 	}
 
 }
