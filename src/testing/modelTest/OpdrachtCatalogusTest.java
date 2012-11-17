@@ -3,12 +3,16 @@ package testing.modelTest;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 import model.Leraar;
+import model.Meerkeuze;
 import model.Opdracht;
 import model.OpdrachtCatalogus;
 import model.OpdrachtCategorie;
+import model.Opsomming;
 import model.Quiz;
 import model.QuizOpdracht;
+import model.Reproductie;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -45,8 +49,8 @@ public class OpdrachtCatalogusTest {
 
 	@Test
 	public void test_GetOpdrachten_OK() {
-		assertEquals(opdracht1, catalogus.getOpdrachten().get(0));
-		assertEquals(opdracht2, catalogus.getOpdrachten().get(1));
+		assertEquals(opdracht1, catalogus.getOpdrachten().get(opdracht1.getKey()));
+		assertEquals(opdracht2, catalogus.getOpdrachten().get(opdracht2.getKey()));
 	}
 
 	@Test
@@ -110,5 +114,63 @@ public class OpdrachtCatalogusTest {
 	public void test_Clone() throws CloneNotSupportedException {
 		OpdrachtCatalogus catalogus2 = (OpdrachtCatalogus) catalogus.clone();
 		assertEquals(catalogus, catalogus2);
+	}
+
+	@Test
+	public void test_SchrijvenEnLezen_OK() {
+		// Deze test gaat een aantal opdrachten toevoegen aan een catalogus en
+		// deze catalogus wegschrijven.
+		// Dan leest hij de textfile in een nieuwe catalogus in en vergelijkt
+		// de opdrachten van de twee catalogussen.
+		
+		Opdracht o1 = new Opdracht("aaa", "bbb",
+				OpdrachtCategorie.algemeneKennis, Leraar.Alain, new Datum());
+
+		Opdracht o2 = new Opdracht("cccc", "dddd",
+				OpdrachtCategorie.FranseTaal, Leraar.Sven, new Datum());
+		o2.addAntwoordHint("na de c");
+		o2.addAntwoordHint("voor de e");
+
+		Meerkeuze o3 = new Meerkeuze("ooo", "xxx", OpdrachtCategorie.rekenen,
+				Leraar.Robrecht, new Datum());
+		o3.voegKeuzeToe("YYY");
+		o3.voegKeuzeToe("xxx");
+
+		Reproductie o4 = new Reproductie("ppp", OpdrachtCategorie.FranseTaal,
+				Leraar.Alain, new Datum(), 4);
+		o4.VoegTrefwoordToe("jn");
+		o4.VoegTrefwoordToe("ok");
+		o4.VoegTrefwoordToe("sdse");
+
+		Opsomming o5 = new Opsomming("lplp", "aaa;bbb;ccc", true,
+				OpdrachtCategorie.NederlandseTaal, Leraar.Sven, new Datum());
+
+		OpdrachtCatalogus cat1 = new OpdrachtCatalogus();
+		
+		cat1.addOpdracht(o1);
+		cat1.addOpdracht(o2);
+		cat1.addOpdracht(o3);
+		cat1.addOpdracht(o4);
+		cat1.addOpdracht(o5);
+		
+		try {
+			cat1.schrijfCatalogusNaarFile();
+		} catch (Exception e) {
+			fail("Fout bij schrijven");
+			e.printStackTrace();
+		}
+		
+		OpdrachtCatalogus cat2 = new OpdrachtCatalogus();
+		try {
+			cat2.lezen();
+		} catch (Exception e) {
+			fail("Fout bij lezen");
+			e.printStackTrace();
+		}
+		
+		assertEquals(cat2.getOpdrachten().size(), 5);
+		for (Opdracht opdracht : cat1) {
+			assertEquals(opdracht, cat2.getOpdrachtById(opdracht.getKey()));
+		}
 	}
 }
