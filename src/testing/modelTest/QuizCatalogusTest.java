@@ -7,12 +7,18 @@ import static org.junit.Assert.assertTrue;
 import java.util.ArrayList;
 
 import model.Leraar;
+import model.Opdracht;
+import model.OpdrachtCatalogus;
+import model.OpdrachtCategorie;
 import model.Quiz;
 import model.QuizCatalogus;
+import model.QuizOpdracht;
 import model.QuizStatus;
 
 import org.junit.Before;
 import org.junit.Test;
+
+import utils.Datum;
 
 public class QuizCatalogusTest {
 	QuizCatalogus catalogus;
@@ -129,6 +135,19 @@ public class QuizCatalogusTest {
 	
 	@Test
 	public void test_SchrijfCatalogusNaarFile() throws Exception{
+		Opdracht opdracht = new Opdracht("Welke zee grenst aan Belgie?", "Noordzee",
+				OpdrachtCategorie.algemeneKennis, Leraar.Alain, new Datum(20,
+						10, 2012));
+		Opdracht opdracht2 = new Opdracht("Wat is de hoofdstad van Belgie?", "Brussel", 
+				OpdrachtCategorie.algemeneKennis, Leraar.Alain, new Datum(20,10,2012));
+		OpdrachtCatalogus opdrachtCat = new OpdrachtCatalogus();
+		opdrachtCat.addOpdracht(opdracht);
+		opdrachtCat.addOpdracht(opdracht2);
+		int maxScore = 5;
+		QuizOpdracht.koppelOpdrachtAanQuiz(quiz1, opdracht, maxScore);
+		QuizOpdracht.koppelOpdrachtAanQuiz(quiz1, opdracht2, maxScore);
+		QuizOpdracht.koppelOpdrachtAanQuiz(quiz2, opdracht, maxScore);
+		QuizOpdracht.koppelOpdrachtAanQuiz(quiz2, opdracht2, maxScore);
 		catalogus.schrijfCatalogusNaarFile();
 	}
 	

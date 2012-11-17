@@ -3,8 +3,6 @@ package model;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-import javax.net.ssl.SSLEngineResult.Status;
-
 import utils.Datum;
 import utils.maanden;
 
@@ -217,9 +215,12 @@ public class QuizCatalogus extends FileContainer implements Iterable<Quiz>, Clon
 		quizString += s.substring(0, s.length() -1) + splitteken;
 		quizString += quiz.getDatumRegistratie() + splitteken;
 		quizString += quiz.getStatus() + splitteken;
-		//TODO quizopdrachten, verwijzing naar opdracht nodig				
+		for(QuizOpdracht qo : quiz.getOpdrachten()){
+			quizString += qo.getOpdracht().getKey()+","+qo.getMaxScore()+";";
+		}
 		return quizString;
 	}
+	
 
 	@Override
 	public void schrijfCatalogusNaarFile() throws Exception {
