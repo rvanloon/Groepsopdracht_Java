@@ -191,6 +191,12 @@ public class QuizCatalogus extends FileContainer implements Iterable<Quiz>, Clon
 		String[] datumString = velden[4].split(" ");
 		quiz.setDatumRegistratie(new Datum(Integer.parseInt(datumString[0]), maanden.valueOf(datumString[1]), Integer.parseInt(datumString[2])));
 		quiz.setStatus(QuizStatus.valueOf(velden[5]));
+		String[] qoString = velden[6].split(";");
+		for(String s : qoString){
+			String[] qoSplitString = s.split(",");
+			int key = Integer.parseInt(qoSplitString[0]);
+			int score = Integer.parseInt(qoSplitString[1]);
+		}
 		quizzen.add(quiz);
 		
 	}
@@ -208,16 +214,18 @@ public class QuizCatalogus extends FileContainer implements Iterable<Quiz>, Clon
 		quizString += quiz.getOnderwerp() + splitteken;
 		quizString += quiz.getAuteur() + splitteken;
 		quizString += quiz.getIsTest() + splitteken;
-		String s = "";
+		String leerjarenString = "";
 		for(int i : quiz.getLeerjaren()){
-			s += i + ",";
+			leerjarenString += i + ",";
 		}
-		quizString += s.substring(0, s.length() -1) + splitteken;
+		quizString += leerjarenString.substring(0, leerjarenString.length() -1) + splitteken;
 		quizString += quiz.getDatumRegistratie() + splitteken;
 		quizString += quiz.getStatus() + splitteken;
+		String qoString = "";
 		for(QuizOpdracht qo : quiz.getOpdrachten()){
-			quizString += qo.getOpdracht().getKey()+","+qo.getMaxScore()+";";
+			qoString += qo.getOpdracht().getKey()+","+qo.getMaxScore()+";";
 		}
+		quizString += qoString.substring(0, qoString.length() - 1) + splitteken;
 		return quizString;
 	}
 	
