@@ -66,11 +66,23 @@ public abstract class FileContainer {
 			}
 		}
 	}
-
+	
+	/**
+	 * Geeft de locatie van de textfile waar de objecten worden weggeschreven  
+	 * @return String lijn
+	 */
 	public abstract String getFile();
-
+	
+	/**
+	 * Maakt een object aan aan de hand van de meegeleverde string en voert deze toe aan de catalogus
+	 * @param String lijn
+	 */
 	public abstract void toevoegenLijn(String lijn);
 	
+	/**
+	 * Schrijft de inhoud van een catalogus weg naar een file
+	 * @throws Exception
+	 */
 	public abstract void schrijfCatalogusNaarFile() throws Exception;
 
 }

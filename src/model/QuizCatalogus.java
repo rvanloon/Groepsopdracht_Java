@@ -100,7 +100,10 @@ public class QuizCatalogus extends FileContainer implements Iterable<Quiz>, Clon
 		}
 		return test;
 	}
-	
+	/*
+	 * (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
 	@Override
 	public String toString(){
 		String output = "";
@@ -163,18 +166,30 @@ public class QuizCatalogus extends FileContainer implements Iterable<Quiz>, Clon
 	public Iterator<Quiz> iterator() {
 		return quizzen.iterator();
 	}
-
+	
+	/*
+	 * (non-Javadoc)
+	 * @see model.FileContainer#getFile()
+	 */
 	@Override
 	public String getFile() {
 		return "TextFiles\\QuizCatalogus.txt";
 	}
-
+	
+	/*
+	 * (non-Javadoc)
+	 * @see model.FileContainer#toevoegenLijn(java.lang.String)
+	 */
 	@Override
 	public void toevoegenLijn(String lijn) {
 		String[] velden = lijn.split(splitteken);
 		maakObjectVanLijn(velden);		
 	}
 	
+	/*
+	 * (non-Javadoc)
+	 * @see model.PersisteerbaarAlsTekst#maakObjectVanLijn(java.lang.String[])
+	 */
 	@Override
 	public void maakObjectVanLijn(String[] velden)  {
 		if(velden == null){
@@ -213,6 +228,10 @@ public class QuizCatalogus extends FileContainer implements Iterable<Quiz>, Clon
 		}		
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * @see model.PersisteerbaarAlsTekst#MaakLijnVanObject(java.lang.Object)
+	 */
 	@Override
 	public String MaakLijnVanObject(Object o) throws IllegalArgumentException{
 		if(o == null){
@@ -241,7 +260,10 @@ public class QuizCatalogus extends FileContainer implements Iterable<Quiz>, Clon
 		return quizString;
 	}
 	
-
+	/*
+	 * (non-Javadoc)
+	 * @see model.FileContainer#schrijfCatalogusNaarFile()
+	 */
 	@Override
 	public void schrijfCatalogusNaarFile() throws Exception {
 		ArrayList<String> lijnen = new ArrayList<String>();
