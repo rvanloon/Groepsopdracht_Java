@@ -81,7 +81,7 @@ public class Test {
 		cat2.schrijfCatalogusNaarFile();
 		quizCat2.schrijfCatalogusNaarFile();
 		
-		//System.out.println(quizCat1.equals(quizCat2));
+		System.out.println(quizCat1.equals(quizCat2));
 
 	}
 
