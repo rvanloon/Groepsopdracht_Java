@@ -34,7 +34,7 @@ public class DatumTest {
 		datumVandaag = new Datum();
 
 		// Aanpassen alvorens de tests te runnen
-		vandaagInEuropeesFormaat = "16/11/2012";
+		vandaagInEuropeesFormaat = "19/11/2012";
 
 	}
 

@@ -228,7 +228,8 @@ public class Opdracht implements Comparable<Opdracht> {
 	}
 
 	/**
-	 * @param key the key to set
+	 * @param key
+	 *            the key to set
 	 */
 	public void setKey(int key) {
 		this.key = key;
@@ -322,8 +323,9 @@ public class Opdracht implements Comparable<Opdracht> {
 		return true;
 	}
 
-	
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.lang.Object#hashCode()
 	 */
 	@Override
@@ -348,7 +350,9 @@ public class Opdracht implements Comparable<Opdracht> {
 		return result;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
 	@Override
@@ -393,6 +397,7 @@ public class Opdracht implements Comparable<Opdracht> {
 				return false;
 		} else if (!vraag.equals(other.vraag))
 			return false;
+
 		return true;
 	}
 
