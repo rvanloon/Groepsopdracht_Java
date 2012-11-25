@@ -206,9 +206,9 @@ public class QuizOpdracht {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + maxScore;
-//		result = prime * result
-//				+ ((opdracht == null) ? 0 : opdracht.hashCode());
-//		result = prime * result + ((quiz == null) ? 0 : quiz.hashCode());
+		result = prime * result
+				+ ((opdracht == null) ? 0 : opdracht.hashCode());
+		result = prime * result + ((quiz == null) ? 0 : quiz.hashCode());
 		return result;
 	}
 
@@ -228,16 +228,16 @@ public class QuizOpdracht {
 		QuizOpdracht other = (QuizOpdracht) obj;
 		if (maxScore != other.maxScore)
 			return false;
-//		if (opdracht == null) {
-//			if (other.opdracht != null)
-//				return false;
-//		} else if (!opdracht.equals(other.opdracht))
-//			return false;
-//		if (quiz == null) {
-//			if (other.quiz != null)
-//				return false;
-//		} else if (!quiz.equals(other.quiz))
-//			return false;
+		if (opdracht == null) {
+			if (other.opdracht != null)
+				return false;
+		} else if (!opdracht.equals(other.opdracht))
+			return false;
+		if (quiz == null) {
+			if (other.quiz != null)
+				return false;
+		} else if (!quiz.equals(other.quiz))
+			return false;
 		return true;
 	}
 

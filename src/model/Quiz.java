@@ -385,8 +385,8 @@ public class Quiz implements Cloneable, Comparable<Quiz> {
 				+ ((leerjaren == null) ? 0 : leerjaren.hashCode());
 		result = prime * result
 				+ ((onderwerp == null) ? 0 : onderwerp.hashCode());
-		result = prime * result
-				+ ((opdrachten == null) ? 0 : opdrachten.hashCode());
+//		result = prime * result
+//				+ ((opdrachten == null) ? 0 : opdrachten.hashCode());
 		result = prime
 				* result
 				+ ((datumRegistratie == null) ? 0 : datumRegistratie.hashCode());
@@ -420,11 +420,11 @@ public class Quiz implements Cloneable, Comparable<Quiz> {
 				return false;
 		} else if (!onderwerp.equals(other.onderwerp))
 			return false;
-		if (opdrachten == null) {
-			if (other.opdrachten != null)
-				return false;
-		} else if (!opdrachten.equals(other.opdrachten))
-			return false;
+//		if (opdrachten == null) {
+//			if (other.opdrachten != null)
+//				return false;
+//		} else if (!opdrachten.equals(other.opdrachten))
+//			return false;
 		if (datumRegistratie == null) {
 			if (other.datumRegistratie != null)
 				return false;

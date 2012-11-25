@@ -344,8 +344,8 @@ public class Opdracht implements Comparable<Opdracht> {
 				+ ((juisteAntwoord == null) ? 0 : juisteAntwoord.hashCode());
 		result = prime * result + maxAantalPogingen;
 		result = prime * result + maxAntwoordTijd;
-		result = prime * result
-				+ ((quizOpdracten == null) ? 0 : quizOpdracten.hashCode());
+//		result = prime * result
+//				+ ((quizOpdracten == null) ? 0 : quizOpdracten.hashCode());
 		result = prime * result + ((vraag == null) ? 0 : vraag.hashCode());
 		return result;
 	}
@@ -387,11 +387,11 @@ public class Opdracht implements Comparable<Opdracht> {
 			return false;
 		if (maxAntwoordTijd != other.maxAntwoordTijd)
 			return false;
-		if (quizOpdracten == null) {
-			if (other.quizOpdracten != null)
-				return false;
-		} else if (!quizOpdracten.equals(other.quizOpdracten))
-			return false;
+//		if (quizOpdracten == null) {
+//			if (other.quizOpdracten != null)
+//				return false;
+//		} else if (!quizOpdracten.equals(other.quizOpdracten))
+//			return false;
 		if (vraag == null) {
 			if (other.vraag != null)
 				return false;
