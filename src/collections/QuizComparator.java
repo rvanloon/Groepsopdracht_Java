@@ -4,17 +4,15 @@ import java.util.Comparator;
 
 import model.Quiz;
 
-public class QuizComparator implements Comparator {
+public class QuizComparator implements Comparator<Quiz> {
 
 	@Override
-	public int compare(Object o1, Object o2) {
-		Quiz quiz1 = (Quiz) o1;
-		Quiz quiz2 = (Quiz) o2;
+	public int compare(Quiz o1, Quiz o2) {
 		int result;
-		
-		result = quiz1.getOpdrachten().size() - quiz1.getOpdrachten().size();
+
+		result = o1.getOpdrachten().size() - o2.getOpdrachten().size();
 		if (result == 0) {
-			result = quiz1.getOnderwerp().compareTo(quiz2.getOnderwerp());
+			result = o1.getOnderwerp().compareTo(o2.getOnderwerp());
 		}
 		return result;
 	}
