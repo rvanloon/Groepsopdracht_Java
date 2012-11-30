@@ -387,15 +387,17 @@ public class Opdracht implements Comparable<Opdracht> {
 			return false;
 		if (maxAntwoordTijd != other.maxAntwoordTijd)
 			return false;
-//		if (quizOpdracten == null) {
-//			if (other.quizOpdracten != null)
-//				return false;
-//		} else if (!quizOpdracten.equals(other.quizOpdracten))
-//			return false;
+		if (quizOpdracten == null) {
+			if (other.quizOpdracten != null)
+				return false;
+		} else if (!quizOpdracten.equals(other.quizOpdracten))
+			return false;
 		if (vraag == null) {
 			if (other.vraag != null)
 				return false;
 		} else if (!vraag.equals(other.vraag))
+			return false;
+		if (key != other.key)
 			return false;
 
 		return true;
@@ -421,7 +423,7 @@ public class Opdracht implements Comparable<Opdracht> {
 	 */
 	@Override
 	public String toString() {
-		return vraag;
+		return String.format("|%1$-25s |%2$-10s |%3$-10s |\n", vraag, getClass().getSimpleName(), categorie);
 	}
 
 	/**
@@ -440,7 +442,8 @@ public class Opdracht implements Comparable<Opdracht> {
 	}
 
 	public static void main(String[] args) {
-
+			Opdracht o = new Opdracht("aaaa", "bbbbb", OpdrachtCategorie.NederlandseTaal, Leraar.Robrecht, new Datum());
+			System.out.println(o);
 	}
 
 }

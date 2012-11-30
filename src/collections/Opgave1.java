@@ -1,6 +1,8 @@
 package collections ;
 import java.util.*;
 import java.util.Map.Entry;
+
+import view.IO;
 public class Opgave1 {
 
 	/**

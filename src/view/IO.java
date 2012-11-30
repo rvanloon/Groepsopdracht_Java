@@ -1,4 +1,4 @@
-package collections ;
+package view ;
 
 import java.io.*;
 import javax.swing.JOptionPane;

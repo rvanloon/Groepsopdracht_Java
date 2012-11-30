@@ -80,6 +80,33 @@ public class Quiz implements Cloneable, Comparable<Quiz> {
 			}
 		}
 	}
+	
+	/**
+	 * Functie om de leerjaren mee te geven waar de quiz voor bedoeld is. Alle
+	 * leerjaren moeten meegegeven worden.
+	 * 
+	 * @param leerjaren
+	 *            ArrayList<Integer>
+	 * @throws IllegalArgumentException
+	 *             wanneer de meegegen int array null is, of de meegegeven
+	 *             leerjaren kleiner dan nul of groter dan zes
+	 */
+	public void setLeerjaren(ArrayList<Integer> leerjaren) throws IllegalArgumentException {
+		if (leerjaren == null) {
+			throw new IllegalArgumentException(
+					"Aantal leerjaren mag niet null zijn");
+		}
+		this.leerjaren.clear();
+		for (int jaar : leerjaren) {
+			if (jaar < 1 || jaar > 6) {
+				throw new IllegalArgumentException(
+						"De waarde voor de leerjaren moet tussen 1 en 6 liggen");
+			}
+			if (!this.leerjaren.contains(jaar)) {
+				this.leerjaren.add(jaar);
+			}
+		}
+	}
 
 	/**
 	 * Geeft de auteur terug die de quiz opgesteld heeft
@@ -187,7 +214,7 @@ public class Quiz implements Cloneable, Comparable<Quiz> {
 	 * 
 	 * @return List QuizOpdrachten
 	 */
-	public List<QuizOpdracht> getOpdrachten() {
+	public ArrayList<QuizOpdracht> getOpdrachten() {
 		return opdrachten;
 	}
 
@@ -255,6 +282,15 @@ public class Quiz implements Cloneable, Comparable<Quiz> {
 		this.opdrachten = new ArrayList<QuizOpdracht>();
 		this.setStatus(QuizStatus.InConstructie);
 		this.setDatumRegistratie(new Datum());
+		quizDeelnames = new ArrayList<QuizDeelname>();
+	}
+
+	/**
+	 * Default constuctor
+	 */
+	public Quiz() {
+		this.opdrachten = new ArrayList<QuizOpdracht>();
+		this.leerjaren = new ArrayList<Integer>();
 		quizDeelnames = new ArrayList<QuizDeelname>();
 	}
 
@@ -365,6 +401,18 @@ public class Quiz implements Cloneable, Comparable<Quiz> {
 		}
 		return somScore / aantalDeelnames;
 	}
+	
+	/**
+	 * Geeft de maximumscore terug die op de quiz kan behaalt worden.
+	 * @return
+	 */
+	public int getTotaleMaximumScore(){
+		int somScore = 0;
+		for (QuizOpdracht qo : opdrachten) {
+			somScore += qo.getMaxScore();
+		}
+		return somScore;
+	}
 
 	/**
 	 * Geeft een string terug die de opdracht beschrijft in de vorm
@@ -385,8 +433,8 @@ public class Quiz implements Cloneable, Comparable<Quiz> {
 				+ ((leerjaren == null) ? 0 : leerjaren.hashCode());
 		result = prime * result
 				+ ((onderwerp == null) ? 0 : onderwerp.hashCode());
-//		result = prime * result
-//				+ ((opdrachten == null) ? 0 : opdrachten.hashCode());
+		// result = prime * result
+		// + ((opdrachten == null) ? 0 : opdrachten.hashCode());
 		result = prime
 				* result
 				+ ((datumRegistratie == null) ? 0 : datumRegistratie.hashCode());
@@ -420,11 +468,11 @@ public class Quiz implements Cloneable, Comparable<Quiz> {
 				return false;
 		} else if (!onderwerp.equals(other.onderwerp))
 			return false;
-//		if (opdrachten == null) {
-//			if (other.opdrachten != null)
-//				return false;
-//		} else if (!opdrachten.equals(other.opdrachten))
-//			return false;
+		// if (opdrachten == null) {
+		// if (other.opdrachten != null)
+		// return false;
+		// } else if (!opdrachten.equals(other.opdrachten))
+		// return false;
 		if (datumRegistratie == null) {
 			if (other.datumRegistratie != null)
 				return false;
