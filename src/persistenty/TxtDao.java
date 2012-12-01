@@ -4,9 +4,6 @@
 package persistenty;
 
 import java.util.ArrayList;
-import java.util.Collection;
-
-import view.IO;
 
 import model.Opdracht;
 import model.OpdrachtCatalogus;
@@ -43,7 +40,9 @@ public class TxtDao implements QuizapplicatieDAO {
 	 * @throws Exception
 	 */
 	public static QuizapplicatieDAO getInstance() throws Exception {
-		return txtDao == null ? new TxtDao() : txtDao;
+		if (txtDao == null)
+			txtDao = new TxtDao();
+		return txtDao;
 	}
 
 	/**
