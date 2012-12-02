@@ -1,9 +1,14 @@
 package collections;
 
-import model.*;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
 
-import java.util.*;
-
+import model.Leraar;
+import model.Opdracht;
+import model.OpdrachtCategorie;
+import model.Quiz;
+import model.QuizOpdracht;
 import utils.Datum;
 
 public class Opgave2 {
@@ -45,7 +50,7 @@ public class Opgave2 {
 				.getOpdrachten();
 		ArrayList<QuizOpdracht> opdrachtenQuiz2 = (ArrayList<QuizOpdracht>) quiz2
 				.getOpdrachten();
-		
+
 		Set<Opdracht> opdrachtenVanQuiz1 = new HashSet<Opdracht>();
 		Set<Opdracht> opdrachtenVanQuiz2 = new HashSet<Opdracht>();
 

@@ -21,7 +21,7 @@ public class Test {
 	public static void main(String[] args) throws Exception {
 
 		testLezenSchrijven();
-		//magweg();
+		// magweg();
 	}
 
 	public static void testLezenSchrijven() throws Exception {
@@ -80,28 +80,27 @@ public class Test {
 
 		cat2.schrijfCatalogusNaarFile();
 		quizCat2.schrijfCatalogusNaarFile();
-		
+
 		System.out.println(quizCat1.equals(quizCat2));
 
 	}
 
-	public static void magweg(){
-		
+	public static void magweg() {
+
 		QuizCatalogus cat1 = new QuizCatalogus();
 		QuizCatalogus cat2 = new QuizCatalogus();
-		
+
 		Quiz quiz1 = new Quiz("Aardrijkskunde", Leraar.Alain, true, 1, 2, 3);
-		
+
 		Opdracht o1 = new Opdracht("aaa", "bbb",
 				OpdrachtCategorie.algemeneKennis, Leraar.Alain, new Datum());
-		
+
 		QuizOpdracht.koppelOpdrachtAanQuiz(quiz1, o1, 5);
-		//QuizOpdracht.koppelOpdrachtAanQuiz(quiz1, o1, 5);
-		
-		
+		// QuizOpdracht.koppelOpdrachtAanQuiz(quiz1, o1, 5);
+
 		cat1.voegQuizToe(quiz1);
 		cat2.voegQuizToe(quiz1);
-		
+
 		System.out.println(cat1.equals(cat2));
 	}
 }

@@ -97,16 +97,16 @@ public class DatumTest {
 		@SuppressWarnings("unused")
 		Datum d = new Datum("18/feb/1980");
 	}
-	
+
 	@Test
-	public void test_Constructor_int_maanden_int_OK(){
+	public void test_Constructor_int_maanden_int_OK() {
 		Datum d = new Datum(18, maanden.februari, 2012);
-		Datum d2 = new Datum(18,2,2012);
+		Datum d2 = new Datum(18, 2, 2012);
 		assertEquals(d, d2);
 	}
-	
-	@Test (expected = IllegalArgumentException.class)
-	public void test_Constructor_int_maanden_int_Exception_als_maand_null(){
+
+	@Test(expected = IllegalArgumentException.class)
+	public void test_Constructor_int_maanden_int_Exception_als_maand_null() {
 		maanden maand = null;
 		@SuppressWarnings("unused")
 		Datum d = new Datum(18, maand, 2012);

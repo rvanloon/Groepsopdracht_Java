@@ -7,8 +7,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
 
-import javax.swing.DefaultListModel;
-
 import model.Leraar;
 import model.Meerkeuze;
 import model.Opdracht;
@@ -50,19 +48,39 @@ public class ToevoegenQuizController {
 		}
 	}
 
+	/**
+	 * 
+	 * @return een string array, gevuld met 1 tot 6
+	 */
 	public String[] getLeerjaren() {
 		String[] leerjaren = { "1", "2", "3", "4", "5", "6" };
 		return leerjaren;
 	}
 
+	/**
+	 * geeft een array terug met de inhoud van de enum leraars.
+	 * 
+	 * @return
+	 */
 	public String[] getLeeraars() {
 		return enumNameToStringArray(Leraar.values());
 	}
 
+	/**
+	 * geeft een array terug met de inhoud van de enum quizstatussen.
+	 * 
+	 * @return
+	 */
 	public String[] getQuizStatussen() {
 		return enumNameToStringArray(QuizStatus.values());
 	}
 
+	/**
+	 * geeft een array terug met de inhoud van de enum opdrachtcategorie. Voegt
+	 * hier een leeg veld aan toe en sorteert deze alfabetisch.
+	 * 
+	 * @return
+	 */
 	public String[] getOpdrachtCategorieen() {
 		String[] terug = enumNameToStringArray(OpdrachtCategorie.values());
 		terug = Arrays.copyOf(terug, terug.length + 1);
@@ -77,6 +95,11 @@ public class ToevoegenQuizController {
 
 	}
 
+	/**
+	 * Geeft een array terug met de vershillende types opdrachten
+	 * 
+	 * @return
+	 */
 	public String[] getOpdrachttypes() {
 		String[] opdrachtTypes = { null, Opdracht.class.getSimpleName(),
 				Meerkeuze.class.getSimpleName(),
@@ -124,7 +147,7 @@ public class ToevoegenQuizController {
 			opdrachten.remove(opdracht);
 		}
 
-		// nu de opdrachte die reeds aan de quiz gekoppeld zijn uit de lijst
+		// nu de opdrachten die reeds aan de quiz gekoppeld zijn uit de lijst
 		// halen.
 		teVerwijderenOpdrachten = getOpdrachtenVanQuiz();
 		for (Opdracht opdracht : teVerwijderenOpdrachten) {
@@ -148,32 +171,31 @@ public class ToevoegenQuizController {
 		return opdrachten;
 	}
 
+	/**
+	 * Herlaad de list met opdrachten in de view.
+	 */
 	public void herlaadOpdrachten() {
 		ArrayList<Opdracht> opdrachten = getOpdrachten();
-		DefaultListModel<Opdracht> model = new DefaultListModel<Opdracht>();
-		for (Opdracht opdracht : opdrachten) {
-			model.addElement(opdracht);
-		}
-		view.getList_Opdrachten().setModel(model);
+		ArrayList<Object> objecten = new ArrayList<Object>(opdrachten);
+		view.vulOpdrachtenIn(objecten);
 	}
 
+	/**
+	 * Herlaad de list met quizopdrachten in de view.
+	 */
 	public void herlaadQuizOpdrachten() {
 		ArrayList<QuizOpdracht> quizOpdrachten = quiz.getOpdrachten();
-		DefaultListModel<QuizOpdracht> model = new DefaultListModel<QuizOpdracht>();
-		for (QuizOpdracht quizOpdracht : quizOpdrachten) {
-			model.addElement(quizOpdracht);
-		}
-		view.getList_QuizOpdrachten().setModel(model);
+		ArrayList<Object> objecten = new ArrayList<Object>(quizOpdrachten);
+		view.vulQuizOpdrachtenIn(objecten);
 		view.setTotaleScore(String.valueOf(quiz.getTotaleMaximumScore()));
 	}
 
 	public void voegOpdrachtToeAanQuiz() {
-		if (view.getList_Opdrachten().getSelectedValue() == null) {
+		if (view.getSelectedOpdracht() == null) {
 			IO.toonStringMetVenster("Gelieve eerst een opdracht te selecteren.");
 			return;
 		}
-		Opdracht opdracht = (Opdracht) view.getList_Opdrachten()
-				.getSelectedValue();
+		Opdracht opdracht = (Opdracht) view.getSelectedOpdracht();
 
 		int score;
 		try {
@@ -190,12 +212,11 @@ public class ToevoegenQuizController {
 	}
 
 	public void verwijderOpdrachtVanQuiz() {
-		if (view.getList_QuizOpdrachten().getSelectedValue() == null) {
+		if (view.getSelectedQuizOpdracht() == null) {
 			IO.toonStringMetVenster("Gelieve eerst een opdracht te selecteren.");
 			return;
 		}
-		QuizOpdracht qo = (QuizOpdracht) view.getList_QuizOpdrachten()
-				.getSelectedValue();
+		QuizOpdracht qo = (QuizOpdracht) view.getSelectedQuizOpdracht();
 		qo.ontKoppelOpdrachtVanQuiz();
 		herlaadOpdrachten();
 		herlaadQuizOpdrachten();

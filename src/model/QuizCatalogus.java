@@ -11,7 +11,8 @@ import utils.maanden;
  * @author sven
  * 
  */
-public class QuizCatalogus extends FileContainer implements Iterable<Quiz>, Cloneable, PersisteerbaarAlsTekst {
+public class QuizCatalogus extends FileContainer implements Iterable<Quiz>,
+		Cloneable, PersisteerbaarAlsTekst {
 
 	private ArrayList<Quiz> quizzen;
 
@@ -100,22 +101,25 @@ public class QuizCatalogus extends FileContainer implements Iterable<Quiz>, Clon
 		}
 		return test;
 	}
+
 	/*
 	 * (non-Javadoc)
+	 * 
 	 * @see java.lang.Object#toString()
 	 */
 	@Override
-	public String toString(){
+	public String toString() {
 		String output = "";
-		for (Quiz quiz : quizzen){
+		for (Quiz quiz : quizzen) {
 			output += quiz + "\n";
 		}
 		return output;
 	}
-	
+
 	/*
 	 * 
 	 * (non-Javadoc)
+	 * 
 	 * @see java.lang.Object#hashCode()
 	 */
 	@Override
@@ -125,9 +129,10 @@ public class QuizCatalogus extends FileContainer implements Iterable<Quiz>, Clon
 		result = prime * result + ((quizzen == null) ? 0 : quizzen.hashCode());
 		return result;
 	}
-	
+
 	/*
 	 * (non-Javadoc)
+	 * 
 	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
 	@Override
@@ -149,6 +154,7 @@ public class QuizCatalogus extends FileContainer implements Iterable<Quiz>, Clon
 
 	/*
 	 * (non-Javadoc)
+	 * 
 	 * @see java.lang.Object#clone()
 	 */
 	@Override
@@ -157,66 +163,73 @@ public class QuizCatalogus extends FileContainer implements Iterable<Quiz>, Clon
 		catalogusClone.setQuizzen(this.getQuizzen());
 		return catalogusClone;
 	}
-	
+
 	/*
 	 * (non-Javadoc)
+	 * 
 	 * @see java.lang.Iterable#iterator()
 	 */
 	@Override
 	public Iterator<Quiz> iterator() {
 		return quizzen.iterator();
 	}
-	
+
 	/*
 	 * (non-Javadoc)
+	 * 
 	 * @see model.FileContainer#getFile()
 	 */
 	@Override
 	public String getFile() {
 		return "TextFiles\\QuizCatalogus.txt";
 	}
-	
+
 	/*
 	 * (non-Javadoc)
+	 * 
 	 * @see model.FileContainer#toevoegenLijn(java.lang.String)
 	 */
 	@Override
 	public void toevoegenLijn(String lijn) {
 		String[] velden = lijn.split(splitteken);
-		maakObjectVanLijn(velden);		
+		maakObjectVanLijn(velden);
 	}
-	
+
 	/*
 	 * (non-Javadoc)
+	 * 
 	 * @see model.PersisteerbaarAlsTekst#maakObjectVanLijn(java.lang.String[])
 	 */
 	@Override
-	public void maakObjectVanLijn(String[] velden)  {
-		if(velden == null){
+	public void maakObjectVanLijn(String[] velden) {
+		if (velden == null) {
 			throw new IllegalArgumentException("Velden mag niet null zijn");
 		}
 		try {
-			//Maken quizobject
+			// Maken quizobject
 			String onderwerp = velden[0];
 			Leraar auteur = Leraar.valueOf(velden[1]);
 			Boolean test = Boolean.parseBoolean(velden[2]);
 			String[] leerjarenString = velden[3].split(",");
 			int[] leerjarenInt = new int[leerjarenString.length];
 			int i = 0;
-			for(String leerjaar : leerjarenString){
+			for (String leerjaar : leerjarenString) {
 				leerjarenInt[i] = Integer.parseInt(leerjaar);
 				i++;
 			}
 			Quiz quiz = new Quiz(onderwerp, auteur, test, leerjarenInt);
 			String[] datumString = velden[4].split(" ");
-			quiz.setDatumRegistratie(new Datum(Integer.parseInt(datumString[0]), maanden.valueOf(datumString[1]), Integer.parseInt(datumString[2])));
+			quiz.setDatumRegistratie(new Datum(
+					Integer.parseInt(datumString[0]), maanden
+							.valueOf(datumString[1]), Integer
+							.parseInt(datumString[2])));
 			quiz.setStatus(QuizStatus.valueOf(velden[5]));
 			quizzen.add(quiz);
-			//maken quizopdrachten
+			// maken quizopdrachten
 			String[] qoString = velden[6].split(";");
 			OpdrachtCatalogus opdrachtenCatalogus = new OpdrachtCatalogus();
 			opdrachtenCatalogus.lezen();
-			for(String quizOpdrachtString : qoString){
+			for (String quizOpdrachtString : qoString) {
 				String[] qoSplitString = quizOpdrachtString.split(",");
 				int key = Integer.parseInt(qoSplitString[0]);
 				int score = Integer.parseInt(qoSplitString[1]);
@@ -224,50 +237,56 @@ public class QuizCatalogus extends FileContainer implements Iterable<Quiz>, Clon
 				QuizOpdracht.koppelOpdrachtAanQuiz(quiz, opdracht, score);
 			}
 		} catch (Exception e) {
-			throw new IllegalArgumentException("Probleem met het aanmaken van de quiz" + e.getMessage());
-		}		
+			throw new IllegalArgumentException(
+					"Probleem met het aanmaken van de quiz" + e.getMessage());
+		}
 	}
 
 	/*
 	 * (non-Javadoc)
+	 * 
 	 * @see model.PersisteerbaarAlsTekst#MaakLijnVanObject(java.lang.Object)
 	 */
 	@Override
-	public String MaakLijnVanObject(Object o) throws IllegalArgumentException{
-		if(o == null){
+	public String MaakLijnVanObject(Object o) throws IllegalArgumentException {
+		if (o == null) {
 			throw new IllegalArgumentException("Quiz mag niet null zijn");
 		}
-		if(!(o instanceof Quiz)){
-			throw new IllegalArgumentException("Meegegeven object moet een quiz zijn");
+		if (!(o instanceof Quiz)) {
+			throw new IllegalArgumentException(
+					"Meegegeven object moet een quiz zijn");
 		}
-		Quiz quiz = (Quiz)o;
+		Quiz quiz = (Quiz) o;
 		String quizString = "";
 		quizString += quiz.getOnderwerp() + splitteken;
 		quizString += quiz.getAuteur() + splitteken;
 		quizString += quiz.getIsTest() + splitteken;
 		String leerjarenString = "";
-		for(int i : quiz.getLeerjaren()){
+		for (int i : quiz.getLeerjaren()) {
 			leerjarenString += i + ",";
 		}
-		quizString += leerjarenString.substring(0, leerjarenString.length() -1) + splitteken;
+		quizString += leerjarenString
+				.substring(0, leerjarenString.length() - 1) + splitteken;
 		quizString += quiz.getDatumRegistratie() + splitteken;
 		quizString += quiz.getStatus() + splitteken;
 		String qoString = "";
-		for(QuizOpdracht qo : quiz.getOpdrachten()){
-			qoString += qo.getOpdracht().getKey()+","+qo.getMaxScore()+";";
+		for (QuizOpdracht qo : quiz.getOpdrachten()) {
+			qoString += qo.getOpdracht().getKey() + "," + qo.getMaxScore()
+					+ ";";
 		}
 		quizString += qoString.substring(0, qoString.length() - 1) + splitteken;
 		return quizString;
 	}
-	
+
 	/*
 	 * (non-Javadoc)
+	 * 
 	 * @see model.FileContainer#schrijfCatalogusNaarFile()
 	 */
 	@Override
 	public void schrijfCatalogusNaarFile() throws Exception {
 		ArrayList<String> lijnen = new ArrayList<String>();
-		for(Quiz quiz : quizzen){
+		for (Quiz quiz : quizzen) {
 			lijnen.add(MaakLijnVanObject(quiz));
 		}
 		try {
@@ -276,27 +295,25 @@ public class QuizCatalogus extends FileContainer implements Iterable<Quiz>, Clon
 			throw new Exception("Probleem opgetreden met schrijven van file");
 		}
 	}
-	
+
 	public static void main(String[] args) {
-		
+
 		QuizCatalogus cq = new QuizCatalogus();
-		
+
 		try {
 			cq.lezen();
 		} catch (Exception e) {
 			System.out.println("Fout: " + e.getMessage());
 		}
-		
+
 		System.out.println(cq);
-		System.out.println(cq.getQuizzen().get(0).getOpdrachten().get(0).getMaxScore());
-		System.out.println(cq.getQuizzen().get(0).getOpdrachten().get(0).getOpdracht().getVraag());
+		System.out.println(cq.getQuizzen().get(0).getOpdrachten().get(0)
+				.getMaxScore());
+		System.out.println(cq.getQuizzen().get(0).getOpdrachten().get(0)
+				.getOpdracht().getVraag());
 		/*
-		OpdrachtCatalogus oc = new OpdrachtCatalogus();
-		try {
-			oc.lezen();
-		} catch (Exception e) {
-			System.out.println();
-		}
-		*/
+		 * OpdrachtCatalogus oc = new OpdrachtCatalogus(); try { oc.lezen(); }
+		 * catch (Exception e) { System.out.println(); }
+		 */
 	}
 }

@@ -365,37 +365,37 @@ public class OpdrachtCatalogus extends FileContainer implements
 			e.printStackTrace();
 		}
 
-//		Opdracht o1 = new Opdracht("aaa", "bbb",
-//				OpdrachtCategorie.algemeneKennis, Leraar.Alain, new Datum());
-//
-//		Opdracht o2 = new Opdracht("cccc", "dddd",
-//				OpdrachtCategorie.FranseTaal, Leraar.Sven, new Datum());
-//		o2.addAntwoordHint("na de c");
-//		o2.addAntwoordHint("voor de e");
-//
-//		Meerkeuze o3 = new Meerkeuze("ooo", "xxx", OpdrachtCategorie.rekenen,
-//				Leraar.Robrecht, new Datum());
-//		o3.voegKeuzeToe("YYY");
-//		o3.voegKeuzeToe("xxx");
-//
-//		Reproductie o4 = new Reproductie("ppp", OpdrachtCategorie.FranseTaal,
-//				Leraar.Alain, new Datum(), 4);
-//		o4.VoegTrefwoordToe("jn");
-//		o4.VoegTrefwoordToe("ok");
-//		o4.VoegTrefwoordToe("sdse");
-//
-//		Opsomming o5 = new Opsomming("lplp", "aaa;bbb;ccc", true,
-//				OpdrachtCategorie.NederlandseTaal, Leraar.Sven, new Datum());
-//
-//		// OpdrachtCatalogus cat = new OpdrachtCatalogus();
-//		cat.addOpdracht(o1);
-//		cat.addOpdracht(o2);
-//		cat.addOpdracht(o3);
-//		cat.addOpdracht(o4);
-//		cat.addOpdracht(o5);
-		
+		// Opdracht o1 = new Opdracht("aaa", "bbb",
+		// OpdrachtCategorie.algemeneKennis, Leraar.Alain, new Datum());
+		//
+		// Opdracht o2 = new Opdracht("cccc", "dddd",
+		// OpdrachtCategorie.FranseTaal, Leraar.Sven, new Datum());
+		// o2.addAntwoordHint("na de c");
+		// o2.addAntwoordHint("voor de e");
+		//
+		// Meerkeuze o3 = new Meerkeuze("ooo", "xxx", OpdrachtCategorie.rekenen,
+		// Leraar.Robrecht, new Datum());
+		// o3.voegKeuzeToe("YYY");
+		// o3.voegKeuzeToe("xxx");
+		//
+		// Reproductie o4 = new Reproductie("ppp", OpdrachtCategorie.FranseTaal,
+		// Leraar.Alain, new Datum(), 4);
+		// o4.VoegTrefwoordToe("jn");
+		// o4.VoegTrefwoordToe("ok");
+		// o4.VoegTrefwoordToe("sdse");
+		//
+		// Opsomming o5 = new Opsomming("lplp", "aaa;bbb;ccc", true,
+		// OpdrachtCategorie.NederlandseTaal, Leraar.Sven, new Datum());
+		//
+		// // OpdrachtCatalogus cat = new OpdrachtCatalogus();
+		// cat.addOpdracht(o1);
+		// cat.addOpdracht(o2);
+		// cat.addOpdracht(o3);
+		// cat.addOpdracht(o4);
+		// cat.addOpdracht(o5);
+
 		for (Opdracht opdracht : cat) {
-			opdracht.setMaxAntwoordTijd(opdracht.getMaxAntwoordTijd()+1);
+			opdracht.setMaxAntwoordTijd(opdracht.getMaxAntwoordTijd() + 1);
 		}
 
 		try {

@@ -7,6 +7,7 @@ import view.Menu;
 
 public class OpstartController {
 	private Menu menu;
+	@SuppressWarnings("unused")
 	private ToevoegenQuizController toevoegenQuizController;
 	private QuizapplicatieDAO quizapplicatieDAO;
 

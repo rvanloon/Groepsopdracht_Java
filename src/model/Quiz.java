@@ -1,7 +1,6 @@
 package model;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import utils.Datum;
 
@@ -80,7 +79,7 @@ public class Quiz implements Cloneable, Comparable<Quiz> {
 			}
 		}
 	}
-	
+
 	/**
 	 * Functie om de leerjaren mee te geven waar de quiz voor bedoeld is. Alle
 	 * leerjaren moeten meegegeven worden.
@@ -91,7 +90,8 @@ public class Quiz implements Cloneable, Comparable<Quiz> {
 	 *             wanneer de meegegen int array null is, of de meegegeven
 	 *             leerjaren kleiner dan nul of groter dan zes
 	 */
-	public void setLeerjaren(ArrayList<Integer> leerjaren) throws IllegalArgumentException {
+	public void setLeerjaren(ArrayList<Integer> leerjaren)
+			throws IllegalArgumentException {
 		if (leerjaren == null) {
 			throw new IllegalArgumentException(
 					"Aantal leerjaren mag niet null zijn");
@@ -401,12 +401,13 @@ public class Quiz implements Cloneable, Comparable<Quiz> {
 		}
 		return somScore / aantalDeelnames;
 	}
-	
+
 	/**
 	 * Geeft de maximumscore terug die op de quiz kan behaalt worden.
+	 * 
 	 * @return
 	 */
-	public int getTotaleMaximumScore(){
+	public int getTotaleMaximumScore() {
 		int somScore = 0;
 		for (QuizOpdracht qo : opdrachten) {
 			somScore += qo.getMaxScore();

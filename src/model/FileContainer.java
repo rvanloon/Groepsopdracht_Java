@@ -15,11 +15,13 @@ import java.util.Formatter;
  * 
  */
 public abstract class FileContainer {
-	
+
 	public static final String splitteken = "#";
 
 	/**
-	 * Leest de lijnen uit een textfile en geeft deze door voor omzetting naar objecten.
+	 * Leest de lijnen uit een textfile en geeft deze door voor omzetting naar
+	 * objecten.
+	 * 
 	 * @throws Exception
 	 */
 	public void lezen() throws Exception {
@@ -38,6 +40,7 @@ public abstract class FileContainer {
 
 	/**
 	 * Schrijft een arraylist van lijnen weg naar een textfile
+	 * 
 	 * @param lijnen
 	 * @throws Exception
 	 */
@@ -66,21 +69,26 @@ public abstract class FileContainer {
 			}
 		}
 	}
-	
+
 	/**
-	 * Geeft de locatie van de textfile waar de objecten worden weggeschreven  
+	 * Geeft de locatie van de textfile waar de objecten worden weggeschreven
+	 * 
 	 * @return String lijn
 	 */
 	public abstract String getFile();
-	
+
 	/**
-	 * Maakt een object aan aan de hand van de meegeleverde string en voert deze toe aan de catalogus
-	 * @param String lijn
+	 * Maakt een object aan aan de hand van de meegeleverde string en voert deze
+	 * toe aan de catalogus
+	 * 
+	 * @param String
+	 *            lijn
 	 */
 	public abstract void toevoegenLijn(String lijn);
-	
+
 	/**
 	 * Schrijft de inhoud van een catalogus weg naar een file
+	 * 
 	 * @throws Exception
 	 */
 	public abstract void schrijfCatalogusNaarFile() throws Exception;

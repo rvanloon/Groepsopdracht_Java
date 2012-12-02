@@ -344,8 +344,8 @@ public class Opdracht implements Comparable<Opdracht> {
 				+ ((juisteAntwoord == null) ? 0 : juisteAntwoord.hashCode());
 		result = prime * result + maxAantalPogingen;
 		result = prime * result + maxAntwoordTijd;
-//		result = prime * result
-//				+ ((quizOpdracten == null) ? 0 : quizOpdracten.hashCode());
+		// result = prime * result
+		// + ((quizOpdracten == null) ? 0 : quizOpdracten.hashCode());
 		result = prime * result + ((vraag == null) ? 0 : vraag.hashCode());
 		return result;
 	}
@@ -423,7 +423,8 @@ public class Opdracht implements Comparable<Opdracht> {
 	 */
 	@Override
 	public String toString() {
-		return String.format("|%1$-25s |%2$-10s |%3$-10s |\n", vraag, getClass().getSimpleName(), categorie);
+		return String.format("|%1$-25s |%2$-10s |%3$-10s |\n", vraag,
+				getClass().getSimpleName(), categorie);
 	}
 
 	/**
@@ -442,8 +443,9 @@ public class Opdracht implements Comparable<Opdracht> {
 	}
 
 	public static void main(String[] args) {
-			Opdracht o = new Opdracht("aaaa", "bbbbb", OpdrachtCategorie.NederlandseTaal, Leraar.Robrecht, new Datum());
-			System.out.println(o);
+		Opdracht o = new Opdracht("aaaa", "bbbbb",
+				OpdrachtCategorie.NederlandseTaal, Leraar.Robrecht, new Datum());
+		System.out.println(o);
 	}
 
 }

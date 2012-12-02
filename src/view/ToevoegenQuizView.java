@@ -1,31 +1,27 @@
 package view;
 
-import java.awt.BorderLayout;
-import java.awt.EventQueue;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.util.ArrayList;
 
+import javax.swing.DefaultListModel;
+import javax.swing.JButton;
+import javax.swing.JCheckBox;
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JList;
 import javax.swing.JPanel;
+import javax.swing.JSeparator;
+import javax.swing.JTextField;
+import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
 import controller.ToevoegenQuizController;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
-import javax.swing.JLabel;
-import javax.swing.JComboBox;
-import javax.swing.JTextField;
-import javax.swing.JSeparator;
-import java.awt.Color;
-import java.util.ArrayList;
-
-import javax.swing.border.LineBorder;
-import javax.swing.SwingConstants;
-import javax.swing.JCheckBox;
-import javax.swing.JButton;
-import javax.swing.JList;
-import java.awt.event.ItemListener;
-import java.awt.event.ItemEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
 
 /**
  * 
@@ -35,6 +31,10 @@ import java.awt.event.ActionEvent;
  */
 public class ToevoegenQuizView extends JFrame {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	private ToevoegenQuizController controller;
 	private JTextField textField_Onderwerp;
@@ -49,8 +49,7 @@ public class ToevoegenQuizView extends JFrame {
 	private JComboBox comboBox_LeerjarenVan;
 	private JComboBox comboBox_LeerjarenTot;
 	private JComboBox comboBox_Auteur;
-	private JComboBox comboBox_Status;	
-	
+	private JComboBox comboBox_Status;
 
 	/**
 	 * Create the frame.
@@ -98,13 +97,11 @@ public class ToevoegenQuizView extends JFrame {
 		lblTot.setBounds(78, 61, 37, 14);
 		contentPane.add(lblTot);
 
-		comboBox_LeerjarenVan = new JComboBox(
-				controller.getLeerjaren());
+		comboBox_LeerjarenVan = new JComboBox(controller.getLeerjaren());
 		comboBox_LeerjarenVan.setBounds(110, 33, 50, 20);
 		contentPane.add(comboBox_LeerjarenVan);
 
-		comboBox_LeerjarenTot = new JComboBox(
-				controller.getLeerjaren());
+		comboBox_LeerjarenTot = new JComboBox(controller.getLeerjaren());
 		comboBox_LeerjarenTot.setBounds(110, 58, 50, 20);
 		contentPane.add(comboBox_LeerjarenTot);
 
@@ -119,8 +116,7 @@ public class ToevoegenQuizView extends JFrame {
 				if (chckbx_IsTest.isSelected()) {
 					chckbx_UniekeDeelname.setSelected(true);
 					chckbx_UniekeDeelname.setEnabled(false);
-				}
-				else {
+				} else {
 					chckbx_UniekeDeelname.setEnabled(true);
 				}
 			}
@@ -266,27 +262,31 @@ public class ToevoegenQuizView extends JFrame {
 		});
 	}
 
-	public Object GetOpdrachtfilterCategorie(){
+	public Object GetOpdrachtfilterCategorie() {
 		Object o = comboBox_Categorie.getSelectedItem();
 		return o;
 	}
-	
-	public Object GetOpdrachtfilterType(){
+
+	public Object GetOpdrachtfilterType() {
 		return comboBox_Type.getSelectedItem();
 	}
 
 	/**
-	 * @return the list_Opdrachten
+	 * Geeft het geselecteerde object terug uit de opdrachtenlist.
+	 * 
+	 * @return
 	 */
-	public JList getList_Opdrachten() {
-		return list_Opdrachten;
+	public Object getSelectedOpdracht() {
+		return list_Opdrachten.getSelectedValue();
 	}
 
 	/**
-	 * @return the list_QuizOpdrachten
+	 * Geeft het geselecteerde object terug uit de quizopdrachtenlist.
+	 * 
+	 * @return
 	 */
-	public JList getList_QuizOpdrachten() {
-		return list_QuizOpdrachten;
+	public Object getSelectedQuizOpdracht() {
+		return list_QuizOpdrachten.getSelectedValue();
 	}
 
 	/**
@@ -295,36 +295,64 @@ public class ToevoegenQuizView extends JFrame {
 	public String getMaxScore() {
 		return textField_MaxScore.getText();
 	}
-	
-	public void setTotaleScore(String score){
+
+	public void setTotaleScore(String score) {
 		textField_TotScore.setText(score);
 	}
-	
-	public String getOnderwerp(){
+
+	public String getOnderwerp() {
 		return textField_Onderwerp.getText();
 	}
-	
-	public int getLeerjaarVan(){
-		return Integer.parseInt((String) comboBox_LeerjarenVan.getSelectedItem());
+
+	public int getLeerjaarVan() {
+		return Integer.parseInt((String) comboBox_LeerjarenVan
+				.getSelectedItem());
 	}
-	
-	public int getLeerjaarTot(){
-		return Integer.parseInt((String) comboBox_LeerjarenTot.getSelectedItem());
+
+	public int getLeerjaarTot() {
+		return Integer.parseInt((String) comboBox_LeerjarenTot
+				.getSelectedItem());
 	}
-	
-	public boolean isTest(){
+
+	public boolean isTest() {
 		return chckbx_IsTest.isSelected();
 	}
-	
-	public boolean isUniekeDeelname(){
+
+	public boolean isUniekeDeelname() {
 		return chckbx_UniekeDeelname.isSelected();
 	}
-	
+
 	public String getAuteur() {
 		return (String) comboBox_Auteur.getSelectedItem();
 	}
-	
+
 	public String getStatus() {
 		return (String) comboBox_Status.getSelectedItem();
+	}
+
+	/**
+	 * Vul de jlist opdrachten in met de inhoud van een arraylist
+	 * 
+	 * @param objecten
+	 */
+	public void vulOpdrachtenIn(ArrayList<Object> objecten) {
+		DefaultListModel<Object> model = new DefaultListModel<Object>();
+		for (Object opdracht : objecten) {
+			model.addElement(opdracht);
+		}
+		list_Opdrachten.setModel(model);
+	}
+
+	/**
+	 * Vul de jlist quizopdrachten in met de inhoud van een arraylist
+	 * 
+	 * @param objecten
+	 */
+	public void vulQuizOpdrachtenIn(ArrayList<Object> objecten) {
+		DefaultListModel<Object> model = new DefaultListModel<Object>();
+		for (Object opdracht : objecten) {
+			model.addElement(opdracht);
+		}
+		list_QuizOpdrachten.setModel(model);
 	}
 }

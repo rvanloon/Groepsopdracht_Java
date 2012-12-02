@@ -195,10 +195,10 @@ public class QuizOpdracht {
 		}
 		opdrachtAntwoorden.remove(opdrachtAntwoord);
 	}
-	
-	
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.lang.Object#toString()
 	 */
 	@Override

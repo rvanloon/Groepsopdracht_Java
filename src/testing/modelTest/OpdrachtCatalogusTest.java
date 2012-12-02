@@ -49,8 +49,10 @@ public class OpdrachtCatalogusTest {
 
 	@Test
 	public void test_GetOpdrachten_OK() {
-		assertEquals(opdracht1, catalogus.getOpdrachten().get(opdracht1.getKey()));
-		assertEquals(opdracht2, catalogus.getOpdrachten().get(opdracht2.getKey()));
+		assertEquals(opdracht1,
+				catalogus.getOpdrachten().get(opdracht1.getKey()));
+		assertEquals(opdracht2,
+				catalogus.getOpdrachten().get(opdracht2.getKey()));
 	}
 
 	@Test
@@ -122,7 +124,7 @@ public class OpdrachtCatalogusTest {
 		// deze catalogus wegschrijven.
 		// Dan leest hij de textfile in een nieuwe catalogus in en vergelijkt
 		// de opdrachten van de twee catalogussen.
-		
+
 		Opdracht o1 = new Opdracht("aaa", "bbb",
 				OpdrachtCategorie.algemeneKennis, Leraar.Alain, new Datum());
 
@@ -146,20 +148,20 @@ public class OpdrachtCatalogusTest {
 				OpdrachtCategorie.NederlandseTaal, Leraar.Sven, new Datum());
 
 		OpdrachtCatalogus cat1 = new OpdrachtCatalogus();
-		
+
 		cat1.addOpdracht(o1);
 		cat1.addOpdracht(o2);
 		cat1.addOpdracht(o3);
 		cat1.addOpdracht(o4);
 		cat1.addOpdracht(o5);
-		
+
 		try {
 			cat1.schrijfCatalogusNaarFile();
 		} catch (Exception e) {
 			fail("Fout bij schrijven");
 			e.printStackTrace();
 		}
-		
+
 		OpdrachtCatalogus cat2 = new OpdrachtCatalogus();
 		try {
 			cat2.lezen();
@@ -167,7 +169,7 @@ public class OpdrachtCatalogusTest {
 			fail("Fout bij lezen");
 			e.printStackTrace();
 		}
-		
+
 		assertEquals(cat2.getOpdrachten().size(), 5);
 		for (Opdracht opdracht : cat1) {
 			assertEquals(opdracht, cat2.getOpdrachtById(opdracht.getKey()));

@@ -9,7 +9,7 @@ import model.Quiz;
  * 
  * @author rvanloon
  * @version 1
- *
+ * 
  */
 public interface QuizapplicatieDAO {
 
