@@ -43,7 +43,11 @@ public class SqlDao implements QuizapplicatieDAO {
 
 	@Override
 	public void voegOpdrachtToe(Opdracht opdracht) {
-		// TODO Auto-generated method stub
+		try {
+			database.voegOpdrachtToe(opdracht);
+		} catch (SQLException e) {
+			System.out.println("Probleem bij het toevogegen van een opdracht in de databank: " + e.getMessage());
+		}
 
 	}
 
