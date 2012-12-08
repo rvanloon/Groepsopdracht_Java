@@ -31,34 +31,27 @@ public class QuizDB {
 	 * @throws SQLException 
 	 */
 	public ArrayList<Quiz> getQuizzen() throws SQLException{
-		//TODO: quizOpdrachten
 		ArrayList<Quiz> quizzen = new ArrayList<Quiz>();
 		ResultSet resultSetQuiz = null;
-		ResultSet resultSetLeerjaren = null;
+		ResultSet resultSetQuizOpdrachten = null;
 		Statement statementQuiz = null;
-		PreparedStatement statementLeerjaren = null;
+		PreparedStatement statementQuizOpdrachten = null;		
 
 		try {
 			statementQuiz = connection.createStatement();
 			resultSetQuiz = statementQuiz.executeQuery("SELECT * FROM quiz");
+			statementQuizOpdrachten = connection.prepareStatement("SELECT * FROM quizopdracht WHERE idQuiz = ?");
 			while(resultSetQuiz.next()){
-				//aanmaken quiz
-				Quiz quiz = new Quiz();
-				quiz.setAuteur(Leraar.valueOf(resultSetQuiz.getString("auteur")));
-				quiz.setDatumRegistratie(new Datum(resultSetQuiz.getString("datumRegistratie")));
-				quiz.setIsTest(resultSetQuiz.getBoolean("isTest"));
-				quiz.setOnderwerp(resultSetQuiz.getString("onderwerp"));
-				quiz.setStatus(QuizStatus.valueOf(resultSetQuiz.getString("status")));
-				//toevoegen leerjaren
-				ArrayList<Integer> leerjaren = new ArrayList<Integer>();
-				statementLeerjaren = connection.prepareStatement("SELECT * FROM leerjaren WHERE idQuiz = ?");
-				statementLeerjaren.setInt(1, resultSetQuiz.getInt("idQuiz"));
-				resultSetLeerjaren = statementLeerjaren.executeQuery();
-				while(resultSetLeerjaren.next()){
-					leerjaren.add(resultSetLeerjaren.getInt("leerjaar"));
+				int idQuiz = resultSetQuiz.getInt("idQuiz");
+				Quiz quiz = maakQuiz(idQuiz);
+				//toevoegen quizopdrachten
+				statementQuizOpdrachten.setInt(1, idQuiz);
+				resultSetQuizOpdrachten = statementQuizOpdrachten.executeQuery();
+				while(resultSetQuizOpdrachten.next()){
+					int idOpdracht = resultSetQuizOpdrachten.getInt("idOpdracht");
+					Opdracht opdracht = maakOpdracht(idOpdracht);
+					QuizOpdracht.koppelOpdrachtAanQuiz(quiz, opdracht, resultSetQuizOpdrachten.getInt("maxScore"));
 				}
-				quiz.setLeerjaren(leerjaren);
-				//toevoegen quiz aan ArrayList
 				quizzen.add(quiz);
 			}			
 		} catch (NumberFormatException e) {
@@ -72,6 +65,220 @@ public class QuizDB {
 		}
 		
 		return quizzen;		
+	}
+	
+	/**
+	 * Geeft een ArrayList van opdrachten die aanwezig zijn in de databank
+	 * @return ArrayList<Opdracht>
+	 * @throws SQLException
+	 */
+	public ArrayList<Opdracht> getOpdrachten() throws SQLException{
+		//TODO: quizopdrachten
+		ArrayList<Opdracht> opdrachten = new ArrayList<Opdracht>();
+		ResultSet resultSetOpdracht = null;
+		Statement statementOpdracht = null;
+		ResultSet resultSetQuizOpdrachten = null;
+		PreparedStatement statementQuizOpdrachten = null;	
+		
+		try {
+			statementOpdracht = connection.createStatement();
+			resultSetOpdracht = statementOpdracht.executeQuery("SELECT * FROM opdracht");
+			statementQuizOpdrachten = connection.prepareStatement("SELECT * FROM quizopdracht WHERE idOpdracht = ?");
+			
+			//creëren opdracht met quizopdrachten en toevoegen aan array
+			while(resultSetOpdracht.next()){
+				int opdrachtId = resultSetOpdracht.getInt("idOpdracht");
+				Opdracht opdracht = maakOpdracht(opdrachtId);
+				//toevoegen quizOpdrachten
+				statementQuizOpdrachten.setInt(1, opdrachtId);
+				resultSetQuizOpdrachten = statementQuizOpdrachten.executeQuery();
+				while(resultSetQuizOpdrachten.next()){
+					int idQuiz = resultSetQuizOpdrachten.getInt("idQuiz");
+					Quiz quiz = maakQuiz(idQuiz);
+					QuizOpdracht.koppelOpdrachtAanQuiz(quiz, opdracht, resultSetQuizOpdrachten.getInt("maxScore"));
+				}
+				
+				opdrachten.add(opdracht);
+			}
+		} finally{			
+			resultSetOpdracht.close();
+			statementOpdracht.close();			
+		}
+		return opdrachten;
+	}
+
+	/**
+	 * maakt een quiz aan aan de hand van een id uit de database, maar zonder quizopdrachten
+	 * @param idQuiz
+	 * @return
+	 * @throws SQLException
+	 */
+	private Quiz maakQuiz(int idQuiz) throws SQLException{
+		Quiz quiz = null;		
+		ResultSet resultSetQuiz = null;		
+		ResultSet resultSetLeerjaren = null;
+
+		Statement statementQuiz = null;
+		Statement statementLeerjaren = null;
+
+
+		try {
+			statementQuiz = connection.createStatement();
+			resultSetQuiz = statementQuiz.executeQuery("SELECT * FROM quiz WHERE idQuiz = " + idQuiz);
+			statementLeerjaren = connection.createStatement();
+			resultSetLeerjaren = statementLeerjaren.executeQuery("SELECT * FROM leerjaren WHERE idQuiz = " + idQuiz);
+			
+			while(resultSetQuiz.next()){
+				//aanmaken quiz
+				quiz = new Quiz();
+				quiz.setAuteur(Leraar.valueOf(resultSetQuiz.getString("auteur")));
+				quiz.setDatumRegistratie(new Datum(resultSetQuiz.getString("datumRegistratie")));
+				quiz.setIsTest(resultSetQuiz.getBoolean("isTest"));
+				quiz.setOnderwerp(resultSetQuiz.getString("onderwerp"));
+				quiz.setStatus(QuizStatus.valueOf(resultSetQuiz.getString("status")));
+				//toevoegen leerjaren
+				ArrayList<Integer> leerjaren = new ArrayList<Integer>();
+				while(resultSetLeerjaren.next()){
+					leerjaren.add(resultSetLeerjaren.getInt("leerjaar"));
+				}
+				quiz.setLeerjaren(leerjaren);
+			}			
+		} catch (NumberFormatException e) {
+			System.out.println("Fout bij aanmaken quiz: " + e.getMessage());
+		} catch (IllegalArgumentException e) {
+			System.out.println("Fout bij aanmaken quiz: " + e.getMessage());
+		} finally{
+			resultSetQuiz.close();
+			statementQuiz.close();
+			resultSetLeerjaren.close();
+			statementLeerjaren.close();
+			//connection.close();
+		}		
+		
+		return quiz;
+		
+	}
+	
+	private Opdracht maakOpdracht(int idOpdracht) throws SQLException{
+		Opdracht opdracht = null;
+		ResultSet resultSetOpdracht = null;
+		Statement statementOpdracht = null;
+		ResultSet resultSetReproductie = null;
+		ResultSet resultSetMeerkeuze = null;
+		ResultSet resultSetAntwoordHints = null;
+		Statement statementReproductie = null;
+		Statement statementMeerkeuze = null;
+		Statement statementAntwoordHints = null;
+		
+		try {
+			statementOpdracht = connection.createStatement();
+			resultSetOpdracht = statementOpdracht.executeQuery("SELECT * FROM opdracht WHERE idOpdracht = " + idOpdracht);
+			statementReproductie = connection.createStatement();
+			resultSetReproductie = statementReproductie.executeQuery("SELECT * FROM reproductie WHERE idOpdracht = " + idOpdracht);
+			statementMeerkeuze = connection.createStatement();
+			resultSetMeerkeuze = statementMeerkeuze.executeQuery("SELECT * FROM meerkeuze WHERE idOpdracht = " + idOpdracht);
+			statementAntwoordHints = connection.createStatement();
+			resultSetAntwoordHints = statementAntwoordHints.executeQuery("SELECT * FROM antwoordhints WHERE idOpdracht = " + idOpdracht);
+			
+			//creëren opdrachten aan de hand van discriminator "type" en toevoegen aan arraylist
+			while(resultSetOpdracht.next()){
+				String vraag = resultSetOpdracht.getString("vraag");
+				String antwoord = resultSetOpdracht.getString("juisteAntwoord");
+				int maxAantalPogingen = resultSetOpdracht.getInt("maxAantalPogingen");
+				int maxAntwoordTijd = resultSetOpdracht.getInt("maxAntwoordTijd");
+				String datumRegistratie = resultSetOpdracht.getString("datumRegistratie");
+				String categorie = resultSetOpdracht.getString("categorie");
+				String auteur = resultSetOpdracht.getString("auteur");
+				int key = resultSetOpdracht.getInt("idOpdracht");
+				
+				switch(resultSetOpdracht.getInt("type")){
+					// gewone opdracht
+					case 1: 
+						opdracht = null;
+						try {
+							opdracht = new Opdracht(vraag, antwoord, OpdrachtCategorie.valueOf(categorie), Leraar.valueOf(auteur), new Datum(datumRegistratie));
+							setPogingenEnAntwoordtijd(opdracht, maxAantalPogingen, maxAntwoordTijd);
+							opdracht.setAntwoordHints(setAntwoordHints(resultSetAntwoordHints, resultSetOpdracht.getInt("idOpdracht")));
+							opdracht.setKey(key);
+						} catch (IllegalArgumentException e) {
+							System.out.println("Probleem met aanmaken opdracht: " + e.getMessage());
+						}
+						break;
+					//opsomming
+					case 2:
+						try {
+							Boolean volgorde = resultSetOpdracht.getBoolean("isJuisteVolgorde");
+							opdracht = new Opsomming(vraag, antwoord, volgorde, OpdrachtCategorie.valueOf(categorie), Leraar.valueOf(auteur), new Datum(datumRegistratie));
+							setPogingenEnAntwoordtijd(opdracht, maxAantalPogingen, maxAntwoordTijd);
+							opdracht.setAntwoordHints(setAntwoordHints(resultSetAntwoordHints, resultSetOpdracht.getInt("idOpdracht")));
+							opdracht.setKey(key);
+						} catch (IllegalArgumentException e) {
+							System.out.println("Probleem met aanmaken opsomming: " + e.getMessage());
+						}
+						break;
+					//reproductie
+					case 3:
+						try {
+							int minAantalTrefwoorden = resultSetOpdracht.getInt("minAantalJuisteTrefwoorden");
+							opdracht = new Reproductie(vraag, OpdrachtCategorie.valueOf(categorie), Leraar.valueOf(auteur), new Datum(datumRegistratie), minAantalTrefwoorden);
+							setPogingenEnAntwoordtijd(opdracht, maxAantalPogingen, maxAntwoordTijd);
+							opdracht.setAntwoordHints(setAntwoordHints(resultSetAntwoordHints, resultSetOpdracht.getInt("idOpdracht")));
+							opdracht.setKey(key);
+						} catch (IllegalArgumentException e) {
+							System.out.println("Probleem met aanmaken reproductie: " + e.getMessage());
+						}
+						//Opvullen arraylist trefwoorden 
+						while(resultSetReproductie.next()){
+							((Reproductie)opdracht).VoegTrefwoordToe(resultSetReproductie.getString("trefwoord"));
+						}
+						break;
+					//meerkeuze	
+					case 4: 
+						try {
+							opdracht = new Meerkeuze(vraag, antwoord, OpdrachtCategorie.valueOf(categorie), Leraar.valueOf(auteur), new Datum(datumRegistratie));
+							setPogingenEnAntwoordtijd(opdracht, maxAantalPogingen, maxAntwoordTijd);
+							opdracht.setAntwoordHints(setAntwoordHints(resultSetAntwoordHints, resultSetOpdracht.getInt("idOpdracht")));
+							opdracht.setKey(key);
+						} catch (IllegalArgumentException e) {
+							System.out.println("Probleem met aanmaken meerkeuze: " + e.getMessage());
+						}
+						//opvullen ArrayList keuzes
+						while(resultSetMeerkeuze.next()){
+							((Meerkeuze)opdracht).voegKeuzeToe(resultSetMeerkeuze.getString("keuze"));
+						}
+						break;
+					default:
+						System.out.println("Verkeerd type meegegeven.");
+				}
+			}
+		} finally{			
+			try {
+				resultSetOpdracht.close();
+				resultSetReproductie.close();
+				resultSetMeerkeuze.close(); 
+				statementOpdracht.close();
+				statementReproductie.close();
+				statementMeerkeuze.close();
+				statementAntwoordHints.close();
+				//connection.close();
+			} catch (Exception e) {
+				System.out.println("finally error: " + e.getMessage());
+			}			
+		}
+		return opdracht;
+	}
+	
+	// getOpdracht(): Gebruikt om de antwoordhints in te vullen bij alle soorten opdrachten
+	private ArrayList<String> setAntwoordHints(ResultSet resultSetAntwoordHints, int id) throws SQLException{
+		ArrayList<String> listHints = new ArrayList<String>();
+		try {
+			while(resultSetAntwoordHints.next()){
+				listHints.add(resultSetAntwoordHints.getString("hint"));
+			}
+		} finally{
+			resultSetAntwoordHints.close();
+		}
+		return listHints;
 	}
 	
 
@@ -108,130 +315,6 @@ public class QuizDB {
 		return max;
 	}
 	
-	/**
-	 * Geeft een ArrayList van opdrachten die aanwezig zijn in de databank
-	 * @return ArrayList<Opdracht>
-	 * @throws SQLException
-	 */
-	public ArrayList<Opdracht> getOpdrachten() throws SQLException{
-		//TODO: quizopdrachten
-		ArrayList<Opdracht> opdrachten = new ArrayList<Opdracht>();
-		ResultSet resultSetOpdracht = null;
-		ResultSet resultSetReproductie = null;
-		ResultSet resultSetMeerkeuze = null;
-		ResultSet resultSetAntwoordHints = null;
-		Statement statementOpdracht = null;
-		PreparedStatement statementReproductie = null;
-		PreparedStatement statementMeerkeuze = null;
-		PreparedStatement statementAntwoordHints = null;
-		
-		try {
-			statementOpdracht = connection.createStatement();
-			resultSetOpdracht = statementOpdracht.executeQuery("SELECT * FROM opdracht");	
-			statementReproductie = connection.prepareStatement("SELECT * FROM reproductie WHERE idOpdracht = ?");
-			statementMeerkeuze = connection.prepareStatement("SELECT * FROM meerkeuze WHERE idOpdracht = ?");
-			statementAntwoordHints = connection.prepareStatement("SELECT * FROM antwoordhints WHERE idOpdracht = ?");	
-			
-			//creëren opdrachten aan de hand van discriminator "type" en toevoegen aan arraylist
-			while(resultSetOpdracht.next()){
-				String vraag = resultSetOpdracht.getString("vraag");
-				String antwoord = resultSetOpdracht.getString("juisteAntwoord");
-				int maxAantalPogingen = resultSetOpdracht.getInt("maxAantalPogingen");
-				int maxAntwoordTijd = resultSetOpdracht.getInt("maxAntwoordTijd");
-				String datumRegistratie = resultSetOpdracht.getString("datumRegistratie");
-				String categorie = resultSetOpdracht.getString("categorie");
-				String auteur = resultSetOpdracht.getString("auteur");
-				int key = resultSetOpdracht.getInt("idOpdracht");
-				
-				switch(resultSetOpdracht.getInt("type")){
-					// gewone opdracht
-					case 1: 
-						Opdracht opdracht = null;
-						try {
-							opdracht = new Opdracht(vraag, antwoord, OpdrachtCategorie.valueOf(categorie), Leraar.valueOf(auteur), new Datum(datumRegistratie));
-							setPogingenEnAntwoordtijd(opdracht, maxAantalPogingen, maxAntwoordTijd);
-							opdracht.setAntwoordHints(setAntwoordHints(statementAntwoordHints, resultSetAntwoordHints, resultSetOpdracht.getInt("idOpdracht")));
-							opdracht.setKey(key);
-						} catch (IllegalArgumentException e) {
-							System.out.println("Probleem met aanmaken opdracht: " + e.getMessage());
-						}
-						opdrachten.add(opdracht);
-						break;
-					//opsomming
-					case 2:
-						Opsomming opsomming = null;
-						try {
-							Boolean volgorde = resultSetOpdracht.getBoolean("isJuisteVolgorde");
-							opsomming = new Opsomming(vraag, antwoord, volgorde, OpdrachtCategorie.valueOf(categorie), Leraar.valueOf(auteur), new Datum(datumRegistratie));
-							setPogingenEnAntwoordtijd(opsomming, maxAantalPogingen, maxAntwoordTijd);
-							opsomming.setAntwoordHints(setAntwoordHints(statementAntwoordHints, resultSetAntwoordHints, resultSetOpdracht.getInt("idOpdracht")));
-							opsomming.setKey(key);
-						} catch (IllegalArgumentException e) {
-							System.out.println("Probleem met aanmaken opsomming: " + e.getMessage());
-						}
-						opdrachten.add(opsomming);
-						break;
-					//reproductie
-					case 3:
-						Reproductie reproductie = null;
-						try {
-							int minAantalTrefwoorden = resultSetOpdracht.getInt("minAantalJuisteTrefwoorden");
-							reproductie = new Reproductie(vraag, OpdrachtCategorie.valueOf(categorie), Leraar.valueOf(auteur), new Datum(datumRegistratie), minAantalTrefwoorden);
-							setPogingenEnAntwoordtijd(reproductie, maxAantalPogingen, maxAntwoordTijd);
-							reproductie.setAntwoordHints(setAntwoordHints(statementAntwoordHints, resultSetAntwoordHints, resultSetOpdracht.getInt("idOpdracht")));
-							reproductie.setKey(key);
-						} catch (IllegalArgumentException e) {
-							System.out.println("Probleem met aanmaken reproductie: " + e.getMessage());
-						}
-						//Opvullen arraylist trefwoorden
-						statementReproductie.setInt(1, key);
-						resultSetReproductie = statementReproductie.executeQuery(); 
-						while(resultSetReproductie.next()){
-							reproductie.VoegTrefwoordToe(resultSetReproductie.getString("trefwoord"));
-						}
-						opdrachten.add(reproductie);
-						break;
-					//meerkeuze	
-					case 4: 
-						Meerkeuze meerkeuze = null;
-						try {
-							meerkeuze = new Meerkeuze(vraag, antwoord, OpdrachtCategorie.valueOf(categorie), Leraar.valueOf(auteur), new Datum(datumRegistratie));
-							setPogingenEnAntwoordtijd(meerkeuze, maxAantalPogingen, maxAntwoordTijd);
-							meerkeuze.setAntwoordHints(setAntwoordHints(statementAntwoordHints, resultSetAntwoordHints, resultSetOpdracht.getInt("idOpdracht")));
-							meerkeuze.setKey(key);
-						} catch (IllegalArgumentException e) {
-							System.out.println("Probleem met aanmaken meerkeuze: " + e.getMessage());
-						}
-						//opvullen ArrayList keuzes
-						statementMeerkeuze.setInt(1, key);
-						resultSetMeerkeuze = statementMeerkeuze.executeQuery();
-						while(resultSetMeerkeuze.next()){
-							meerkeuze.voegKeuzeToe(resultSetMeerkeuze.getString("keuze"));
-						}
-						opdrachten.add(meerkeuze);
-						break;
-					default:
-						System.out.println("Verkeerd type meegegeven.");
-				}
-			}
-		} finally{			
-			try {
-				resultSetOpdracht.close();
-				resultSetReproductie.close();
-				resultSetMeerkeuze.close(); 
-				//resultSetAntwoordHints.close();
-				statementOpdracht.close();
-				statementReproductie.close();
-				statementMeerkeuze.close();
-				statementAntwoordHints.close();
-				//connection.close();
-			} catch (Exception e) {
-				System.out.println("finally error: " + e.getMessage());
-			}			
-		}
-		return opdrachten;
-	}
-	
 	// getopdracht(): gebruikt om maxAantalPogingen en MaxAntwoordTijd in te vullen bij alle soorten opdrachten
 	private void setPogingenEnAntwoordtijd(Opdracht opdracht, int pogingen, int tijd){
 		if(pogingen != 0){
@@ -240,17 +323,6 @@ public class QuizDB {
 		if(tijd != 0){
 			opdracht.setMaxAntwoordTijd(tijd);
 		}
-	}
-	
-	// getOpdracht(): Gebruikt om de antwoordhints in te vullen bij alle soorten opdrachten
-	private ArrayList<String> setAntwoordHints(PreparedStatement statementAntwoordHints, ResultSet resultSetAntwoordHints, int id) throws SQLException{
-		ArrayList<String> listHints = new ArrayList<String>();
-		statementAntwoordHints.setString(1, ((Integer)id).toString());
-		resultSetAntwoordHints = statementAntwoordHints.executeQuery();
-		while(resultSetAntwoordHints.next()){
-			listHints.add(resultSetAntwoordHints.getString("hint"));
-		}
-		return listHints;
 	}
 	
 	/**
@@ -492,25 +564,36 @@ public class QuizDB {
 				}
 				System.out.println("*********************\n\n\n");
 			}
-			*/
+			
 			Quiz quiz = new Quiz("Aardrijkskunde", Leraar.Alain, true, 4, 4,
 					5, 6);
 			QuizDB db = new QuizDB();
 			db.voegQuizToe(quiz);
 			db.connection.close();
-			/*
+			*/
+			QuizDB database = new QuizDB();
 			ArrayList<Quiz> quizzen = database.getQuizzen();
 			for(Quiz q : quizzen){
+				System.out.println("*********************************\n\n\n");
 				System.out.println(q + "\n");
 				for(int jaar : q.getLeerjaren()){
 					System.out.println(jaar + "\n");
 				}
+				for(QuizOpdracht qo : q.getOpdrachten()){
+					System.out.println(qo + "\n");
+				}
 			}
 			ArrayList<Opdracht> opdrachten = database.getOpdrachten();
+			System.out.println("/*/*/*/*/*/*/*/*/*/*/*/*/*");
+			System.out.println("/*/*/*/*/*/*/*/*/*/*/*/*/*");
+			System.out.println("/*/*/*/*/*/*/*/*/*/*/*/*/*");
 			for(Opdracht o : opdrachten){
 				System.out.println(o);
+				for(QuizOpdracht qo : o.getQuizOpdracten()){
+					System.out.println(qo);
+				}
 			}
-			*/
+			database.connection.close();
 			
 		} catch (SQLException e) {
 			System.out.println("HIERO " + e.getMessage());
