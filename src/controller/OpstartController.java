@@ -1,6 +1,7 @@
 package controller;
 
 import persistenty.QuizapplicatieDAO;
+import persistenty.SqlDao;
 import persistenty.TxtDao;
 import view.IO;
 import view.Menu;
@@ -15,7 +16,7 @@ public class OpstartController {
 
 		// inlezen tekstbestanden, opvullen containers
 		try {
-			quizapplicatieDAO = TxtDao.getInstance(); // TODO: bepalen of txtDao
+			quizapplicatieDAO = SqlDao.getInstance(); // TODO: bepalen of txtDao
 														// of sqlDao gebruikt
 														// moeten worden.
 		} catch (Exception e) {

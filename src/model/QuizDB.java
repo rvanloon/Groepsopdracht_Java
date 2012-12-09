@@ -73,7 +73,6 @@ public class QuizDB {
 	 * @throws SQLException
 	 */
 	public ArrayList<Opdracht> getOpdrachten() throws SQLException{
-		//TODO: quizopdrachten
 		ArrayList<Opdracht> opdrachten = new ArrayList<Opdracht>();
 		ResultSet resultSetOpdracht = null;
 		Statement statementOpdracht = null;
@@ -159,6 +158,12 @@ public class QuizDB {
 		
 	}
 	
+	/**
+	 * Geeft een opdracht aan de hand van een id in de databank zonder de quizopdrachten
+	 * @param idOpdracht
+	 * @return
+	 * @throws SQLException
+	 */
 	private Opdracht maakOpdracht(int idOpdracht) throws SQLException{
 		Opdracht opdracht = null;
 		ResultSet resultSetOpdracht = null;
@@ -284,20 +289,53 @@ public class QuizDB {
 
 	
 	public void voegQuizToe(Quiz quiz) throws SQLException{
+		ArrayList<Quiz> quizzen = getQuizzen();
+		String quizOnderwerp = quiz.getOnderwerp();
+		for(Quiz q : quizzen){
+			String onderwerpVergelijk = q.getOnderwerp();
+			if(quizOnderwerp.equals(onderwerpVergelijk)){
+				throw new IllegalArgumentException("Quiz is al toegevoegd");
+			}
+		}
 		PreparedStatement statementVoegQuizToe = null;
+		PreparedStatement statementVoegQuizOpdrachtToe = null;
+		PreparedStatement statementVoegLeerjarenToe = null;
 		try {
-			int maxId = getMaxId("idQuiz", "quiz");
+			int maxId = getMaxId("idQuiz", "quiz"); //ophalen van de hoogste id in de database
+			int idQuiz = maxId + 1;
 			statementVoegQuizToe = connection.prepareStatement("INSERT INTO quiz" +
 					" (idQuiz, onderwerp, datumRegistratie, isTest, auteur, status)" +
 					" VALUES(?, ?, ?, ?, ?, ?)");
-			statementVoegQuizToe.setInt(1, (maxId + 1));
+			statementVoegQuizToe.setInt(1, idQuiz);
 			statementVoegQuizToe.setString(2, quiz.getOnderwerp());
 			statementVoegQuizToe.setString(3, quiz.getDatumRegistratie().getDatumInEuropeesFormaat());
 			statementVoegQuizToe.setBoolean(4, quiz.getIsTest());
 			statementVoegQuizToe.setString(5, quiz.getAuteur().toString());
 			statementVoegQuizToe.setString(6, quiz.getStatus().toString());
 			statementVoegQuizToe.executeUpdate();
-			//TODO QuizOprachten
+			//toevoegen leerjaren
+			statementVoegLeerjarenToe = connection.prepareStatement("INSERT INTO leerjaren" +
+					" (idQuiz, leerjaar)" +
+					" VALUES(?, ?)");
+			for(int jaar : quiz.getLeerjaren()){
+				statementVoegLeerjarenToe.setInt(1, idQuiz);
+				statementVoegLeerjarenToe.setInt(2, jaar);
+				statementVoegLeerjarenToe.executeUpdate();
+			}
+			statementVoegLeerjarenToe.setInt(1, idQuiz);
+			
+			//toevoegen quizopdrachten
+			//TODO: opdracht moet bestaan in de databank, anders error
+			statementVoegQuizOpdrachtToe = connection.prepareStatement("INSERT INTO quizopdracht" +
+					" (idQuiz, idOpdracht, maxScore)" +
+					" VALUES(?, ?, ?)");
+			for(QuizOpdracht qo : quiz.getOpdrachten()){
+				int idOpdracht = qo.getOpdracht().getKey(); 
+				statementVoegQuizOpdrachtToe.setInt(1, idQuiz);
+				statementVoegQuizOpdrachtToe.setInt(2, idOpdracht);
+				statementVoegQuizOpdrachtToe.setInt(3, qo.getMaxScore());
+				statementVoegQuizOpdrachtToe.executeUpdate();				
+			}
 		} finally {
 			statementVoegQuizToe.close();
 		}
@@ -331,7 +369,12 @@ public class QuizDB {
 	 * @throws SQLException
 	 */
 	public void voegOpdrachtToe(Opdracht opdracht) throws SQLException{
-		//TODO: oplossing voor de key, quizopdrachten
+		ArrayList<Opdracht> opdrachten = getOpdrachten();
+		for(Opdracht o : opdrachten){
+			if(o.getKey() == opdracht.getKey()){
+				throw new IllegalArgumentException("De opdracht is al toegevoegd");
+			}
+		}
 		
 		PreparedStatement insertOpdracht = null;
 		PreparedStatement insertIsJuisteVolgorde = null;
@@ -564,13 +607,18 @@ public class QuizDB {
 				}
 				System.out.println("*********************\n\n\n");
 			}
-			
+			*/
 			Quiz quiz = new Quiz("Aardrijkskunde", Leraar.Alain, true, 4, 4,
 					5, 6);
+			
 			QuizDB db = new QuizDB();
+			Opdracht opdracht = new Opdracht("Chelsea", "Engeland",
+					OpdrachtCategorie.algemeneKennis, Leraar.Robrecht, new Datum());
+			opdracht.setKey(10);
+			QuizOpdracht.koppelOpdrachtAanQuiz(quiz, opdracht, 10);
 			db.voegQuizToe(quiz);
 			db.connection.close();
-			*/
+			/*
 			QuizDB database = new QuizDB();
 			ArrayList<Quiz> quizzen = database.getQuizzen();
 			for(Quiz q : quizzen){
@@ -584,9 +632,9 @@ public class QuizDB {
 				}
 			}
 			ArrayList<Opdracht> opdrachten = database.getOpdrachten();
-			System.out.println("/*/*/*/*/*/*/*/*/*/*/*/*/*");
-			System.out.println("/*/*/*/*/*/*/*/*/*/*/*/*/*");
-			System.out.println("/*/*/*/*/*/*/*/*/*/*/*/*/*");
+			System.out.println("----------------------------");
+			System.out.println("----------------------------");
+			System.out.println("----------------------------");
 			for(Opdracht o : opdrachten){
 				System.out.println(o);
 				for(QuizOpdracht qo : o.getQuizOpdracten()){
@@ -594,7 +642,7 @@ public class QuizDB {
 				}
 			}
 			database.connection.close();
-			
+			*/
 		} catch (SQLException e) {
 			System.out.println("HIERO " + e.getMessage());
 		}
