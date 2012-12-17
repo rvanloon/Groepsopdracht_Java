@@ -55,6 +55,7 @@ public class ToevoegenQuizView extends JFrame {
 	 * Create the frame.
 	 */
 	public ToevoegenQuizView(ToevoegenQuizController toevoegenQuizController) {
+		
 		controller = toevoegenQuizController;
 
 		setBounds(100, 100, 739, 527);

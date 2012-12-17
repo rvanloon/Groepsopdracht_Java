@@ -1,5 +1,8 @@
 package controller;
 
+import javax.swing.UIManager;
+import javax.swing.UIManager.LookAndFeelInfo;
+
 import persistenty.QuizapplicatieDAO;
 import persistenty.SqlDao;
 import persistenty.TxtDao;
@@ -14,6 +17,20 @@ public class OpstartController {
 
 	public OpstartController() {
 
+		//de layout op nimbus zetten
+		
+		try {
+		    for (LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
+		        if ("Nimbus".equals(info.getName())) {
+		            UIManager.setLookAndFeel(info.getClassName());
+		            break;
+		        }
+		    }
+		} catch (Exception e) {
+		    // If Nimbus is not available, you can set the GUI to another look and feel.
+		}
+		
+		
 		// inlezen tekstbestanden, opvullen containers
 		try {
 			quizapplicatieDAO = SqlDao.getInstance(); // TODO: bepalen of txtDao
