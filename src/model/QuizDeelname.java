@@ -17,6 +17,11 @@ public class QuizDeelname implements Comparable<QuizDeelname> {
 	private Quiz quiz;
 	private Datum datumDeelname;
 	private ArrayList<OpdrachtAntwoord> opdrachtAntwoorden;
+	private QuizScore quizScore;
+
+	public void setQuizScore(QuizScore quizScore) {
+		this.quizScore = quizScore;
+	}
 
 	/**
 	 * Constructor.

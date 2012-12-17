@@ -11,8 +11,6 @@ public class QuizDB {
 	private static final String paswoord = "javatest";
 	private Connection connection;
 	
-	//TODO: wanneer connection sluiten?
-	
 	/**
 	 * default constructor die de verbinding opent met de database
 	 * @throws SQLException
