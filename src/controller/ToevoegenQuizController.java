@@ -222,6 +222,15 @@ public class ToevoegenQuizController {
 		herlaadQuizOpdrachten();
 	}
 
+	public void IsTestIsChanged() {
+		if (view.isTest()) {
+			view.setUniekeDeelname(true);
+			view.setUniekeDeelnameEnabled(false);
+		} else {
+			view.setUniekeDeelnameEnabled(true);
+		}
+	}
+
 	/**
 	 * Vult de velden van de quiz in en voegt deze toe aan de container. Sluit
 	 * dan deze frame af.

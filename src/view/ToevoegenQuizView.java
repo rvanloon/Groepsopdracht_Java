@@ -113,12 +113,7 @@ public class ToevoegenQuizView extends JFrame {
 		chckbx_IsTest = new JCheckBox("Is test?");
 		chckbx_IsTest.addItemListener(new ItemListener() {
 			public void itemStateChanged(ItemEvent arg0) {
-				if (chckbx_IsTest.isSelected()) {
-					chckbx_UniekeDeelname.setSelected(true);
-					chckbx_UniekeDeelname.setEnabled(false);
-				} else {
-					chckbx_UniekeDeelname.setEnabled(true);
-				}
+				controller.IsTestIsChanged();
 			}
 		});
 		chckbx_IsTest.setBounds(18, 82, 97, 23);
@@ -320,6 +315,14 @@ public class ToevoegenQuizView extends JFrame {
 
 	public boolean isUniekeDeelname() {
 		return chckbx_UniekeDeelname.isSelected();
+	}
+
+	public void setUniekeDeelname(boolean waarde) {
+		chckbx_UniekeDeelname.setSelected(waarde);
+	}
+
+	public void setUniekeDeelnameEnabled(boolean waarde) {
+		chckbx_UniekeDeelname.setEnabled(waarde);
 	}
 
 	public String getAuteur() {
