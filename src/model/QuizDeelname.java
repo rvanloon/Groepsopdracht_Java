@@ -17,6 +17,7 @@ public class QuizDeelname implements Comparable<QuizDeelname> {
 	private Quiz quiz;
 	private Datum datumDeelname;
 	private ArrayList<OpdrachtAntwoord> opdrachtAntwoorden;
+	private QuizScoreRegelsFactory factory;
 	private QuizScore quizScore;
 
 	public void setQuizScore(QuizScore quizScore) {
@@ -35,6 +36,8 @@ public class QuizDeelname implements Comparable<QuizDeelname> {
 		setQuiz(quiz);
 		setDatumDeelname(datumDeelname);
 		opdrachtAntwoorden = new ArrayList<OpdrachtAntwoord>();
+		factory = QuizScoreRegelsFactory.getInstance();
+		quizScore = factory.getQuizScore(this);
 	}
 
 	/**
