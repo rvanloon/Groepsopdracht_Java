@@ -14,9 +14,20 @@ public class QuizScoreRegelsFactory {
 		return instance;
 	}
 	
-	public QuizScore getQuizScore(QuizDeelname qd){
-		//hoe bepalen welke implementatie van score?
-		ScoreGoedeAntwoorden quizScore = new ScoreGoedeAntwoorden(qd);
+	public QuizScore getQuizScore(QuizDeelname qd, SoortenScores scoreSoort){
+		QuizScore quizScore = null;
+		if(scoreSoort == SoortenScores.EnkelAntwoorden){
+			quizScore = new ScoreGoedeAntwoorden(qd);
+		}
+		else if(scoreSoort == SoortenScores.AntwoordenMetTijd){
+			quizScore = new ScoreAntwoordenMetTijd(qd);
+		}
+		else if(scoreSoort == SoortenScores.AntwoordenMetTijdEnPogingen){
+			quizScore = new ScoreAntwoordenMetPogingenEnTijd(qd);
+		}
+		else{
+			throw new IllegalArgumentException("Verkeerde SoortenScore");
+		}
 		return quizScore;
 	}
 

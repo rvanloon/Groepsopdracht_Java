@@ -8,16 +8,21 @@ public class ScoreGoedeAntwoorden implements QuizScore {
 		this.quizDeelname = quizDeelname;
 	}
 	
+	//Maximum score bij goed antwoord, nul bij fout antwoord
 	@Override
 	public int getScore() {
-		int score = 0;
+		double maxScore;
+		double somScore = 0;
+		double somMaxScore = 0;
 		
 		for(OpdrachtAntwoord oa : quizDeelname.getOpdrachtAntwoorden()){
+			maxScore = oa.getQuizopdracht().getMaxScore();
+			somMaxScore += maxScore;
 			if(oa.getQuizopdracht().getOpdracht().isJuisteAntwoord(oa.getLaatsteAntwoord())){
-				score += oa.getQuizopdracht().getMaxScore();
+				somScore += maxScore;
 			}
 		}
-		return score;
+		return (int) Math.round((somScore / somMaxScore) * 10);
 	}
 
 }

@@ -37,7 +37,8 @@ public class QuizDeelname implements Comparable<QuizDeelname> {
 		setDatumDeelname(datumDeelname);
 		opdrachtAntwoorden = new ArrayList<OpdrachtAntwoord>();
 		factory = QuizScoreRegelsFactory.getInstance();
-		quizScore = factory.getQuizScore(this);
+		// de quiz gebruikt default het scoresysteem waarin tijd en pogingen zijn meegerekend
+		quizScore = factory.getQuizScore(this, SoortenScores.AntwoordenMetTijdEnPogingen);
 	}
 
 	/**
@@ -128,13 +129,7 @@ public class QuizDeelname implements Comparable<QuizDeelname> {
 		int aantalAntwoorden = opdrachtAntwoorden.size();
 		if (aantalAntwoorden == 0)
 			return 0;
-		int somMaxscore = 0;
-		double somScore = 0;
-		for (OpdrachtAntwoord antwoord : opdrachtAntwoorden) {
-			somMaxscore += antwoord.getQuizopdracht().getMaxScore();
-			somScore += antwoord.GetOpdrachtScore();
-		}
-		return (int) Math.round((somScore / somMaxscore) * 10);
+		return quizScore.getScore();
 	}
 
 	/**
@@ -202,6 +197,14 @@ public class QuizDeelname implements Comparable<QuizDeelname> {
 			throw new IllegalArgumentException("Opdracht bestaat niet");
 		}
 		opdrachtAntwoorden.remove(opdrachtAntwoord);
+	}
+	
+	/**
+	 * Maakt het mogelijk het scoresysteem te wijzigen
+	 * @param SoortenScores scoreSoort (enum)
+	 */
+	public void wijzigScoreSysteem(SoortenScores scoreSoort){
+		
 	}
 
 	@Override
@@ -275,9 +278,24 @@ public class QuizDeelname implements Comparable<QuizDeelname> {
 	}
 
 	public static void main(String[] args) {
-		Datum d1 = new Datum(4, 11, 2012);
-		Datum d2 = new Datum(4, 11, 2012);
-		System.out.println(d1.equals(d2));
+		Leerling leerling = new Leerling("Peter", 4);
+		Quiz quiz = new Quiz("Hoofdsteden", Leraar.Alain, true, 5);
+		Opdracht opdracht = new Opdracht("Hoofdstad Frankrijk", "Parijs",
+				OpdrachtCategorie.algemeneKennis, Leraar.Alain, new Datum());
+		Opdracht opdracht2 = new Opdracht("Hoofdstad belgië", "Brussel",
+				OpdrachtCategorie.algemeneKennis, Leraar.Alain, new Datum());
+		opdracht.setMaxAntwoordTijd(10);
+		opdracht2.setMaxAntwoordTijd(10);
+		QuizOpdracht.koppelOpdrachtAanQuiz(quiz, opdracht, 5);
+		QuizOpdracht.koppelOpdrachtAanQuiz(quiz, opdracht2, 5);
+		QuizDeelname.KoppelLeerlingAanQuiz(quiz, leerling, new Datum(4, 11,
+				2012));
+		QuizDeelname qd = quiz.getQuizDeelnames().get(0);
+		OpdrachtAntwoord.koppelOpdrachtAanDeelname("Parijs", 1, 5, quiz
+				.getOpdrachten().get(0), qd);
+		OpdrachtAntwoord.koppelOpdrachtAanDeelname("Brussel", 2, 5, quiz
+				.getOpdrachten().get(1), qd);
+		System.out.println(qd.getDeelnameScore());
 	}
 
 }
