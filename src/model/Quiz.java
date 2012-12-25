@@ -16,9 +16,15 @@ public class Quiz implements Cloneable, Comparable<Quiz> {
 	private Leraar auteur;
 	private Datum datumRegistratie;
 	private Boolean isTest;
-	private QuizStatus status;
 	private ArrayList<QuizOpdracht> opdrachten;
 	private ArrayList<QuizDeelname> quizDeelnames;
+
+	private QuizStatus inConstructie;
+	private QuizStatus afgewerkt;
+	private QuizStatus opengesteld;
+	private QuizStatus laatsteKans;
+	private QuizStatus afgesloten;
+	private QuizStatus status;
 
 	/**
 	 * Geeft het onderwerp van de Quiz terug
@@ -186,30 +192,6 @@ public class Quiz implements Cloneable, Comparable<Quiz> {
 	}
 
 	/**
-	 * geeft de status terug van de quiz
-	 * 
-	 * @return QuizStatus
-	 */
-	public QuizStatus getStatus() {
-		return this.status;
-	}
-
-	/**
-	 * Functie waarmee men de status van de quiz kan meegeven
-	 * 
-	 * @param status
-	 *            QuizStatus
-	 * @throws IllegalArgumentException
-	 *             indien de meegegeven status null is
-	 */
-	public void setStatus(QuizStatus status) throws IllegalArgumentException {
-		if (status == null) {
-			throw new IllegalArgumentException("Datum mag niet null zijn");
-		}
-		this.status = status;
-	}
-
-	/**
 	 * Geeft een lijst terug van de QuizOpdrachten
 	 * 
 	 * @return List QuizOpdrachten
@@ -219,8 +201,7 @@ public class Quiz implements Cloneable, Comparable<Quiz> {
 	}
 
 	/**
-	 * Functie waarmee men een ArrayList van opdrachten kan meegeven aan de
-	 * functie
+	 * Functie waarmee men een ArrayList van opdrachten kan meegeven aan de quiz
 	 * 
 	 * @param opdrachten
 	 *            ArrayList
@@ -238,6 +219,8 @@ public class Quiz implements Cloneable, Comparable<Quiz> {
 	}
 
 	/**
+	 * Geeft een ArrayList terug van QuizDeelnames
+	 * 
 	 * @return the quizDeelnames
 	 */
 	public ArrayList<QuizDeelname> getQuizDeelnames() {
@@ -245,6 +228,9 @@ public class Quiz implements Cloneable, Comparable<Quiz> {
 	}
 
 	/**
+	 * Functie waarmee men een ArrayList van QuizDeelnames kan meegeven aan de
+	 * quiz
+	 * 
 	 * @param quizDeelnames
 	 *            the quizDeelnames to set
 	 * @throws IllegalArgumentException
@@ -255,6 +241,85 @@ public class Quiz implements Cloneable, Comparable<Quiz> {
 			throw new IllegalArgumentException("quizdeelnames is null");
 		}
 		this.quizDeelnames = quizDeelnames;
+	}
+
+	/**
+	 * Functie waarmee men de quiz een bepaalde status kan meegeven
+	 * 
+	 * @param QuizStatus
+	 *            status
+	 */
+	public void setStatus(QuizStatus status) {
+		this.status = status;
+	}	
+
+	/**
+	 * Geeft de status van de quiz terug
+	 * 
+	 * @return QuizStatus: de status van de quiz
+	 */
+	public QuizStatus getStatus() {
+		return this.status;
+	}
+	
+	/**
+	 * Geeft de QuizStatus InConstructieStatus terug
+	 * @return QuizStatus InConstructieStatus
+	 */
+	public QuizStatus getInConstructie() {
+		return inConstructie;
+	}
+
+	public void setInConstructie(QuizStatus inConstructie) {
+		this.inConstructie = inConstructie;
+	}
+
+	/**
+	 * Geeft de QuizStatus AfgewerktStatus terug
+	 * @return QuizStatus AFgewerktStatus
+	 */
+	public QuizStatus getAfgewerkt() {
+		return afgewerkt;
+	}
+
+	public void setAfgewerkt(QuizStatus afgewerkt) {
+		this.afgewerkt = afgewerkt;
+	}
+
+	/**
+	 * Geeft de QuizStatus OpengesteldStatus terug
+	 * @return QuizStatus Opengesteld
+	 */
+	public QuizStatus getOpengesteld() {
+		return opengesteld;
+	}
+
+	public void setOpengesteld(QuizStatus opengesteld) {
+		this.opengesteld = opengesteld;
+	}
+
+	/**
+	 * Geeft de QuizStatus LaatsteKansStatus terug
+	 * @return QuizStatus LaatsteKansStatus
+	 */
+	public QuizStatus getLaatsteKans() {
+		return laatsteKans;
+	}
+
+	public void setLaatsteKans(QuizStatus laatsteKans) {
+		this.laatsteKans = laatsteKans;
+	}
+
+	/**
+	 * Geeft de QuizStatus AfgeslotenStatus terug
+	 * @return QuizStatus AfgeslotenStatus
+	 */
+	public QuizStatus getAfgesloten() {
+		return afgesloten;
+	}
+
+	public void setAfgesloten(QuizStatus afgesloten) {
+		this.afgesloten = afgesloten;
 	}
 
 	/**
@@ -280,9 +345,14 @@ public class Quiz implements Cloneable, Comparable<Quiz> {
 		this.leerjaren = new ArrayList<Integer>();
 		setLeerjaren(jaren);
 		this.opdrachten = new ArrayList<QuizOpdracht>();
-		this.setStatus(QuizStatus.InConstructie);
 		this.setDatumRegistratie(new Datum());
 		quizDeelnames = new ArrayList<QuizDeelname>();
+		inConstructie = new InConstructieStatus(this);
+		afgewerkt = new AfgewerktStatus(this);
+		opengesteld = new OpengesteldStatus(this);
+		laatsteKans = new LaatsteKansStatus(this);
+		afgesloten = new AfgeslotenStatus(this);
+		status = inConstructie;
 	}
 
 	/**
@@ -292,6 +362,12 @@ public class Quiz implements Cloneable, Comparable<Quiz> {
 		this.opdrachten = new ArrayList<QuizOpdracht>();
 		this.leerjaren = new ArrayList<Integer>();
 		quizDeelnames = new ArrayList<QuizDeelname>();
+		inConstructie = new InConstructieStatus(this);
+		afgewerkt = new AfgewerktStatus(this);
+		opengesteld = new OpengesteldStatus(this);
+		laatsteKans = new LaatsteKansStatus(this);
+		afgesloten = new AfgeslotenStatus(this);
+		status = inConstructie;
 	}
 
 	/**

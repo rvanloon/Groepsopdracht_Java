@@ -132,7 +132,26 @@ public class QuizDB {
 				quiz.setDatumRegistratie(new Datum(resultSetQuiz.getString("datumRegistratie")));
 				quiz.setIsTest(resultSetQuiz.getBoolean("isTest"));
 				quiz.setOnderwerp(resultSetQuiz.getString("onderwerp"));
-				quiz.setStatus(QuizStatus.valueOf(resultSetQuiz.getString("status")));
+				//quiz.setStatus(resultSetQuiz.getString("status")); 
+				String status = resultSetQuiz.getString("status");
+				if(status.equals("InConstructie")){
+					quiz.setStatus(new InConstructieStatus(quiz));
+				}
+				else if(status.equals("Afgewerkt")){
+					quiz.setStatus(new AfgewerktStatus(quiz));
+				}
+				else if(status.equals("Opengesteld")){
+					quiz.setStatus(new OpengesteldStatus(quiz));
+				}
+				else if(status.equals("LaatsteKans")){
+					quiz.setStatus(new LaatsteKansStatus(quiz));
+				}
+				else if(status.equals("Afgesloten")){
+					quiz.setStatus(new AfgeslotenStatus(quiz));
+				}
+				else{
+					throw new IllegalArgumentException("ongekende status");
+				}
 				//toevoegen leerjaren
 				ArrayList<Integer> leerjaren = new ArrayList<Integer>();
 				while(resultSetLeerjaren.next()){

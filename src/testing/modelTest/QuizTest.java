@@ -6,9 +6,13 @@ import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
 
+import model.AfgewerktStatus;
+import model.InConstructieStatus;
+import model.LaatsteKansStatus;
 import model.Leraar;
 import model.Opdracht;
 import model.OpdrachtCategorie;
+import model.OpengesteldStatus;
 import model.Quiz;
 import model.QuizOpdracht;
 import model.QuizStatus;
@@ -35,9 +39,9 @@ public class QuizTest {
 	public void setUp() throws Exception {
 		quiz = new Quiz("Aardrijkskunde", Leraar.Alain, true, 1, 2, 3);
 		quiz2 = new Quiz("Breiwerk", Leraar.Robrecht, true, 2, 3);
-		quiz2.setStatus(QuizStatus.afgewerkt);
+		quiz2.setStatus(new AfgewerktStatus(quiz2));
 		quiz3 = new Quiz("Zorro", Leraar.Sven, false, 4, 5, 6);
-		quiz3.setStatus(QuizStatus.laatsteKans);
+		quiz3.setStatus(new LaatsteKansStatus(quiz3));
 		list = new ArrayList<Integer>();
 		datum = new Datum();
 		opdracht = new Opdracht("De hoofdstad van Frankrijk", "Parijs",
@@ -172,15 +176,15 @@ public class QuizTest {
 
 	@Test
 	public void test_GetStatus_OK() {
-		assertEquals(QuizStatus.InConstructie, quiz.getStatus());
-		assertEquals(QuizStatus.afgewerkt, quiz2.getStatus());
-		assertEquals(QuizStatus.laatsteKans, quiz3.getStatus());
+		assertEquals(new InConstructieStatus(quiz), quiz.getStatus());
+		assertEquals(new AfgewerktStatus(quiz2), quiz2.getStatus());
+		assertEquals(new LaatsteKansStatus(quiz3), quiz3.getStatus());
 	}
 
 	@Test
 	public void test_SetStatus_Correcte_waarde_Wordt_aanvaard() {
-		quiz.setStatus(QuizStatus.opengesteld);
-		assertEquals(QuizStatus.opengesteld, quiz.getStatus());
+		quiz.setStatus(new OpengesteldStatus(quiz));
+		assertEquals(new OpengesteldStatus(quiz), quiz.getStatus());
 	}
 
 	@Test(expected = IllegalArgumentException.class)
@@ -210,7 +214,7 @@ public class QuizTest {
 		list.add(5);
 		list.add(6);
 		assertEquals(list, quiz4.getLeerjaren());
-		assertEquals(QuizStatus.InConstructie, quiz4.getStatus());
+		assertEquals(new InConstructieStatus(quiz4), quiz4.getStatus());
 	}
 
 	@Test(expected = IllegalArgumentException.class)

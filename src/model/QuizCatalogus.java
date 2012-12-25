@@ -83,8 +83,8 @@ public class QuizCatalogus extends FileContainer implements Iterable<Quiz>,
 		int index = quizzen.indexOf(quiz);
 		if (index == -1) {
 			throw new IllegalArgumentException("Quiz is niet aanwezig in lijst");
-		} else if (quiz.getStatus() != QuizStatus.InConstructie
-				&& quiz.getStatus() != QuizStatus.afgewerkt) {
+		} else if ( !(quiz.getStatus() instanceof InConstructieStatus)
+				&& !(quiz.getStatus() instanceof AfgewerktStatus)) {
 			throw new IllegalArgumentException(
 					"Quiz kan niet verwijderd worden wegens status.");
 		} else {
@@ -223,7 +223,25 @@ public class QuizCatalogus extends FileContainer implements Iterable<Quiz>,
 					Integer.parseInt(datumString[0]), maanden
 							.valueOf(datumString[1]), Integer
 							.parseInt(datumString[2])));
-			quiz.setStatus(QuizStatus.valueOf(velden[5]));
+			String status = velden[5];
+			if(status.equals("InConstructie")){
+				quiz.setStatus(new InConstructieStatus(quiz));
+			}
+			else if(status.equals("Afgewerkt")){
+				quiz.setStatus(new AfgewerktStatus(quiz));
+			}
+			else if(status.equals("Opengesteld")){
+				quiz.setStatus(new OpengesteldStatus(quiz));
+			}
+			else if(status.equals("LaatsteKans")){
+				quiz.setStatus(new LaatsteKansStatus(quiz));
+			}
+			else if(status.equals("Afgesloten")){
+				quiz.setStatus(new AfgeslotenStatus(quiz));
+			}
+			else{
+				throw new IllegalArgumentException("ongekende status");
+			}
 			quizzen.add(quiz);
 			// maken quizopdrachten
 			String[] qoString = velden[6].split(";");
@@ -268,7 +286,7 @@ public class QuizCatalogus extends FileContainer implements Iterable<Quiz>,
 		quizString += leerjarenString
 				.substring(0, leerjarenString.length() - 1) + splitteken;
 		quizString += quiz.getDatumRegistratie() + splitteken;
-		quizString += quiz.getStatus() + splitteken;
+		quizString += quiz.getStatus().toString() + splitteken;
 		String qoString = "";
 		for (QuizOpdracht qo : quiz.getOpdrachten()) {
 			qoString += qo.getOpdracht().getKey() + "," + qo.getMaxScore()

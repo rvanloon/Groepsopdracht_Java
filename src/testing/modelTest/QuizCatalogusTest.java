@@ -10,6 +10,7 @@ import model.Leraar;
 import model.Opdracht;
 import model.OpdrachtCatalogus;
 import model.OpdrachtCategorie;
+import model.OpengesteldStatus;
 import model.Quiz;
 import model.QuizCatalogus;
 import model.QuizOpdracht;
@@ -97,7 +98,7 @@ public class QuizCatalogusTest {
 
 	@Test(expected = IllegalArgumentException.class)
 	public void test_VerwijderQuiz_Exception_Als_status_quiz_fout() {
-		quiz1.setStatus(QuizStatus.opengesteld);
+		quiz1.setStatus(new OpengesteldStatus(quiz1));
 		catalogus.verwijderQuiz(quiz1);
 	}
 

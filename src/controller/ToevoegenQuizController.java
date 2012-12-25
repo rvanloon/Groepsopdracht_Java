@@ -7,14 +7,19 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
 
+import model.AfgeslotenStatus;
+import model.AfgewerktStatus;
+import model.InConstructieStatus;
+import model.LaatsteKansStatus;
 import model.Leraar;
 import model.Meerkeuze;
 import model.Opdracht;
 import model.OpdrachtCategorie;
+import model.OpengesteldStatus;
 import model.Opsomming;
 import model.Quiz;
 import model.QuizOpdracht;
-import model.QuizStatus;
+import model.QuizStatusEnum;
 import model.Reproductie;
 import persistenty.QuizapplicatieDAO;
 import utils.Datum;
@@ -72,7 +77,7 @@ public class ToevoegenQuizController {
 	 * @return
 	 */
 	public String[] getQuizStatussen() {
-		return enumNameToStringArray(QuizStatus.values());
+		return enumNameToStringArray(QuizStatusEnum.values());
 	}
 
 	/**
@@ -241,8 +246,25 @@ public class ToevoegenQuizController {
 			quiz.setAuteur(Leraar.valueOf(view.getAuteur()));
 			quiz.setDatumRegistratie(new Datum());
 			quiz.setIsTest(view.isTest());
-			quiz.setStatus(QuizStatus.valueOf(view.getStatus()));
-
+			String status = view.getStatus();
+			if(status.equals("InConstructie")){
+				quiz.setStatus(new InConstructieStatus(quiz));
+			}
+			else if(status.equals("Afgewerkt")){
+				quiz.setStatus(new AfgewerktStatus(quiz));
+			}
+			else if(status.equals("Opengesteld")){
+				quiz.setStatus(new OpengesteldStatus(quiz));
+			}
+			else if(status.equals("LaatsteKans")){
+				quiz.setStatus(new LaatsteKansStatus(quiz));
+			}
+			else if(status.equals("Afgesloten")){
+				quiz.setStatus(new AfgeslotenStatus(quiz));
+			}
+			else{
+				throw new IllegalArgumentException("ongekende status");
+			}
 			ArrayList<Integer> list = new ArrayList<Integer>();
 			int van = view.getLeerjaarVan();
 			int tot = view.getLeerjaarTot();
