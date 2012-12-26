@@ -54,12 +54,28 @@ public class LaatsteKansStatus extends QuizStatus {
 
 	@Override
 	void voegQuizDeelnameToe(QuizDeelname quizDeelname) {
-		throw new IllegalStateException("De quiz is status \"laatste kans\" een quizdeelname toevoegen is niet toegestaan");				
+		if (quizDeelname == null) {
+			throw new IllegalArgumentException(
+					"De quizDeelname mag niet null zijn");
+		}
+		if (quiz.getQuizDeelnames().contains(quizDeelname)) {
+			throw new IllegalArgumentException(
+					"Deze quizDeelname is al toegevoegd.");
+		}
+		quiz.getQuizDeelnames().add(quizDeelname);				
 	}
 
 	@Override
 	void verwijderQuizDeelname(QuizDeelname quizDeelname) {
-		throw new IllegalStateException("De quiz is status \"laatste kans\" een quizdeelname verwijderen is niet toegestaan");				
+		if (quizDeelname == null) {
+			throw new IllegalArgumentException(
+					"De quizDeelname mag niet null zijn");
+		}
+		if (!(quiz.getQuizDeelnames().contains(quizDeelname))) {
+			throw new IllegalArgumentException(
+					"De quizDeelname zit niet in de lijst");
+		}
+		quiz.getQuizDeelnames().remove(quizDeelname);			
 	}
 	
 	@Override

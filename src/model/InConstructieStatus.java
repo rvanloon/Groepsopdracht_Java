@@ -74,30 +74,12 @@ public class InConstructieStatus extends QuizStatus {
 
 	@Override
 	void voegQuizDeelnameToe(QuizDeelname quizDeelname) {
-		if (quizDeelname == null) {
-			throw new IllegalArgumentException(
-					"De quizDeelname mag niet null zijn");
-		}
-		if (quiz.getQuizDeelnames().contains(quizDeelname)) {
-			throw new IllegalArgumentException(
-					"Deze quizDeelname is al toegevoegd.");
-		}
-		quiz.getQuizDeelnames().add(quizDeelname);
-		
+		throw new IllegalStateException("De quiz is nog niet opengesteld, er kunnen nog geen QuizDeelnames toegevoegd worden");		
 	}
 
 	@Override
 	void verwijderQuizDeelname(QuizDeelname quizDeelname) {
-		if (quizDeelname == null) {
-			throw new IllegalArgumentException(
-					"De quizDeelname mag niet null zijn");
-		}
-		if (!(quiz.getQuizDeelnames().contains(quizDeelname))) {
-			throw new IllegalArgumentException(
-					"De quizDeelname zit niet in de lijst");
-		}
-		quiz.getQuizDeelnames().remove(quizDeelname);
-		
+		throw new IllegalStateException("De quiz is nog niet opengesteld, er kunnen nog geen QuizDeelnames toegevoegd worden");			
 	}
 	
 	@Override

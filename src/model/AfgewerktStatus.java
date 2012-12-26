@@ -56,13 +56,13 @@ public class AfgewerktStatus extends QuizStatus {
 
 	@Override
 	void voegQuizDeelnameToe(QuizDeelname quizDeelname) {
-		throw new IllegalStateException("De quiz is afgewerkt, er mogen geen QuizDeelnames worden toegevoegd");
+		throw new IllegalStateException("De quiz is nog niet opengesteld, er mogen geen QuizDeelnames worden toegevoegd");
 		
 	}
 
 	@Override
 	void verwijderQuizDeelname(QuizDeelname quizDeelname) {
-		throw new IllegalStateException("De quiz is afgewerkt, er mogen geen QuizDeelnames verwijderd worden");
+		throw new IllegalStateException("De quiz is nog niet opengesteld, er mogen geen QuizDeelnames verwijderd worden");
 		
 	}
 	
