@@ -19,6 +19,7 @@ import model.OpengesteldStatus;
 import model.Opsomming;
 import model.Quiz;
 import model.QuizOpdracht;
+import model.QuizStatus;
 import model.QuizStatusEnum;
 import model.Reproductie;
 import persistenty.QuizapplicatieDAO;
@@ -246,25 +247,7 @@ public class ToevoegenQuizController {
 			quiz.setAuteur(Leraar.valueOf(view.getAuteur()));
 			quiz.setDatumRegistratie(new Datum());
 			quiz.setIsTest(view.isTest());
-			String status = view.getStatus();
-			if(status.equals("InConstructie")){
-				quiz.setStatus(new InConstructieStatus(quiz));
-			}
-			else if(status.equals("Afgewerkt")){
-				quiz.setStatus(new AfgewerktStatus(quiz));
-			}
-			else if(status.equals("Opengesteld")){
-				quiz.setStatus(new OpengesteldStatus(quiz));
-			}
-			else if(status.equals("LaatsteKans")){
-				quiz.setStatus(new LaatsteKansStatus(quiz));
-			}
-			else if(status.equals("Afgesloten")){
-				quiz.setStatus(new AfgeslotenStatus(quiz));
-			}
-			else{
-				throw new IllegalArgumentException("ongekende status");
-			}
+			QuizStatus.setStatus(quiz, view.getStatus());
 			ArrayList<Integer> list = new ArrayList<Integer>();
 			int van = view.getLeerjaarVan();
 			int tot = view.getLeerjaarTot();

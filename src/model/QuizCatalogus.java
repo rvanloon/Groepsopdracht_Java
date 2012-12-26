@@ -224,24 +224,7 @@ public class QuizCatalogus extends FileContainer implements Iterable<Quiz>,
 							.valueOf(datumString[1]), Integer
 							.parseInt(datumString[2])));
 			String status = velden[5];
-			if(status.equals("InConstructie")){
-				quiz.setStatus(new InConstructieStatus(quiz));
-			}
-			else if(status.equals("Afgewerkt")){
-				quiz.setStatus(new AfgewerktStatus(quiz));
-			}
-			else if(status.equals("Opengesteld")){
-				quiz.setStatus(new OpengesteldStatus(quiz));
-			}
-			else if(status.equals("LaatsteKans")){
-				quiz.setStatus(new LaatsteKansStatus(quiz));
-			}
-			else if(status.equals("Afgesloten")){
-				quiz.setStatus(new AfgeslotenStatus(quiz));
-			}
-			else{
-				throw new IllegalArgumentException("ongekende status");
-			}
+			QuizStatus.setStatus(quiz, status);
 			quizzen.add(quiz);
 			// maken quizopdrachten
 			String[] qoString = velden[6].split(";");

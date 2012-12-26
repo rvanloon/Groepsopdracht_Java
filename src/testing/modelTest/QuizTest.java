@@ -39,9 +39,9 @@ public class QuizTest {
 	public void setUp() throws Exception {
 		quiz = new Quiz("Aardrijkskunde", Leraar.Alain, true, 1, 2, 3);
 		quiz2 = new Quiz("Breiwerk", Leraar.Robrecht, true, 2, 3);
-		quiz2.setStatus(new AfgewerktStatus(quiz2));
+		quiz2.setStatus(quiz2.getAfgewerkt());
 		quiz3 = new Quiz("Zorro", Leraar.Sven, false, 4, 5, 6);
-		quiz3.setStatus(new LaatsteKansStatus(quiz3));
+		quiz3.setStatus(quiz3.getLaatsteKans());
 		list = new ArrayList<Integer>();
 		datum = new Datum();
 		opdracht = new Opdracht("De hoofdstad van Frankrijk", "Parijs",
@@ -107,12 +107,27 @@ public class QuizTest {
 	}
 
 	@Test(expected = IllegalArgumentException.class)
-	public void test_SetLeerjaren_Exception_Als_waarde_te_groot_of_te_klein() {
-		quiz.setLeerjaren(0); // Hier stopt het al. Volgende wordt nooit
-								// uitgevoerd
+	public void test_SetLeerjaren_Exception_Als_waarde_nul() {
+		quiz.setLeerjaren(0); 
+	}
+	
+	@Test(expected = IllegalArgumentException.class)
+	public void test_SetLeerjaren_Exception_Als_waarde_negatief() {
 		quiz.setLeerjaren(-5);
+	}
+	
+	@Test(expected = IllegalArgumentException.class)
+	public void test_SetLeerjaren_Exception_Als_waarde_te_groot() {
 		quiz.setLeerjaren(7);
+	}
+	
+	@Test(expected = IllegalArgumentException.class)
+	public void test_SetLeerjaren_Exception_Als_een_van_meerdere_waardes_te_groot() {
 		quiz.setLeerjaren(1, 5, 7);
+	}
+	
+	@Test(expected = IllegalArgumentException.class)
+	public void test_SetLeerjaren_Exception_Als_waarde_in_array_te_groot() {
 		int[] intArray = { 5, 6, 7 };
 		quiz.setLeerjaren(intArray);
 	}
@@ -176,15 +191,15 @@ public class QuizTest {
 
 	@Test
 	public void test_GetStatus_OK() {
-		assertEquals(new InConstructieStatus(quiz), quiz.getStatus());
-		assertEquals(new AfgewerktStatus(quiz2), quiz2.getStatus());
-		assertEquals(new LaatsteKansStatus(quiz3), quiz3.getStatus());
+		assertEquals(quiz.getInConstructie(), quiz.getStatus());
+		assertEquals(quiz2.getAfgewerkt(), quiz2.getStatus());
+		assertEquals(quiz3.getLaatsteKans(), quiz3.getStatus());
 	}
 
 	@Test
 	public void test_SetStatus_Correcte_waarde_Wordt_aanvaard() {
-		quiz.setStatus(new OpengesteldStatus(quiz));
-		assertEquals(new OpengesteldStatus(quiz), quiz.getStatus());
+		quiz.setStatus(quiz.getOpengesteld());
+		assertEquals(quiz.getOpengesteld(), quiz.getStatus());
 	}
 
 	@Test(expected = IllegalArgumentException.class)
@@ -214,7 +229,7 @@ public class QuizTest {
 		list.add(5);
 		list.add(6);
 		assertEquals(list, quiz4.getLeerjaren());
-		assertEquals(new InConstructieStatus(quiz4), quiz4.getStatus());
+		assertEquals(quiz4.getInConstructie(), quiz4.getStatus());
 	}
 
 	@Test(expected = IllegalArgumentException.class)

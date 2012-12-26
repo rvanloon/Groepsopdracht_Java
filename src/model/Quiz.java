@@ -18,7 +18,6 @@ public class Quiz implements Cloneable, Comparable<Quiz> {
 	private Boolean isTest;
 	private ArrayList<QuizOpdracht> opdrachten;
 	private ArrayList<QuizDeelname> quizDeelnames;
-
 	private QuizStatus inConstructie;
 	private QuizStatus afgewerkt;
 	private QuizStatus opengesteld;
@@ -44,10 +43,15 @@ public class Quiz implements Cloneable, Comparable<Quiz> {
 	 *             indien de meegegeven string null of leeg is
 	 */
 	public void setOnderwerp(String onderwerp) throws IllegalArgumentException {
-		if (onderwerp == null || onderwerp.isEmpty()) {
-			throw new IllegalArgumentException("Onderwerp mag niet null zijn");
+		if (status.setOnderwerpToegestaan()) {
+			if (onderwerp == null || onderwerp.isEmpty()) {
+				throw new IllegalArgumentException(
+						"Onderwerp mag niet null zijn");
+			}
+			this.onderwerp = onderwerp;
+		} else {
+			throw new IllegalArgumentException("Niet toegestaan wegens status");
 		}
-		this.onderwerp = onderwerp;
 	}
 
 	/**
@@ -70,20 +74,25 @@ public class Quiz implements Cloneable, Comparable<Quiz> {
 	 *             leerjaren kleiner dan nul of groter dan zes
 	 */
 	public void setLeerjaren(int... leerjaren) throws IllegalArgumentException {
-		if (leerjaren == null) {
-			throw new IllegalArgumentException(
-					"Aantal leerjaren mag niet null zijn");
-		}
-		this.leerjaren.clear();
-		for (int jaar : leerjaren) {
-			if (jaar < 1 || jaar > 6) {
+		if (status.setLeerjarenToegestaan()) {
+			if (leerjaren == null) {
 				throw new IllegalArgumentException(
-						"De waarde voor de leerjaren moet tussen 1 en 6 liggen");
+						"Aantal leerjaren mag niet null zijn");
 			}
-			if (!this.leerjaren.contains(jaar)) {
-				this.leerjaren.add(jaar);
+			this.leerjaren.clear();
+			for (int jaar : leerjaren) {
+				if (jaar < 1 || jaar > 6) {
+					throw new IllegalArgumentException(
+							"De waarde voor de leerjaren moet tussen 1 en 6 liggen");
+				}
+				if (!this.leerjaren.contains(jaar)) {
+					this.leerjaren.add(jaar);
+				}
 			}
+		} else {
+			throw new IllegalArgumentException("Niet toegestaan wegens status");
 		}
+
 	}
 
 	/**
@@ -98,19 +107,23 @@ public class Quiz implements Cloneable, Comparable<Quiz> {
 	 */
 	public void setLeerjaren(ArrayList<Integer> leerjaren)
 			throws IllegalArgumentException {
-		if (leerjaren == null) {
-			throw new IllegalArgumentException(
-					"Aantal leerjaren mag niet null zijn");
-		}
-		this.leerjaren.clear();
-		for (int jaar : leerjaren) {
-			if (jaar < 1 || jaar > 6) {
+		if (status.setLeerjarenToegestaan()) {
+			if (leerjaren == null) {
 				throw new IllegalArgumentException(
-						"De waarde voor de leerjaren moet tussen 1 en 6 liggen");
+						"Aantal leerjaren mag niet null zijn");
 			}
-			if (!this.leerjaren.contains(jaar)) {
-				this.leerjaren.add(jaar);
+			this.leerjaren.clear();
+			for (int jaar : leerjaren) {
+				if (jaar < 1 || jaar > 6) {
+					throw new IllegalArgumentException(
+							"De waarde voor de leerjaren moet tussen 1 en 6 liggen");
+				}
+				if (!this.leerjaren.contains(jaar)) {
+					this.leerjaren.add(jaar);
+				}
 			}
+		} else {
+			throw new IllegalArgumentException("Niet toegestaan wegens status");
 		}
 	}
 
@@ -132,10 +145,15 @@ public class Quiz implements Cloneable, Comparable<Quiz> {
 	 *             indien de auteur null is
 	 */
 	public void setAuteur(Leraar auteur) throws IllegalArgumentException {
-		if (auteur == null) {
-			throw new IllegalArgumentException("Auteur mag niet null zijn");
+		if (status.setAuteurToegestaan()) {
+			if (auteur == null) {
+				throw new IllegalArgumentException("Auteur mag niet null zijn");
+			}
+			this.auteur = auteur;
+		} else {
+			throw new IllegalArgumentException("Niet toegestaan wegens status");
 		}
-		this.auteur = auteur;
+		
 	}
 
 	/**
@@ -157,11 +175,15 @@ public class Quiz implements Cloneable, Comparable<Quiz> {
 	 * @throws IllegalArgumentException
 	 *             indien de meegegeven Boolean null is
 	 */
-	public void setIsTest(Boolean isTest) throws IllegalArgumentException {
-		if (isTest == null) {
-			throw new IllegalArgumentException("auteur mag niet null zijn");
+	public void setIsTest(Boolean isTest) throws IllegalArgumentException {		
+		if (status.setIsTestToegestaan()) {
+			if (isTest == null) {
+				throw new IllegalArgumentException("auteur mag niet null zijn");
+			}
+			this.isTest = isTest;
+		} else {
+			throw new IllegalArgumentException("Niet toegestaan wegens status");
 		}
-		this.isTest = isTest;
 	}
 
 	/**
@@ -185,10 +207,16 @@ public class Quiz implements Cloneable, Comparable<Quiz> {
 	 */
 	public void setDatumRegistratie(Datum datumRegistratie)
 			throws IllegalArgumentException {
-		if (datumRegistratie == null) {
-			throw new IllegalArgumentException("Datum mag niet null zijn");
+		if(status.setDatumRegistratieToegestaan()){
+			if (datumRegistratie == null) {
+				throw new IllegalArgumentException("Datum mag niet null zijn");
+			}
+			this.datumRegistratie = datumRegistratie;
 		}
-		this.datumRegistratie = datumRegistratie;
+		else{
+			throw new IllegalArgumentException("Niet toegestaan wegens status");
+		}
+		
 	}
 
 	/**
@@ -250,8 +278,11 @@ public class Quiz implements Cloneable, Comparable<Quiz> {
 	 *            status
 	 */
 	public void setStatus(QuizStatus status) {
+		if(status == null){
+			throw new IllegalArgumentException("status mag niet null zijn");
+		}
 		this.status = status;
-	}	
+	}
 
 	/**
 	 * Geeft de status van de quiz terug
@@ -261,65 +292,50 @@ public class Quiz implements Cloneable, Comparable<Quiz> {
 	public QuizStatus getStatus() {
 		return this.status;
 	}
-	
+
 	/**
 	 * Geeft de QuizStatus InConstructieStatus terug
+	 * 
 	 * @return QuizStatus InConstructieStatus
 	 */
 	public QuizStatus getInConstructie() {
 		return inConstructie;
 	}
 
-	public void setInConstructie(QuizStatus inConstructie) {
-		this.inConstructie = inConstructie;
-	}
-
 	/**
 	 * Geeft de QuizStatus AfgewerktStatus terug
+	 * 
 	 * @return QuizStatus AFgewerktStatus
 	 */
 	public QuizStatus getAfgewerkt() {
 		return afgewerkt;
 	}
 
-	public void setAfgewerkt(QuizStatus afgewerkt) {
-		this.afgewerkt = afgewerkt;
-	}
-
 	/**
 	 * Geeft de QuizStatus OpengesteldStatus terug
+	 * 
 	 * @return QuizStatus Opengesteld
 	 */
 	public QuizStatus getOpengesteld() {
 		return opengesteld;
 	}
 
-	public void setOpengesteld(QuizStatus opengesteld) {
-		this.opengesteld = opengesteld;
-	}
-
 	/**
 	 * Geeft de QuizStatus LaatsteKansStatus terug
+	 * 
 	 * @return QuizStatus LaatsteKansStatus
 	 */
 	public QuizStatus getLaatsteKans() {
 		return laatsteKans;
 	}
 
-	public void setLaatsteKans(QuizStatus laatsteKans) {
-		this.laatsteKans = laatsteKans;
-	}
-
 	/**
 	 * Geeft de QuizStatus AfgeslotenStatus terug
+	 * 
 	 * @return QuizStatus AfgeslotenStatus
 	 */
 	public QuizStatus getAfgesloten() {
 		return afgesloten;
-	}
-
-	public void setAfgesloten(QuizStatus afgesloten) {
-		this.afgesloten = afgesloten;
 	}
 
 	/**
@@ -339,6 +355,12 @@ public class Quiz implements Cloneable, Comparable<Quiz> {
 	 *            integer of meerdere integers
 	 */
 	public Quiz(String onderwerp, Leraar auteur, Boolean test, int... jaren) {
+		inConstructie = new InConstructieStatus(this);
+		afgewerkt = new AfgewerktStatus(this);
+		opengesteld = new OpengesteldStatus(this);
+		laatsteKans = new LaatsteKansStatus(this);
+		afgesloten = new AfgeslotenStatus(this);
+		status = inConstructie;
 		setOnderwerp(onderwerp);
 		setAuteur(auteur);
 		setIsTest(test);
@@ -347,27 +369,21 @@ public class Quiz implements Cloneable, Comparable<Quiz> {
 		this.opdrachten = new ArrayList<QuizOpdracht>();
 		this.setDatumRegistratie(new Datum());
 		quizDeelnames = new ArrayList<QuizDeelname>();
-		inConstructie = new InConstructieStatus(this);
-		afgewerkt = new AfgewerktStatus(this);
-		opengesteld = new OpengesteldStatus(this);
-		laatsteKans = new LaatsteKansStatus(this);
-		afgesloten = new AfgeslotenStatus(this);
-		status = inConstructie;
 	}
 
 	/**
 	 * Default constuctor
 	 */
 	public Quiz() {
-		this.opdrachten = new ArrayList<QuizOpdracht>();
-		this.leerjaren = new ArrayList<Integer>();
-		quizDeelnames = new ArrayList<QuizDeelname>();
 		inConstructie = new InConstructieStatus(this);
 		afgewerkt = new AfgewerktStatus(this);
 		opengesteld = new OpengesteldStatus(this);
 		laatsteKans = new LaatsteKansStatus(this);
 		afgesloten = new AfgeslotenStatus(this);
 		status = inConstructie;
+		this.opdrachten = new ArrayList<QuizOpdracht>();
+		this.leerjaren = new ArrayList<Integer>();
+		quizDeelnames = new ArrayList<QuizDeelname>();
 	}
 
 	/**
@@ -382,15 +398,7 @@ public class Quiz implements Cloneable, Comparable<Quiz> {
 	 */
 	protected void voegQuizOpdrachtToe(QuizOpdracht opdracht)
 			throws IllegalArgumentException {
-		if (opdracht == null) {
-			throw new IllegalArgumentException(
-					"De quizDeelname mag niet null zijn");
-		}
-		if (opdrachten.contains(opdracht)) {
-			throw new IllegalArgumentException(
-					"Deze opdracht is al toegevoegd.");
-		}
-		opdrachten.add(opdracht);
+		status.voegQuizOpdrachtToe(opdracht);
 	}
 
 	/**
@@ -406,15 +414,7 @@ public class Quiz implements Cloneable, Comparable<Quiz> {
 	 */
 	protected void verwijderQuizOpdracht(QuizOpdracht opdracht)
 			throws IllegalArgumentException {
-		if (opdracht == null) {
-			throw new IllegalArgumentException("De opdracht mag niet null zijn");
-		}
-		int index = this.opdrachten.indexOf(opdracht);
-		if (index == -1) {
-			throw new IllegalArgumentException("Opdracht niet aanwezig in quiz");
-		} else {
-			this.opdrachten.remove(opdracht);
-		}
+		status.verwijderQuizOpdracht(opdracht);
 	}
 
 	/**
@@ -429,15 +429,7 @@ public class Quiz implements Cloneable, Comparable<Quiz> {
 	 */
 	protected void voegQuizDeelnameToe(QuizDeelname quizDeelname)
 			throws IllegalArgumentException {
-		if (quizDeelname == null) {
-			throw new IllegalArgumentException(
-					"De quizDeelname mag niet null zijn");
-		}
-		if (quizDeelnames.contains(quizDeelname)) {
-			throw new IllegalArgumentException(
-					"Deze quizDeelname is al toegevoegd.");
-		}
-		quizDeelnames.add(quizDeelname);
+		status.voegQuizDeelnameToe(quizDeelname);
 	}
 
 	/**
@@ -451,15 +443,7 @@ public class Quiz implements Cloneable, Comparable<Quiz> {
 	 */
 	protected void verwijderQuizDeelname(QuizDeelname quizDeelname)
 			throws IllegalArgumentException {
-		if (quizDeelname == null) {
-			throw new IllegalArgumentException(
-					"De quizDeelname mag niet null zijn");
-		}
-		if (!(quizDeelnames.contains(quizDeelname))) {
-			throw new IllegalArgumentException(
-					"De quizDeelname zit niet in de lijst");
-		}
-		quizDeelnames.remove(quizDeelname);
+		
 	}
 
 	/**
