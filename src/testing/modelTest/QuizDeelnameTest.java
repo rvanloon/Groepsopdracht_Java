@@ -35,6 +35,7 @@ public class QuizDeelnameTest {
 		opdracht2.setMaxAntwoordTijd(10);
 		QuizOpdracht.koppelOpdrachtAanQuiz(quiz, opdracht, 5);
 		QuizOpdracht.koppelOpdrachtAanQuiz(quiz, opdracht2, 5);
+		quiz.setStatus(quiz.getOpengesteld());
 		QuizDeelname.KoppelLeerlingAanQuiz(quiz, leerling, new Datum(4, 11,
 				2012));
 		qd = quiz.getQuizDeelnames().get(0);
@@ -108,6 +109,7 @@ public class QuizDeelnameTest {
 		assertEquals(8, qd.getDeelnameScore(), 0.1);
 		Opdracht opdracht3 = new Opdracht("Hoofdstad Duitsland", "Berlijn",
 				OpdrachtCategorie.algemeneKennis, Leraar.Alain, new Datum());
+		quiz.setStatus(quiz.getInConstructie());
 		QuizOpdracht.koppelOpdrachtAanQuiz(quiz, opdracht3, 5);
 		OpdrachtAntwoord.koppelOpdrachtAanDeelname("Kinshasa", 1, 5, quiz
 				.getOpdrachten().get(2), qd);
@@ -139,7 +141,7 @@ public class QuizDeelnameTest {
 	@Test
 	public void test_ToString_OK() {
 		assertEquals(
-				"QuizDeelname [leerling=Peter, quiz=Hoofdsteden, Alain, InConstructie, datumDeelname=4 november 2012]",
+				"QuizDeelname [leerling=Peter, quiz=Hoofdsteden, Alain, Opengesteld, datumDeelname=4 november 2012]",
 				qd.toString());
 	}
 

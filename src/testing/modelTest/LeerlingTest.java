@@ -34,6 +34,7 @@ public class LeerlingTest {
 		Quiz quiz = new Quiz("Geologie", Leraar.Alain, true, 4);
 		listQd = new ArrayList<QuizDeelname>();
 		// Quiz quiz2 = new Quiz("Aardrijkskunde", Leraar.Alain, true, 5);
+		quiz.setStatus(quiz.getOpengesteld());
 		QuizDeelname.KoppelLeerlingAanQuiz(quiz, leerling, new Datum());
 	}
 

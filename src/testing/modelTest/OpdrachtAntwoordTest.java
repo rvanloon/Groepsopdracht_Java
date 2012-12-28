@@ -37,6 +37,7 @@ public class OpdrachtAntwoordTest {
 		opdracht.setMaxAntwoordTijd(10);
 		Quiz quiz = new Quiz("Hoofdsteden", Leraar.Alain, true, 5);
 		QuizOpdracht.koppelOpdrachtAanQuiz(quiz, opdracht, 5);
+		quiz.setStatus(quiz.getOpengesteld());
 		QuizDeelname.KoppelLeerlingAanQuiz(quiz, leerling, new Datum());
 		quizDeelname = quiz.getQuizDeelnames().get(0);
 		quizOpdracht = quiz.getOpdrachten().get(0);

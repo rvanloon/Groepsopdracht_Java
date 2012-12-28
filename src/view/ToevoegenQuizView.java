@@ -107,7 +107,7 @@ public class ToevoegenQuizView extends JFrame {
 		contentPane.add(comboBox_LeerjarenTot);
 
 		textField_Onderwerp = new JTextField();
-		textField_Onderwerp.setBounds(86, 8, 275, 20);
+		textField_Onderwerp.setBounds(86, 8, 275, 23);
 		contentPane.add(textField_Onderwerp);
 		textField_Onderwerp.setColumns(10);
 
@@ -181,7 +181,7 @@ public class ToevoegenQuizView extends JFrame {
 				controller.herlaadOpdrachten();
 			}
 		});
-		comboBox_Type.setBounds(10, 212, 105, 20);
+		comboBox_Type.setBounds(10, 212, 117, 20);
 		contentPane.add(comboBox_Type);
 
 		JButton btn_AlleOpdrachten = new JButton("Alle opdrachten");
@@ -191,11 +191,11 @@ public class ToevoegenQuizView extends JFrame {
 				comboBox_Categorie.setSelectedItem(null);
 			}
 		});
-		btn_AlleOpdrachten.setBounds(115, 211, 126, 23);
+		btn_AlleOpdrachten.setBounds(127, 209, 126, 23);
 		contentPane.add(btn_AlleOpdrachten);
 
 		JLabel lblCategorie = new JLabel("Categorie:");
-		lblCategorie.setBounds(242, 194, 68, 14);
+		lblCategorie.setBounds(256, 194, 68, 14);
 		contentPane.add(lblCategorie);
 
 		comboBox_Categorie = new JComboBox(controller.getOpdrachtCategorieen());
@@ -204,7 +204,7 @@ public class ToevoegenQuizView extends JFrame {
 				controller.herlaadOpdrachten();
 			}
 		});
-		comboBox_Categorie.setBounds(242, 212, 105, 20);
+		comboBox_Categorie.setBounds(256, 212, 145, 20);
 		contentPane.add(comboBox_Categorie);
 
 		JLabel lblMaximumScore = new JLabel("Maximum score:");
@@ -212,7 +212,7 @@ public class ToevoegenQuizView extends JFrame {
 		contentPane.add(lblMaximumScore);
 
 		textField_MaxScore = new JTextField();
-		textField_MaxScore.setBounds(616, 192, 86, 20);
+		textField_MaxScore.setBounds(616, 192, 86, 23);
 		contentPane.add(textField_MaxScore);
 		textField_MaxScore.setColumns(10);
 
@@ -223,7 +223,7 @@ public class ToevoegenQuizView extends JFrame {
 		textField_TotScore = new JTextField();
 		textField_TotScore.setEditable(false);
 		textField_TotScore.setColumns(10);
-		textField_TotScore.setBounds(616, 215, 86, 20);
+		textField_TotScore.setBounds(616, 215, 86, 23);
 		contentPane.add(textField_TotScore);
 
 		JLabel lblVraag = new JLabel("Vraag");

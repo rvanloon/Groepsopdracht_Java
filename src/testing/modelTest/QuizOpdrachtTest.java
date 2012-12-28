@@ -78,6 +78,7 @@ public class QuizOpdrachtTest {
 	public void test_GetGemiddeldeScore_ok() {
 		Leerling leerling = new Leerling("Peter", 4);
 		opdracht.setMaxAntwoordTijd(10);
+		quiz.setStatus(quiz.getOpengesteld());
 		QuizDeelname.KoppelLeerlingAanQuiz(quiz, leerling, new Datum(4, 11,
 				2012));
 		QuizDeelname qd = quiz.getQuizDeelnames().get(0);

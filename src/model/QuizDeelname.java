@@ -1,5 +1,6 @@
 package model;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 import utils.Datum;
@@ -17,7 +18,6 @@ public class QuizDeelname implements Comparable<QuizDeelname> {
 	private Quiz quiz;
 	private Datum datumDeelname;
 	private ArrayList<OpdrachtAntwoord> opdrachtAntwoorden;
-	private QuizScoreRegelsFactory factory;
 	private QuizScore quizScore;
 
 	public void setQuizScore(QuizScore quizScore) {
@@ -36,9 +36,13 @@ public class QuizDeelname implements Comparable<QuizDeelname> {
 		setQuiz(quiz);
 		setDatumDeelname(datumDeelname);
 		opdrachtAntwoorden = new ArrayList<OpdrachtAntwoord>();
-		factory = QuizScoreRegelsFactory.getInstance();
-		// de quiz gebruikt default het scoresysteem waarin tijd en pogingen zijn meegerekend
-		quizScore = factory.getQuizScore(this, SoortenScores.AntwoordenMetTijdEnPogingen);
+
+		try {
+			quizScore = QuizScoreRegelsFactory.getInstance().getQuizScore(this);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	/**
@@ -198,14 +202,6 @@ public class QuizDeelname implements Comparable<QuizDeelname> {
 		}
 		opdrachtAntwoorden.remove(opdrachtAntwoord);
 	}
-	
-	/**
-	 * Maakt het mogelijk het scoresysteem te wijzigen
-	 * @param SoortenScores scoreSoort (enum)
-	 */
-	public void wijzigScoreSysteem(SoortenScores scoreSoort){
-		
-	}
 
 	@Override
 	public int hashCode() {
@@ -286,8 +282,9 @@ public class QuizDeelname implements Comparable<QuizDeelname> {
 				OpdrachtCategorie.algemeneKennis, Leraar.Alain, new Datum());
 		opdracht.setMaxAntwoordTijd(10);
 		opdracht2.setMaxAntwoordTijd(10);
-		QuizOpdracht.koppelOpdrachtAanQuiz(quiz, opdracht, 5);
-		QuizOpdracht.koppelOpdrachtAanQuiz(quiz, opdracht2, 5);
+		QuizOpdracht.koppelOpdrachtAanQuiz(quiz, opdracht, 7);
+		QuizOpdracht.koppelOpdrachtAanQuiz(quiz, opdracht2, 7);
+		quiz.setStatus(quiz.getOpengesteld());
 		QuizDeelname.KoppelLeerlingAanQuiz(quiz, leerling, new Datum(4, 11,
 				2012));
 		QuizDeelname qd = quiz.getQuizDeelnames().get(0);
