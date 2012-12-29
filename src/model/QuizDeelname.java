@@ -213,24 +213,21 @@ public class QuizDeelname extends QuizRapport implements
 	public String getQuizRapport() {
 		String rapport = "";
 		rapport += "Beste " + leerling.getLeerlingNaam() + ",\n\n";
+		rapport += "Ziehier het overzicht van al uw antwoorden:  \n\n";
+		for (OpdrachtAntwoord oa : this.getOpdrachtAntwoorden()) {
+			rapport += "Vraag: "
+					+ oa.getQuizopdracht().getOpdracht().getVraag() + "\n";
+			rapport += "Juiste antwoord: "
+					+ oa.getQuizopdracht().getOpdracht().getJuisteAntwoord()
+					+ "\n";
+			rapport += "Uw antwoord: " + oa.getLaatsteAntwoord() + "\n";
+			rapport += "Uw score: " + oa.GetOpdrachtScore() + "\n\n";
+		}
 		rapport += "U behaalde op de quiz \"" + getQuiz().getOnderwerp()
 				+ "\"\n";
 		rapport += "de score van " + getDeelnameScore() + " punten\n";
-		rapport += "op een totaal van " + quiz.getTotaleMaximumScore()
-				+ " punten.";
+		rapport += "op een totaal van 10 punten";
 		return rapport;
-	}
-
-	/**
-	 * Geeft het resultaat terug van de leerling (de score gedeeld door de
-	 * totale score)
-	 * 
-	 * @return double
-	 */
-	public double getResultaat() {
-		double resultaat = getDeelnameScore()
-				/ getQuiz().getTotaleMaximumScore();
-		return resultaat;
 	}
 
 	/**
@@ -352,8 +349,7 @@ public class QuizDeelname extends QuizRapport implements
 		OpdrachtAntwoord.koppelOpdrachtAanDeelname("Brussel", 2, 5, quiz
 				.getOpdrachten().get(1), qd);
 		System.out.println(qd.getDeelnameScore());
-		RapportSlotRegels rapport = new RapportSlotRegels(new RapportKopRegels(
-				qd));
+		RapportKopRegels rapport = new RapportKopRegels(qd);
 		System.out.println(rapport.getQuizRapport());
 	}
 }

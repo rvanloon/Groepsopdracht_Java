@@ -18,7 +18,7 @@ public class RapportSlotRegels extends QuizRapportDecorator {
 		String basisRapport = quizRapport.getQuizRapport();
 		String totaalRapport = "";
 		String slotTekst = "\n\n";
-		slotTekst += quizRapport.getQuizDeelname().getResultaat() >= 0.7 ? "Gefeliciteerd!" : quizRapport.getQuizDeelname().getResultaat() >= 0.5 ? "Geslaagd." : "Dit moet beter in de toekomst.";
+		slotTekst += quizRapport.getQuizDeelname().getDeelnameScore() >= 7 ? "Gefeliciteerd!" : quizRapport.getQuizDeelname().getDeelnameScore() >= 5 ? "Geslaagd." : "Dit moet beter in de toekomst.";
 		slotTekst += "\n(De gemiddelde score op de quiz was " + (int)quizRapport.getQuizDeelname().getGemiddeldeScore() + ")\n";
 		totaalRapport = basisRapport + slotTekst;
 		return totaalRapport;
