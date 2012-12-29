@@ -11,7 +11,8 @@ import utils.Datum;
  * @version 1
  * 
  */
-public class QuizDeelname implements Comparable<QuizDeelname> {
+public class QuizDeelname extends QuizRapport implements
+		Comparable<QuizDeelname> {
 
 	private Leerling leerling;
 	// private Leraar leraar;
@@ -203,6 +204,64 @@ public class QuizDeelname implements Comparable<QuizDeelname> {
 		opdrachtAntwoorden.remove(opdrachtAntwoord);
 	}
 
+	/**
+	 * Geeft het rapport van de leerling terug in Stringvorm
+	 * 
+	 * @return String
+	 */
+	@Override
+	public String getQuizRapport() {
+		String rapport = "";
+		rapport += "Beste " + leerling.getLeerlingNaam() + ",\n\n";
+		rapport += "U behaalde op de quiz \"" + getQuiz().getOnderwerp()
+				+ "\"\n";
+		rapport += "de score van " + getDeelnameScore() + " punten\n";
+		rapport += "op een totaal van " + quiz.getTotaleMaximumScore()
+				+ " punten.";
+		return rapport;
+	}
+
+	/**
+	 * Geeft het resultaat terug van de leerling (de score gedeeld door de
+	 * totale score)
+	 * 
+	 * @return double
+	 */
+	public double getResultaat() {
+		double resultaat = getDeelnameScore()
+				/ getQuiz().getTotaleMaximumScore();
+		return resultaat;
+	}
+
+	/**
+	 * Geeft de gemiddelde score terug die behaald werd op de quiz waar de
+	 * leerling aan deelnam
+	 * 
+	 * @return double
+	 */
+	public double getGemiddeldeScore() {
+		double gemiddeldeScore = getQuiz().getGemiddeldeQuizScore();
+		return gemiddeldeScore;
+	}
+
+	/**
+	 * Geeft de auteur terug van de quiz waar de leerling aan heeft deelgenomen
+	 * 
+	 * @return Leraar
+	 */
+	public Leraar getAuteur() {
+		return getQuiz().getAuteur();
+	}
+
+	/**
+	 * Geeft de QuizDeelname terug gebruikt in decorator klasses om aan
+	 * informatie van de QuizDeelname te kunnen
+	 */
+	@Override
+	protected QuizDeelname getQuizDeelname() {
+		return this;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -293,6 +352,8 @@ public class QuizDeelname implements Comparable<QuizDeelname> {
 		OpdrachtAntwoord.koppelOpdrachtAanDeelname("Brussel", 2, 5, quiz
 				.getOpdrachten().get(1), qd);
 		System.out.println(qd.getDeelnameScore());
+		RapportSlotRegels rapport = new RapportSlotRegels(new RapportKopRegels(
+				qd));
+		System.out.println(rapport.getQuizRapport());
 	}
-
 }
