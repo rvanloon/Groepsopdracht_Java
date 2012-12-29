@@ -10,7 +10,7 @@ import utils.Datum;
  * 
  */
 
-public class Quiz implements Cloneable, Comparable<Quiz> {
+public class Quiz implements Cloneable, Comparable<Quiz>, Observable {
 	private String onderwerp;
 	private ArrayList<Integer> leerjaren;
 	private Leraar auteur;
@@ -24,6 +24,7 @@ public class Quiz implements Cloneable, Comparable<Quiz> {
 	private QuizStatus laatsteKans;
 	private QuizStatus afgesloten;
 	private QuizStatus status;
+	private ArrayList<Observer> observers;
 
 	/**
 	 * Geeft het onderwerp van de Quiz terug
@@ -153,7 +154,7 @@ public class Quiz implements Cloneable, Comparable<Quiz> {
 		} else {
 			throw new IllegalArgumentException("Niet toegestaan wegens status");
 		}
-		
+
 	}
 
 	/**
@@ -175,7 +176,7 @@ public class Quiz implements Cloneable, Comparable<Quiz> {
 	 * @throws IllegalArgumentException
 	 *             indien de meegegeven Boolean null is
 	 */
-	public void setIsTest(Boolean isTest) throws IllegalArgumentException {		
+	public void setIsTest(Boolean isTest) throws IllegalArgumentException {
 		if (status.setIsTestToegestaan()) {
 			if (isTest == null) {
 				throw new IllegalArgumentException("auteur mag niet null zijn");
@@ -207,16 +208,15 @@ public class Quiz implements Cloneable, Comparable<Quiz> {
 	 */
 	public void setDatumRegistratie(Datum datumRegistratie)
 			throws IllegalArgumentException {
-		if(status.setDatumRegistratieToegestaan()){
+		if (status.setDatumRegistratieToegestaan()) {
 			if (datumRegistratie == null) {
 				throw new IllegalArgumentException("Datum mag niet null zijn");
 			}
 			this.datumRegistratie = datumRegistratie;
-		}
-		else{
+		} else {
 			throw new IllegalArgumentException("Niet toegestaan wegens status");
 		}
-		
+
 	}
 
 	/**
@@ -278,7 +278,7 @@ public class Quiz implements Cloneable, Comparable<Quiz> {
 	 *            status
 	 */
 	public void setStatus(QuizStatus status) {
-		if(status == null){
+		if (status == null) {
 			throw new IllegalArgumentException("status mag niet null zijn");
 		}
 		this.status = status;
@@ -326,6 +326,7 @@ public class Quiz implements Cloneable, Comparable<Quiz> {
 	 * @return QuizStatus LaatsteKansStatus
 	 */
 	public QuizStatus getLaatsteKans() {
+		notifyObservers();
 		return laatsteKans;
 	}
 
@@ -335,6 +336,7 @@ public class Quiz implements Cloneable, Comparable<Quiz> {
 	 * @return QuizStatus AfgeslotenStatus
 	 */
 	public QuizStatus getAfgesloten() {
+		notifyObservers();
 		return afgesloten;
 	}
 
@@ -369,6 +371,7 @@ public class Quiz implements Cloneable, Comparable<Quiz> {
 		this.opdrachten = new ArrayList<QuizOpdracht>();
 		this.setDatumRegistratie(new Datum());
 		quizDeelnames = new ArrayList<QuizDeelname>();
+		observers = new ArrayList<Observer>();
 	}
 
 	/**
@@ -384,6 +387,7 @@ public class Quiz implements Cloneable, Comparable<Quiz> {
 		this.opdrachten = new ArrayList<QuizOpdracht>();
 		this.leerjaren = new ArrayList<Integer>();
 		quizDeelnames = new ArrayList<QuizDeelname>();
+		observers = new ArrayList<Observer>();
 	}
 
 	/**
@@ -443,7 +447,7 @@ public class Quiz implements Cloneable, Comparable<Quiz> {
 	 */
 	protected void verwijderQuizDeelname(QuizDeelname quizDeelname)
 			throws IllegalArgumentException {
-		
+
 	}
 
 	/**
@@ -473,6 +477,51 @@ public class Quiz implements Cloneable, Comparable<Quiz> {
 			somScore += qo.getMaxScore();
 		}
 		return somScore;
+	}
+
+	/**
+	 * Voegt een observer toe aan de ArrayList van observers
+	 * 
+	 * @param Observer
+	 */
+	@Override
+	public void addObserver(Observer observer) {
+		if (observer == null) {
+			throw new IllegalArgumentException(
+					"observer object mag niet null zijn");
+		}
+		if (observers.contains(observer)) {
+			throw new IllegalArgumentException(
+					"De observer is al toegevoegd in de lijst");
+		}
+		observers.add(observer);
+	}
+
+	/**
+	 * verwijdert een observer van de ArrayList van observers
+	 * 
+	 * @param Observer
+	 */
+	@Override
+	public void removeObserver(Observer observer) {
+		if (observer == null) {
+			throw new IllegalArgumentException(
+					"observer object mag niet null zijn");
+		}
+		if (observers.contains(observer)) {
+			int index = observers.indexOf(observer);
+			observers.remove(index);
+		} else {
+			throw new IllegalArgumentException(
+					"De observer is niet teruggevonden in de lijst");
+		}
+	}
+
+	@Override
+	public void notifyObservers() {
+		for (Observer o : observers) {
+			o.update();
+		}
 	}
 
 	/**

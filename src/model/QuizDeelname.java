@@ -221,7 +221,6 @@ public class QuizDeelname extends QuizRapport implements
 					+ oa.getQuizopdracht().getOpdracht().getJuisteAntwoord()
 					+ "\n";
 			rapport += "Uw antwoord: " + oa.getLaatsteAntwoord() + "\n";
-			rapport += "Uw score: " + oa.GetOpdrachtScore() + "\n\n";
 		}
 		rapport += "U behaalde op de quiz \"" + getQuiz().getOnderwerp()
 				+ "\"\n";
