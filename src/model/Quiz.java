@@ -27,6 +27,56 @@ public class Quiz implements Cloneable, Comparable<Quiz>, Observable {
 	private ArrayList<Observer> observers;
 
 	/**
+	 * Constructor waarmee men een nieuwe quiz kan aanmaken. Men moet een geldig
+	 * onderwerp, een geldige leraar, een boolean om aan te geven of het een
+	 * test betreft en tenslotte het leerjaar (of de leerjaren) waarvoor de quiz
+	 * bedoeld is. De status wordt default als "in constructie" geplaatst. De
+	 * registratiedatum krijgt de systeemdatum mee.
+	 * 
+	 * @param onderwerp
+	 *            String
+	 * @param auteur
+	 *            enum Leraar
+	 * @param test
+	 *            Boolean
+	 * @param jaren
+	 *            integer of meerdere integers
+	 */
+	public Quiz(String onderwerp, Leraar auteur, Boolean test, int... jaren) {
+		inConstructie = new InConstructieStatus(this);
+		afgewerkt = new AfgewerktStatus(this);
+		opengesteld = new OpengesteldStatus(this);
+		laatsteKans = new LaatsteKansStatus(this);
+		afgesloten = new AfgeslotenStatus(this);
+		status = inConstructie;
+		setOnderwerp(onderwerp);
+		setAuteur(auteur);
+		setIsTest(test);
+		this.leerjaren = new ArrayList<Integer>();
+		setLeerjaren(jaren);
+		this.opdrachten = new ArrayList<QuizOpdracht>();
+		this.setDatumRegistratie(new Datum());
+		quizDeelnames = new ArrayList<QuizDeelname>();
+		observers = new ArrayList<Observer>();
+	}
+
+	/**
+	 * Default constuctor
+	 */
+	public Quiz() {
+		inConstructie = new InConstructieStatus(this);
+		afgewerkt = new AfgewerktStatus(this);
+		opengesteld = new OpengesteldStatus(this);
+		laatsteKans = new LaatsteKansStatus(this);
+		afgesloten = new AfgeslotenStatus(this);
+		status = inConstructie;
+		this.opdrachten = new ArrayList<QuizOpdracht>();
+		this.leerjaren = new ArrayList<Integer>();
+		quizDeelnames = new ArrayList<QuizDeelname>();
+		observers = new ArrayList<Observer>();
+	}
+
+	/**
 	 * Geeft het onderwerp van de Quiz terug
 	 * 
 	 * @return String
@@ -326,7 +376,7 @@ public class Quiz implements Cloneable, Comparable<Quiz>, Observable {
 	 * @return QuizStatus LaatsteKansStatus
 	 */
 	public QuizStatus getLaatsteKans() {
-		notifyObservers();
+		notifyObservers(laatsteKans);
 		return laatsteKans;
 	}
 
@@ -336,58 +386,8 @@ public class Quiz implements Cloneable, Comparable<Quiz>, Observable {
 	 * @return QuizStatus AfgeslotenStatus
 	 */
 	public QuizStatus getAfgesloten() {
-		notifyObservers();
+		notifyObservers(afgesloten);
 		return afgesloten;
-	}
-
-	/**
-	 * Constructor waarmee men een nieuwe quiz kan aanmaken. Men moet een geldig
-	 * onderwerp, een geldige leraar, een boolean om aan te geven of het een
-	 * test betreft en tenslotte het leerjaar (of de leerjaren) waarvoor de quiz
-	 * bedoeld is. De status wordt default als "in constructie" geplaatst. De
-	 * registratiedatum krijgt de systeemdatum mee.
-	 * 
-	 * @param onderwerp
-	 *            String
-	 * @param auteur
-	 *            enum Leraar
-	 * @param test
-	 *            Boolean
-	 * @param jaren
-	 *            integer of meerdere integers
-	 */
-	public Quiz(String onderwerp, Leraar auteur, Boolean test, int... jaren) {
-		inConstructie = new InConstructieStatus(this);
-		afgewerkt = new AfgewerktStatus(this);
-		opengesteld = new OpengesteldStatus(this);
-		laatsteKans = new LaatsteKansStatus(this);
-		afgesloten = new AfgeslotenStatus(this);
-		status = inConstructie;
-		setOnderwerp(onderwerp);
-		setAuteur(auteur);
-		setIsTest(test);
-		this.leerjaren = new ArrayList<Integer>();
-		setLeerjaren(jaren);
-		this.opdrachten = new ArrayList<QuizOpdracht>();
-		this.setDatumRegistratie(new Datum());
-		quizDeelnames = new ArrayList<QuizDeelname>();
-		observers = new ArrayList<Observer>();
-	}
-
-	/**
-	 * Default constuctor
-	 */
-	public Quiz() {
-		inConstructie = new InConstructieStatus(this);
-		afgewerkt = new AfgewerktStatus(this);
-		opengesteld = new OpengesteldStatus(this);
-		laatsteKans = new LaatsteKansStatus(this);
-		afgesloten = new AfgeslotenStatus(this);
-		status = inConstructie;
-		this.opdrachten = new ArrayList<QuizOpdracht>();
-		this.leerjaren = new ArrayList<Integer>();
-		quizDeelnames = new ArrayList<QuizDeelname>();
-		observers = new ArrayList<Observer>();
 	}
 
 	/**
@@ -518,9 +518,9 @@ public class Quiz implements Cloneable, Comparable<Quiz>, Observable {
 	}
 
 	@Override
-	public void notifyObservers() {
+	public void notifyObservers(Object obj) {
 		for (Observer o : observers) {
-			o.update();
+			o.update(this, obj);
 		}
 	}
 
