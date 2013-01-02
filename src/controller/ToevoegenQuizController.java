@@ -69,7 +69,7 @@ public class ToevoegenQuizController {
 	 * @return
 	 */
 	public String[] getLeeraars() {
-		return enumNameToStringArray(Leraar.values());
+		return opstartcontroller.enumNameToStringArray(Leraar.values());
 	}
 
 	/**
@@ -78,7 +78,7 @@ public class ToevoegenQuizController {
 	 * @return
 	 */
 	public String[] getQuizStatussen() {
-		return enumNameToStringArray(QuizStatusEnum.values());
+		return opstartcontroller.enumNameToStringArray(QuizStatusEnum.values());
 	}
 
 	/**
@@ -88,7 +88,7 @@ public class ToevoegenQuizController {
 	 * @return
 	 */
 	public String[] getOpdrachtCategorieen() {
-		String[] terug = enumNameToStringArray(OpdrachtCategorie.values());
+		String[] terug = opstartcontroller.enumNameToStringArray(OpdrachtCategorie.values());
 		terug = Arrays.copyOf(terug, terug.length + 1);
 		Arrays.sort(terug, new Comparator<String>() {
 			public int compare(String o1, String o2) {
@@ -266,21 +266,6 @@ public class ToevoegenQuizController {
 	public void toonMenu() {
 		view.setVisible(false);
 		opstartcontroller.execute();
-	}
-
-	/**
-	 * Zet een enum om in een array van strings.
-	 * 
-	 * @param values
-	 * @return String[]
-	 */
-	public static <T extends Enum<T>> String[] enumNameToStringArray(T[] values) {
-		int i = 0;
-		String[] result = new String[values.length];
-		for (T value : values) {
-			result[i++] = value.name();
-		}
-		return result;
 	}
 
 }

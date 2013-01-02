@@ -18,6 +18,7 @@ public class BeheerQuizApplicatie {
 
 	private static String xmlFile = "TextFiles\\settings.xml";
 	private static String scoreStrategy = "scoreStrategy";
+	private static String daoType = "DAO_type";
 	private static Properties prop;
 
 	/**
@@ -52,8 +53,7 @@ public class BeheerQuizApplicatie {
 	 * @throws InvalidPropertiesFormatException
 	 * @throws IOException
 	 */
-	public static String getQuizscoreStrategy()
-			throws InvalidPropertiesFormatException, IOException {
+	public static String getQuizscoreStrategy() throws IOException {
 		laadProperties();
 		return prop.getProperty(scoreStrategy);
 	}
@@ -68,6 +68,17 @@ public class BeheerQuizApplicatie {
 			throws IOException {
 		laadProperties();
 		prop.setProperty(scoreStrategy, quizscore);
+		saveProperties();
+	}
+
+	public static String getDaoType() throws IOException {
+		laadProperties();
+		return prop.getProperty(daoType);
+	}
+
+	public static void setDaoType(String daoTypeNaam) throws IOException {
+		laadProperties();
+		prop.setProperty(daoType, daoTypeNaam);
 		saveProperties();
 	}
 
