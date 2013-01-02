@@ -332,6 +332,10 @@ public class Quiz implements Cloneable, Comparable<Quiz>, Observable {
 			throw new IllegalArgumentException("status mag niet null zijn");
 		}
 		this.status = status;
+		if (status.getClass().equals(AfgeslotenStatus.class)
+				|| status.getClass().equals(LaatsteKansStatus.class)) {
+			notifyObservers();
+		}
 	}
 
 	/**
@@ -376,7 +380,6 @@ public class Quiz implements Cloneable, Comparable<Quiz>, Observable {
 	 * @return QuizStatus LaatsteKansStatus
 	 */
 	public QuizStatus getLaatsteKans() {
-		notifyObservers(laatsteKans);
 		return laatsteKans;
 	}
 
@@ -386,7 +389,6 @@ public class Quiz implements Cloneable, Comparable<Quiz>, Observable {
 	 * @return QuizStatus AfgeslotenStatus
 	 */
 	public QuizStatus getAfgesloten() {
-		notifyObservers(afgesloten);
 		return afgesloten;
 	}
 
@@ -447,7 +449,7 @@ public class Quiz implements Cloneable, Comparable<Quiz>, Observable {
 	 */
 	protected void verwijderQuizDeelname(QuizDeelname quizDeelname)
 			throws IllegalArgumentException {
-
+		status.verwijderQuizDeelname(quizDeelname);
 	}
 
 	/**
@@ -518,9 +520,9 @@ public class Quiz implements Cloneable, Comparable<Quiz>, Observable {
 	}
 
 	@Override
-	public void notifyObservers(Object obj) {
+	public void notifyObservers() {
 		for (Observer o : observers) {
-			o.update(this, obj);
+			o.update(this);
 		}
 	}
 
@@ -640,6 +642,9 @@ public class Quiz implements Cloneable, Comparable<Quiz>, Observable {
 		} catch (Exception e) {
 			System.out.println(e);
 		}
+		
+		Quiz q = new Quiz();
+		q.setStatus(q.getLaatsteKans());
 	}
 
 }

@@ -347,8 +347,11 @@ public class QuizDeelname extends QuizRapport implements
 				.getOpdrachten().get(0), qd);
 		OpdrachtAntwoord.koppelOpdrachtAanDeelname("Brussel", 2, 5, quiz
 				.getOpdrachten().get(1), qd);
-		System.out.println(qd.getDeelnameScore());
-		RapportKopRegels rapport = new RapportKopRegels(qd);
+		//System.out.println(qd.getDeelnameScore());
+		//RapportKopRegels rapport = new RapportKopRegels(qd);
+		QuizRapport rapport = qd;
+		rapport = new RapportKopRegels(rapport);
+		rapport = new RapportSlotRegels(rapport);
 		System.out.println(rapport.getQuizRapport());
 	}
 }

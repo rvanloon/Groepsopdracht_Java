@@ -22,6 +22,7 @@ public class BeheerQuizApplicatie {
 
 	/**
 	 * Laad de xlm file met de properties
+	 * 
 	 * @throws InvalidPropertiesFormatException
 	 * @throws IOException
 	 */
@@ -35,6 +36,7 @@ public class BeheerQuizApplicatie {
 
 	/**
 	 * Schrijft de properties weg naar een xml-file
+	 * 
 	 * @throws IOException
 	 */
 	private static void saveProperties() throws IOException {
@@ -43,12 +45,25 @@ public class BeheerQuizApplicatie {
 		stream.close();
 	}
 
+	/**
+	 * geeft uit de settingsfile de scorestrategie.
+	 * 
+	 * @return string
+	 * @throws InvalidPropertiesFormatException
+	 * @throws IOException
+	 */
 	public static String getQuizscoreStrategy()
 			throws InvalidPropertiesFormatException, IOException {
 		laadProperties();
 		return prop.getProperty(scoreStrategy);
 	}
 
+	/**
+	 * schrijft de scorestrategie weg in de settingsfile.
+	 * 
+	 * @param quizscore
+	 * @throws IOException
+	 */
 	public static void setQuizscoreStrategy(String quizscore)
 			throws IOException {
 		laadProperties();
