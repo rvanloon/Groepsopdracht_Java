@@ -1,27 +1,24 @@
 package model;
 
-public class RapportSlotRegels extends QuizRapportDecorator {
-	
-	private QuizRapport quizRapport;
-	
-	public RapportSlotRegels(QuizRapport qr){
-		this.quizRapport = qr;
-	}
-	
-	@Override
-	QuizDeelname getQuizDeelname() {
-		return quizRapport.getQuizDeelname();
+public class RapportSlotRegels extends RapportDecorator {
+
+	private RapporteerbaarObject rapporteerbaarObject;
+	private QuizDeelname deelname;
+
+	public RapportSlotRegels(RapporteerbaarObject qr, QuizDeelname deelname) {
+		this.rapporteerbaarObject = qr;
+		this.deelname = deelname;
 	}
 
 	@Override
-	public String getQuizRapport() {
-		String basisRapport = quizRapport.getQuizRapport();
-		String totaalRapport = "";
+	public String getRapport() {
 		String slotTekst = "\n\n";
-		slotTekst += quizRapport.getQuizDeelname().getDeelnameScore() >= 7 ? "Gefeliciteerd!" : quizRapport.getQuizDeelname().getDeelnameScore() >= 5 ? "Geslaagd." : "Dit moet beter in de toekomst.";
-		slotTekst += "\n(De gemiddelde score op de quiz was " + (int)quizRapport.getQuizDeelname().getGemiddeldeScore() + ")\n";
-		totaalRapport = basisRapport + slotTekst;
-		return totaalRapport;
+		slotTekst += deelname.getDeelnameScore() >= 7 ? "Gefeliciteerd!"
+				: deelname.getDeelnameScore() >= 5 ? "Geslaagd."
+						: "Dit moet beter in de toekomst.";
+		slotTekst += "\n(De gemiddelde score op de quiz was "
+				+ (int) deelname.getGemiddeldeScore() + ")\n";
+		return rapporteerbaarObject.getRapport() + slotTekst;
 	}
 
 }

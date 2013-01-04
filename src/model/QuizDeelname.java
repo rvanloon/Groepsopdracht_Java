@@ -11,7 +11,7 @@ import utils.Datum;
  * @version 1
  * 
  */
-public class QuizDeelname extends QuizRapport implements
+public class QuizDeelname extends RapporteerbaarObject implements
 		Comparable<QuizDeelname> {
 
 	private Leerling leerling;
@@ -41,7 +41,6 @@ public class QuizDeelname extends QuizRapport implements
 		try {
 			quizScore = QuizScoreRegelsFactory.getInstance().getQuizScore(this);
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -210,8 +209,7 @@ public class QuizDeelname extends QuizRapport implements
 	 * @return String
 	 */
 	@Override
-	public String getQuizRapport() {
-		String rapport = "";
+	public String getRapport() {
 		rapport += "Beste " + leerling.getLeerlingNaam() + ",\n\n";
 		rapport += "Ziehier het overzicht van al uw antwoorden:  \n\n";
 		for (OpdrachtAntwoord oa : this.getOpdrachtAntwoorden()) {
@@ -249,15 +247,7 @@ public class QuizDeelname extends QuizRapport implements
 		return getQuiz().getAuteur();
 	}
 
-	/**
-	 * Geeft de QuizDeelname terug gebruikt in decorator klasses om aan
-	 * informatie van de QuizDeelname te kunnen
-	 */
-	@Override
-	protected QuizDeelname getQuizDeelname() {
-		return this;
-	}
-
+	
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -349,9 +339,9 @@ public class QuizDeelname extends QuizRapport implements
 				.getOpdrachten().get(1), qd);
 		//System.out.println(qd.getDeelnameScore());
 		//RapportKopRegels rapport = new RapportKopRegels(qd);
-		QuizRapport rapport = qd;
-		rapport = new RapportKopRegels(rapport);
-		rapport = new RapportSlotRegels(rapport);
-		System.out.println(rapport.getQuizRapport());
+		RapporteerbaarObject rapport = qd;
+		rapport = new RapportKopRegels(rapport,qd);
+		rapport = new RapportSlotRegels(rapport,qd);
+		System.out.println(rapport.getRapport());
 	}
 }

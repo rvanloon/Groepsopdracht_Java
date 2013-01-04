@@ -47,10 +47,13 @@ public class ToevoegenQuizController {
 			quiz = new Quiz();
 			this.opstartcontroller = opstartcontroller;
 			quizapplicatieDAO = opstartcontroller.getQuizapplicatieDAO();
+			if (quizapplicatieDAO == null)
+				throw new NullPointerException("probleem bij laden DAO");
 			view = new ToevoegenQuizView(this);
 			view.setVisible(true);
 		} catch (Exception e) {
 			IO.toonStringMetVenster(e.getMessage());
+			toonMenu();
 		}
 	}
 
@@ -88,7 +91,8 @@ public class ToevoegenQuizController {
 	 * @return
 	 */
 	public String[] getOpdrachtCategorieen() {
-		String[] terug = opstartcontroller.enumNameToStringArray(OpdrachtCategorie.values());
+		String[] terug = opstartcontroller
+				.enumNameToStringArray(OpdrachtCategorie.values());
 		terug = Arrays.copyOf(terug, terug.length + 1);
 		Arrays.sort(terug, new Comparator<String>() {
 			public int compare(String o1, String o2) {
@@ -242,6 +246,11 @@ public class ToevoegenQuizController {
 	 * dan deze frame af.
 	 */
 	public void voegQuizToeAanCatalogus() {
+		QuizStatus copyStatus = quiz.getStatus(); // nodig om in geval van een
+													// fout de originele status
+													// te kunnen herstellen.
+													// Anders kan dit niet meer
+													// rechtgezet worden.
 		try {
 			quiz.setOnderwerp(view.getOnderwerp());
 			quiz.setAuteur(Leraar.valueOf(view.getAuteur()));
@@ -260,11 +269,13 @@ public class ToevoegenQuizController {
 			toonMenu();
 		} catch (Exception e) {
 			IO.toonStringMetVenster(e.getMessage());
+			quiz.setStatus(copyStatus);
 		}
 	}
 
 	public void toonMenu() {
-		view.setVisible(false);
+		if (!(view == null))
+			view.setVisible(false);
 		opstartcontroller.execute();
 	}
 

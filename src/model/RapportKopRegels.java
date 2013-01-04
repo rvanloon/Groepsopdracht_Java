@@ -1,25 +1,20 @@
 package model;
 
-public class RapportKopRegels extends QuizRapportDecorator {
-	
-	private QuizRapport quizRapport;
-	
-	public RapportKopRegels(QuizRapport qr){
-		this.quizRapport = qr;
-	}	
+public class RapportKopRegels extends RapportDecorator {
 
-	@Override
-	QuizDeelname getQuizDeelname() {
-		return quizRapport.getQuizDeelname();
+	private RapporteerbaarObject rapporteerbaarObject;
+	private QuizDeelname deelname;
+
+	public RapportKopRegels(RapporteerbaarObject qr, QuizDeelname deelname) {
+		this.rapporteerbaarObject = qr;
+		this.deelname = deelname;
 	}
 
 	@Override
-	public String getQuizRapport() {
-		String basisRapport = quizRapport.getQuizRapport();
+	public String getRapport() {
 		String kopTekst = "";
-		kopTekst += "DatumDeelname: " + quizRapport.getQuizDeelname().getDatumDeelname();
-		kopTekst += "\tAuteur quiz: " + quizRapport.getQuizDeelname().getAuteur() + "\n\n";
-		String totaalRapport = kopTekst + basisRapport;
-		return totaalRapport;
+		kopTekst += "DatumDeelname: " + deelname.getDatumDeelname();
+		kopTekst += "\tAuteur quiz: " + deelname.getAuteur() + "\n\n";
+		return kopTekst + rapporteerbaarObject.getRapport();
 	}
 }
