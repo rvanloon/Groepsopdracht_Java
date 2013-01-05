@@ -480,6 +480,22 @@ public class Quiz implements Cloneable, Comparable<Quiz>, Observable {
 		}
 		return somScore;
 	}
+	
+	public void setAfgewerkt(){
+		status.setAfgewerkt();
+	}
+	
+	public void setOpengesteld(){
+		status.setOpengesteld();
+	}
+	
+	public void setLaatsteKans(){
+		status.setLaatsteKans();
+	}
+	
+	public void setAfgesloten(){
+		status.setAfgesloten();
+	}
 
 	/**
 	 * Voegt een observer toe aan de ArrayList van observers

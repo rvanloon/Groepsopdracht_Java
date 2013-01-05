@@ -9,6 +9,16 @@ public class InConstructieStatus extends QuizStatus {
 	}	
 
 	@Override
+	public void setAfgewerkt() {
+		quiz.setStatus(quiz.getAfgewerkt());
+	}
+
+	@Override
+	public void setOpengesteld() {
+		quiz.setStatus(quiz.getOpengesteld());
+	}
+
+	@Override
 	boolean setOnderwerpToegestaan() {
 		return true;
 	}
@@ -86,10 +96,5 @@ public class InConstructieStatus extends QuizStatus {
 	public String toString(){
 		return "InConstructie";
 	}
-
-
-
-
-
 
 }

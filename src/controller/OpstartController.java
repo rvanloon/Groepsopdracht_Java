@@ -34,7 +34,7 @@ public class OpstartController {
 		setQuizapplicatieDAO();
 
 		menu = new Menu("Beheren van opdrachten (leraar)",
-				"Beheren van quizzen/testen (leraar)",
+				"Toevoegen van quizzen/testen (leraar)",
 				"Deelnemen aan quiz (leerling)", "Overzicht scores (leraar)",
 				"Quiz rapport (deelnemer quiz)",
 				"Instellingen van de quiz applicatie");

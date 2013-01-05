@@ -14,6 +14,22 @@ public abstract class QuizStatus {
 	abstract void voegQuizDeelnameToe(QuizDeelname quizDeelname);
 	abstract void verwijderQuizDeelname(QuizDeelname quizDeelname);
 	
+	public void setAfgewerkt(){
+		throw new IllegalArgumentException("Statuswijziging niet toegestaan");
+	}
+	
+	public void setOpengesteld(){
+		throw new IllegalArgumentException("Statuswijziging niet toegestaan");
+	}
+	
+	public void setLaatsteKans(){
+		throw new IllegalArgumentException("Statuswijziging niet toegestaan");
+	}
+	
+	public void setAfgesloten(){
+		throw new IllegalArgumentException("Statuswijziging niet toegestaan");
+	}
+	
 	//nodig voor QuizDB, QuizCatalogus en ToevoegenQuizcontroller
 	/**
 	 * Static function om een quiz een status mee te geven via een string

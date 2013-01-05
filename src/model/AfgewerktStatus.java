@@ -7,6 +7,13 @@ public class AfgewerktStatus extends QuizStatus {
 		this.quiz = quiz;
 	}
 
+	
+	@Override
+	public void setOpengesteld() {
+		quiz.setStatus(quiz.getOpengesteld());
+	}
+
+
 	@Override
 	boolean setOnderwerpToegestaan() {
 		return false;

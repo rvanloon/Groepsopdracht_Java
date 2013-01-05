@@ -8,6 +8,16 @@ public class OpengesteldStatus extends QuizStatus {
 	}
 
 	@Override
+	public void setLaatsteKans() {
+		quiz.setStatus(quiz.getLaatsteKans());
+	}
+
+	@Override
+	public void setAfgesloten() {
+		quiz.setStatus(quiz.getAfgesloten());
+	}
+
+	@Override
 	boolean setOnderwerpToegestaan() {
 		return false;
 	}
