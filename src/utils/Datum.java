@@ -579,7 +579,7 @@ public class Datum implements Comparable<Datum> {
 	/**
 	 * @param args
 	 */
-	public static void main(String[] args) {
+	private static void main(String[] args) {
 
 		try {
 			Datum d1 = new Datum(18, 2, 1980);

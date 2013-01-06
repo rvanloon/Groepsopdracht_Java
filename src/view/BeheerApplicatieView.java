@@ -1,26 +1,22 @@
 package view;
 
-import java.awt.BorderLayout;
-import java.awt.EventQueue;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
 import javax.swing.ButtonGroup;
-import javax.swing.JRadioButton;
-import javax.swing.JLabel;
-import javax.swing.JComboBox;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JRadioButton;
+import javax.swing.border.EmptyBorder;
 
 import controller.BeheerApplicatieController;
-import java.awt.event.ItemListener;
-import java.awt.event.ItemEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
-import java.beans.PropertyChangeListener;
-import java.beans.PropertyChangeEvent;
 
 public class BeheerApplicatieView extends JFrame {
 
@@ -69,7 +65,7 @@ public class BeheerApplicatieView extends JFrame {
 		ButtonGroup groep = new ButtonGroup();
 		groep.add(rdbtnLokaaltextbestand);
 		groep.add(rdbtnNetwerkdatabank);
-		
+
 		JLabel lblTypeScoreberekening = new JLabel("Type scoreberekening:");
 		lblTypeScoreberekening.setBounds(10, 92, 125, 16);
 		contentPane.add(lblTypeScoreberekening);
@@ -118,7 +114,7 @@ public class BeheerApplicatieView extends JFrame {
 	}
 
 	public boolean isNetwerDatabankSelected() {
-		boolean b =  rdbtnNetwerkdatabank.isSelected();
+		boolean b = rdbtnNetwerkdatabank.isSelected();
 		return b;
 	}
 

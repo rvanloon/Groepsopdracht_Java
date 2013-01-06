@@ -261,7 +261,7 @@ public class OpdrachtAntwoord implements Comparable<OpdrachtAntwoord> {
 
 	}
 
-	public static void main(String[] args) {
+	private static void main(String[] args) {
 
 	}
 

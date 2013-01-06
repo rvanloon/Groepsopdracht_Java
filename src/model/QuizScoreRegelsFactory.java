@@ -18,7 +18,7 @@ public class QuizScoreRegelsFactory {
 	}
 
 	public QuizScore getQuizScore(QuizDeelname qd) throws IOException {
-		
+
 		String soortScoreNaam;
 		try {
 			soortScoreNaam = "model."
@@ -26,7 +26,7 @@ public class QuizScoreRegelsFactory {
 		} catch (IOException e) {
 			throw new IOException("Probleem met inlezen settings.");
 		}
-		
+
 		QuizScore quizScore = null;
 		try {
 			quizScore = (QuizScore) Class.forName(soortScoreNaam)

@@ -58,28 +58,27 @@ public class BeheerApplicatieController {
 				view.setNetwerDatabankSelected(true);
 			} else if (daoType.equals("TxtDao")) {
 				view.setLokaalTextbestandSelected(true);
-			}
-			else {
+			} else {
 				throw new Exception("Geen geldige opslagsetting.");
 			}
 		} catch (Exception e) {
 			IO.toonStringMetVenster(e.getMessage());
 		}
 	}
-	
-	public void setDao(){
+
+	public void setDao() {
 		try {
 			String daoType = BeheerQuizApplicatie.getDaoType();
 			if (daoType.equals("SqlDao") && view.isLokaalTextbestandSelected()) {
 				BeheerQuizApplicatie.setDaoType("TxtDao");
 				opstartController.setQuizapplicatieDAO();
-			}
-			else if (daoType.equals("TxtDao") && view.isNetwerDatabankSelected()) {
+			} else if (daoType.equals("TxtDao")
+					&& view.isNetwerDatabankSelected()) {
 				BeheerQuizApplicatie.setDaoType("SqlDao");
 				opstartController.setQuizapplicatieDAO();
 			}
 		}
-		
+
 		catch (Exception e) {
 			IO.toonStringMetVenster(e.getMessage());
 		}

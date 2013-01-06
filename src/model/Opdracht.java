@@ -437,7 +437,7 @@ public class Opdracht implements Comparable<Opdracht> {
 		return vraag.compareTo(opdracht.getVraag());
 	}
 
-	public static void main(String[] args) {
+	private static void main(String[] args) {
 		Opdracht o = new Opdracht("aaaa", "bbbbb",
 				OpdrachtCategorie.NederlandseTaal, Leraar.Robrecht, new Datum());
 		System.out.println(o);

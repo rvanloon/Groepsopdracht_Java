@@ -247,7 +247,6 @@ public class QuizDeelname extends RapporteerbaarObject implements
 		return getQuiz().getAuteur();
 	}
 
-	
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -318,7 +317,7 @@ public class QuizDeelname extends RapporteerbaarObject implements
 		return verschil == 0 ? 0 : verschil > 0 ? 1 : -1;
 	}
 
-	public static void main(String[] args) {
+	private static void main(String[] args) {
 		Leerling leerling = new Leerling("Peter", 4);
 		Quiz quiz = new Quiz("Hoofdsteden", Leraar.Alain, true, 5);
 		Opdracht opdracht = new Opdracht("Hoofdstad Frankrijk", "Parijs",
@@ -337,11 +336,11 @@ public class QuizDeelname extends RapporteerbaarObject implements
 				.getOpdrachten().get(0), qd);
 		OpdrachtAntwoord.koppelOpdrachtAanDeelname("Brussel", 2, 5, quiz
 				.getOpdrachten().get(1), qd);
-		//System.out.println(qd.getDeelnameScore());
-		//RapportKopRegels rapport = new RapportKopRegels(qd);
+		// System.out.println(qd.getDeelnameScore());
+		// RapportKopRegels rapport = new RapportKopRegels(qd);
 		RapporteerbaarObject rapport = qd;
-		rapport = new RapportKopRegels(rapport,qd);
-		rapport = new RapportSlotRegels(rapport,qd);
+		rapport = new RapportKopRegels(rapport, qd);
+		rapport = new RapportSlotRegels(rapport, qd);
 		System.out.println(rapport.getRapport());
 	}
 }

@@ -320,7 +320,7 @@ public class DatumGregorian implements Comparable<DatumGregorian> {
 		return calender.compareTo(d.calender);
 	}
 
-	public static void main(String[] args) {
+	private static void main(String[] args) {
 		Datum d = new Datum(18, 02, 1980);
 		Datum d2 = new Datum(19, 03, 1980);
 		System.out.println(d.verschilInMaanden(d2));

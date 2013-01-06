@@ -1,9 +1,5 @@
 package model;
 
 public enum QuizStatusEnum {
-	InConstructie,
-	Afgewerkt,
-	Opengesteld,
-	LaatsteKans,
-	Afgesloten
+	InConstructie, Afgewerkt, Opengesteld, LaatsteKans, Afgesloten
 }

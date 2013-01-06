@@ -228,7 +228,7 @@ public class Leerling implements Comparable<Leerling> {
 		return leerlingNaam.compareTo(o.getLeerlingNaam());
 	}
 
-	public static void main(String[] args) {
+	private static void main(String[] args) {
 
 	}
 

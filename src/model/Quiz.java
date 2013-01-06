@@ -480,20 +480,20 @@ public class Quiz implements Cloneable, Comparable<Quiz>, Observable {
 		}
 		return somScore;
 	}
-	
-	public void setAfgewerkt(){
+
+	public void setAfgewerkt() {
 		status.setAfgewerkt();
 	}
-	
-	public void setOpengesteld(){
+
+	public void setOpengesteld() {
 		status.setOpengesteld();
 	}
-	
-	public void setLaatsteKans(){
+
+	public void setLaatsteKans() {
 		status.setLaatsteKans();
 	}
-	
-	public void setAfgesloten(){
+
+	public void setAfgesloten() {
 		status.setAfgesloten();
 	}
 
@@ -650,7 +650,7 @@ public class Quiz implements Cloneable, Comparable<Quiz>, Observable {
 	/**
 	 * @param args
 	 */
-	public static void main(String[] args) {
+	private static void main(String[] args) {
 		try {
 			Quiz quiz4 = new Quiz("Aardrijkskunde", Leraar.Alain, true, 4, 4,
 					5, 6);
@@ -658,7 +658,7 @@ public class Quiz implements Cloneable, Comparable<Quiz>, Observable {
 		} catch (Exception e) {
 			System.out.println(e);
 		}
-		
+
 		Quiz q = new Quiz();
 		q.setStatus(q.getLaatsteKans());
 	}

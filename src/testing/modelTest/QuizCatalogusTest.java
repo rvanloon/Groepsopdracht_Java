@@ -14,7 +14,6 @@ import model.OpengesteldStatus;
 import model.Quiz;
 import model.QuizCatalogus;
 import model.QuizOpdracht;
-import model.QuizStatus;
 
 import org.junit.Before;
 import org.junit.Test;

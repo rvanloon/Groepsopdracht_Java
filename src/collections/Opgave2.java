@@ -17,7 +17,7 @@ public class Opgave2 {
 	 * @param args
 	 * 
 	 */
-	public static void main(String[] args) {
+	private static void main(String[] args) {
 		Opdracht opdracht1 = new Opdracht("Wat is de hoofdstad van Franrijk?",
 				"Parijs", OpdrachtCategorie.algemeneKennis, Leraar.Alain,
 				new Datum());

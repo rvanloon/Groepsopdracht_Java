@@ -6,13 +6,9 @@ import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
 
-import model.AfgewerktStatus;
-import model.InConstructieStatus;
-import model.LaatsteKansStatus;
 import model.Leraar;
 import model.Opdracht;
 import model.OpdrachtCategorie;
-import model.OpengesteldStatus;
 import model.Quiz;
 import model.QuizOpdracht;
 import model.QuizStatus;
@@ -108,24 +104,24 @@ public class QuizTest {
 
 	@Test(expected = IllegalArgumentException.class)
 	public void test_SetLeerjaren_Exception_Als_waarde_nul() {
-		quiz.setLeerjaren(0); 
+		quiz.setLeerjaren(0);
 	}
-	
+
 	@Test(expected = IllegalArgumentException.class)
 	public void test_SetLeerjaren_Exception_Als_waarde_negatief() {
 		quiz.setLeerjaren(-5);
 	}
-	
+
 	@Test(expected = IllegalArgumentException.class)
 	public void test_SetLeerjaren_Exception_Als_waarde_te_groot() {
 		quiz.setLeerjaren(7);
 	}
-	
+
 	@Test(expected = IllegalArgumentException.class)
 	public void test_SetLeerjaren_Exception_Als_een_van_meerdere_waardes_te_groot() {
 		quiz.setLeerjaren(1, 5, 7);
 	}
-	
+
 	@Test(expected = IllegalArgumentException.class)
 	public void test_SetLeerjaren_Exception_Als_waarde_in_array_te_groot() {
 		int[] intArray = { 5, 6, 7 };

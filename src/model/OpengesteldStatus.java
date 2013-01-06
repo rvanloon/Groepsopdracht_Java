@@ -54,12 +54,14 @@ public class OpengesteldStatus extends QuizStatus {
 
 	@Override
 	void voegQuizOpdrachtToe(QuizOpdracht opdracht) {
-		throw new IllegalStateException("De quiz is opengesteld, een QuizOpdracht toevoegen is niet meer toegestaan");
+		throw new IllegalStateException(
+				"De quiz is opengesteld, een QuizOpdracht toevoegen is niet meer toegestaan");
 	}
 
 	@Override
 	void verwijderQuizOpdracht(QuizOpdracht opdracht) {
-		throw new IllegalStateException("De quiz is opengesteld, een QuizOpdracht verwijderen is niet meer toegestaan");
+		throw new IllegalStateException(
+				"De quiz is opengesteld, een QuizOpdracht verwijderen is niet meer toegestaan");
 	}
 
 	@Override

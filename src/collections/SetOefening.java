@@ -17,7 +17,7 @@ public class SetOefening {
 	/**
 	 * @param args
 	 */
-	public static void main(String[] args) {
+	private static void main(String[] args) {
 		Opdracht o1 = new Opdracht("Vraag1", "Antwoord1",
 				OpdrachtCategorie.algemeneKennis, Leraar.Alain, new Datum());
 		Opdracht o2 = new Opdracht("Vraag2", "Antwoord2",

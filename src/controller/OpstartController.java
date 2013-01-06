@@ -4,7 +4,6 @@ import javax.swing.UIManager;
 import javax.swing.UIManager.LookAndFeelInfo;
 
 import model.BeheerQuizApplicatie;
-
 import persistenty.QuizapplicatieDAO;
 import persistenty.SqlDao;
 import persistenty.TxtDao;

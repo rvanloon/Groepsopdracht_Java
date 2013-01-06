@@ -2,8 +2,8 @@ package model;
 
 public class LaatsteKansStatus extends QuizStatus {
 	private Quiz quiz;
-	
-	public LaatsteKansStatus(Quiz quiz){
+
+	public LaatsteKansStatus(Quiz quiz) {
 		this.quiz = quiz;
 	}
 
@@ -11,7 +11,7 @@ public class LaatsteKansStatus extends QuizStatus {
 	public void setAfgesloten() {
 		quiz.setStatus(quiz.getAfgesloten());
 	}
-	
+
 	@Override
 	boolean setOnderwerpToegestaan() {
 		return false;
@@ -49,12 +49,14 @@ public class LaatsteKansStatus extends QuizStatus {
 
 	@Override
 	void voegQuizOpdrachtToe(QuizOpdracht opdracht) {
-		throw new IllegalStateException("De quiz is status \"laatste kans\" een quizopdracht toevoegen is niet toegestaan");		
+		throw new IllegalStateException(
+				"De quiz is status \"laatste kans\" een quizopdracht toevoegen is niet toegestaan");
 	}
 
 	@Override
 	void verwijderQuizOpdracht(QuizOpdracht opdracht) {
-		throw new IllegalStateException("De quiz is status \"laatste kans\" een quizopdracht verwijderen is niet toegestaan");			
+		throw new IllegalStateException(
+				"De quiz is status \"laatste kans\" een quizopdracht verwijderen is niet toegestaan");
 	}
 
 	@Override
@@ -67,7 +69,7 @@ public class LaatsteKansStatus extends QuizStatus {
 			throw new IllegalArgumentException(
 					"Deze quizDeelname is al toegevoegd.");
 		}
-		quiz.getQuizDeelnames().add(quizDeelname);				
+		quiz.getQuizDeelnames().add(quizDeelname);
 	}
 
 	@Override
@@ -80,11 +82,11 @@ public class LaatsteKansStatus extends QuizStatus {
 			throw new IllegalArgumentException(
 					"De quizDeelname zit niet in de lijst");
 		}
-		quiz.getQuizDeelnames().remove(quizDeelname);			
+		quiz.getQuizDeelnames().remove(quizDeelname);
 	}
-	
+
 	@Override
-	public String toString(){
+	public String toString() {
 		return "LaatsteKans";
 	}
 }

@@ -7,15 +7,10 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
 
-import model.AfgeslotenStatus;
-import model.AfgewerktStatus;
-import model.InConstructieStatus;
-import model.LaatsteKansStatus;
 import model.Leraar;
 import model.Meerkeuze;
 import model.Opdracht;
 import model.OpdrachtCategorie;
-import model.OpengesteldStatus;
 import model.Opsomming;
 import model.Quiz;
 import model.QuizOpdracht;

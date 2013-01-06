@@ -23,7 +23,7 @@ public class Opgave3 {
 	/**
 	 * @param args
 	 */
-	public static void main(String[] args) {
+	private static void main(String[] args) {
 
 		// Voorbereiding: een aantal opdrachte en quizen aanmaken en deze
 		// koppelen.

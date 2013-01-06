@@ -355,7 +355,7 @@ public class OpdrachtCatalogus extends FileContainer implements
 		return catalogus;
 	}
 
-	public static void main(String[] args) {
+	private static void main(String[] args) {
 
 		OpdrachtCatalogus cat = new OpdrachtCatalogus();
 		try {

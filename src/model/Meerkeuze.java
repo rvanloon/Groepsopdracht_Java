@@ -184,7 +184,7 @@ public class Meerkeuze extends Opdracht implements Valideerbaar {
 		return true;
 	}
 
-	public static void main(String[] args) {
+	private static void main(String[] args) {
 		Meerkeuze meerkeuze = new Meerkeuze("xxx", "aaa",
 				OpdrachtCategorie.NederlandseTaal, Leraar.Sven, new Datum());
 		meerkeuze.voegKeuzeToe("bbb");

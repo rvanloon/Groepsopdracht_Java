@@ -1,14 +1,15 @@
 package model;
 
 public class AfgeslotenStatus extends QuizStatus {
+	@SuppressWarnings("unused")
 	private Quiz quiz;
-	
-	public AfgeslotenStatus(Quiz quiz){
+
+	public AfgeslotenStatus(Quiz quiz) {
 		this.quiz = quiz;
 	}
-	
+
 	@Override
-	public String toString(){
+	public String toString() {
 		return "Afgesloten";
 	}
 
@@ -49,22 +50,26 @@ public class AfgeslotenStatus extends QuizStatus {
 
 	@Override
 	void voegQuizOpdrachtToe(QuizOpdracht opdracht) {
-		throw new IllegalStateException("De quiz is afgesloten, een QuizOpdracht toevoegen is niet meer toegestaan");		
+		throw new IllegalStateException(
+				"De quiz is afgesloten, een QuizOpdracht toevoegen is niet meer toegestaan");
 	}
 
 	@Override
 	void verwijderQuizOpdracht(QuizOpdracht opdracht) {
-		throw new IllegalStateException("De quiz is afgesloten, een QuizOpdracht verwijderen is niet meer toegestaan");		
+		throw new IllegalStateException(
+				"De quiz is afgesloten, een QuizOpdracht verwijderen is niet meer toegestaan");
 	}
 
 	@Override
 	void voegQuizDeelnameToe(QuizDeelname quizDeelname) {
-		throw new IllegalStateException("De quiz is afgesloten, een QuizDeelname toevoegen is niet meer toegestaan");	
+		throw new IllegalStateException(
+				"De quiz is afgesloten, een QuizDeelname toevoegen is niet meer toegestaan");
 	}
 
 	@Override
 	void verwijderQuizDeelname(QuizDeelname quizDeelname) {
-		throw new IllegalStateException("De quiz is afgesloten, een QuizDeelname verwijderen is niet meer toegestaan");	
-		
+		throw new IllegalStateException(
+				"De quiz is afgesloten, een QuizDeelname verwijderen is niet meer toegestaan");
+
 	}
 }

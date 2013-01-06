@@ -251,7 +251,7 @@ public class QuizOpdracht {
 		return true;
 	}
 
-	public static void main(String[] args) {
+	private static void main(String[] args) {
 
 	}
 

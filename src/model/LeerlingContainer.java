@@ -99,7 +99,7 @@ public class LeerlingContainer implements Iterable<Leerling> {
 		return leerlingen.iterator();
 	}
 
-	public static void main(String[] args) {
+	private static void main(String[] args) {
 		// TODO Auto-generated method stub
 
 	}

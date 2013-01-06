@@ -1,12 +1,12 @@
 package model;
 
 public class InConstructieStatus extends QuizStatus {
-	
+
 	private Quiz quiz;
-	
-	public InConstructieStatus(Quiz quiz){
+
+	public InConstructieStatus(Quiz quiz) {
 		this.quiz = quiz;
-	}	
+	}
 
 	@Override
 	public void setAfgewerkt() {
@@ -32,26 +32,26 @@ public class InConstructieStatus extends QuizStatus {
 	boolean setAuteurToegestaan() {
 		return true;
 	}
-	
+
 	@Override
 	boolean setIsTestToegestaan() {
-		return true;		
+		return true;
 	}
 
 	@Override
 	boolean setDatumRegistratieToegestaan() {
-		return true;		
+		return true;
 	}
 
 	@Override
 	boolean setOpdrachtenToegestaan() {
 		return true;
-		
+
 	}
 
 	@Override
 	boolean setQuizDeelnamesToegestaan() {
-		return true;		
+		return true;
 	}
 
 	@Override
@@ -64,7 +64,7 @@ public class InConstructieStatus extends QuizStatus {
 			throw new IllegalArgumentException(
 					"Deze opdracht is al toegevoegd.");
 		}
-		quiz.getOpdrachten().add(opdracht);		
+		quiz.getOpdrachten().add(opdracht);
 	}
 
 	@Override
@@ -72,28 +72,30 @@ public class InConstructieStatus extends QuizStatus {
 		if (opdracht == null) {
 			throw new IllegalArgumentException("De opdracht mag niet null zijn");
 		}
-		
+
 		int index = quiz.getOpdrachten().indexOf(opdracht);
 		if (index == -1) {
 			throw new IllegalArgumentException("Opdracht niet aanwezig in quiz");
 		} else {
 			quiz.getOpdrachten().remove(opdracht);
 		}
-		
+
 	}
 
 	@Override
 	void voegQuizDeelnameToe(QuizDeelname quizDeelname) {
-		throw new IllegalStateException("De quiz is nog niet opengesteld, er kunnen nog geen QuizDeelnames toegevoegd worden");		
+		throw new IllegalStateException(
+				"De quiz is nog niet opengesteld, er kunnen nog geen QuizDeelnames toegevoegd worden");
 	}
 
 	@Override
 	void verwijderQuizDeelname(QuizDeelname quizDeelname) {
-		throw new IllegalStateException("De quiz is nog niet opengesteld, er kunnen nog geen QuizDeelnames toegevoegd worden");			
+		throw new IllegalStateException(
+				"De quiz is nog niet opengesteld, er kunnen nog geen QuizDeelnames toegevoegd worden");
 	}
-	
+
 	@Override
-	public String toString(){
+	public String toString() {
 		return "InConstructie";
 	}
 

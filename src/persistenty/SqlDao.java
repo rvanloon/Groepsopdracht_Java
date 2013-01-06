@@ -5,20 +5,19 @@ import java.util.ArrayList;
 
 import model.Opdracht;
 import model.Quiz;
-import model.QuizCatalogus;
 import model.QuizDB;
 
 public class SqlDao implements QuizapplicatieDAO {
-	
+
 	private static SqlDao sqlDao;
 	private QuizDB database;
-	
-	private SqlDao() throws SQLException{
+
+	private SqlDao() throws SQLException {
 		database = new QuizDB();
 	}
-	
-	public static SqlDao getInstance() throws SQLException{
-		if(sqlDao == null){
+
+	public static SqlDao getInstance() throws SQLException {
+		if (sqlDao == null) {
 			sqlDao = new SqlDao();
 		}
 		return sqlDao;
@@ -27,17 +26,19 @@ public class SqlDao implements QuizapplicatieDAO {
 	@Override
 	public void Save() {
 		// TODO Auto-generated method stub
-		//eigenlijk niet nodig, wordt meteen weggeschreven naar databank
+		// eigenlijk niet nodig, wordt meteen weggeschreven naar databank
 	}
 
-	//TODO vang de sql expection verlopig hier op
+	// TODO vang de sql expection verlopig hier op
 	@Override
 	public ArrayList<Opdracht> getOpdrachten() {
 		ArrayList<Opdracht> opdrachten = null;
 		try {
 			opdrachten = database.getOpdrachten();
 		} catch (SQLException e) {
-			System.out.println("Probleem bij het ophalen van de opdrachten uit de databank: " + e.getMessage());
+			System.out
+					.println("Probleem bij het ophalen van de opdrachten uit de databank: "
+							+ e.getMessage());
 		}
 		return opdrachten;
 	}
@@ -47,7 +48,9 @@ public class SqlDao implements QuizapplicatieDAO {
 		try {
 			database.voegOpdrachtToe(opdracht);
 		} catch (SQLException e) {
-			System.out.println("Probleem bij het toevoegen van een opdracht in de databank: " + e.getMessage());
+			System.out
+					.println("Probleem bij het toevoegen van een opdracht in de databank: "
+							+ e.getMessage());
 		}
 
 	}
@@ -58,7 +61,9 @@ public class SqlDao implements QuizapplicatieDAO {
 		try {
 			quizzen = database.getQuizzen();
 		} catch (SQLException e) {
-			System.out.println("Probleem met het ophalen van de quizzen uit de databank: " + e.getMessage());
+			System.out
+					.println("Probleem met het ophalen van de quizzen uit de databank: "
+							+ e.getMessage());
 		}
 		return quizzen;
 	}
@@ -68,7 +73,9 @@ public class SqlDao implements QuizapplicatieDAO {
 		try {
 			database.voegQuizToe(quiz);
 		} catch (SQLException e) {
-			System.out.println("Probleem met toevoegen van de quiz aan de databank: " + e.getMessage());
+			System.out
+					.println("Probleem met toevoegen van de quiz aan de databank: "
+							+ e.getMessage());
 		}
 
 	}

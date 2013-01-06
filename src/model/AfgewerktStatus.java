@@ -2,17 +2,15 @@ package model;
 
 public class AfgewerktStatus extends QuizStatus {
 	private Quiz quiz;
-	
-	public AfgewerktStatus(Quiz quiz){
+
+	public AfgewerktStatus(Quiz quiz) {
 		this.quiz = quiz;
 	}
 
-	
 	@Override
 	public void setOpengesteld() {
 		quiz.setStatus(quiz.getOpengesteld());
 	}
-
 
 	@Override
 	boolean setOnderwerpToegestaan() {
@@ -51,30 +49,34 @@ public class AfgewerktStatus extends QuizStatus {
 
 	@Override
 	void voegQuizOpdrachtToe(QuizOpdracht opdracht) {
-		throw new IllegalStateException("De quiz is afgewerkt, er mogen geen QuizOpdrachten worden toegevoegd");
-		
+		throw new IllegalStateException(
+				"De quiz is afgewerkt, er mogen geen QuizOpdrachten worden toegevoegd");
+
 	}
 
 	@Override
 	void verwijderQuizOpdracht(QuizOpdracht opdracht) {
-		throw new IllegalStateException("De quiz is afgewerkt, er mogen geen QuizOpdrachten worden verwijderd");
-		
+		throw new IllegalStateException(
+				"De quiz is afgewerkt, er mogen geen QuizOpdrachten worden verwijderd");
+
 	}
 
 	@Override
 	void voegQuizDeelnameToe(QuizDeelname quizDeelname) {
-		throw new IllegalStateException("De quiz is nog niet opengesteld, er mogen geen QuizDeelnames worden toegevoegd");
-		
+		throw new IllegalStateException(
+				"De quiz is nog niet opengesteld, er mogen geen QuizDeelnames worden toegevoegd");
+
 	}
 
 	@Override
 	void verwijderQuizDeelname(QuizDeelname quizDeelname) {
-		throw new IllegalStateException("De quiz is nog niet opengesteld, er mogen geen QuizDeelnames verwijderd worden");
-		
+		throw new IllegalStateException(
+				"De quiz is nog niet opengesteld, er mogen geen QuizDeelnames verwijderd worden");
+
 	}
-	
+
 	@Override
-	public String toString(){
+	public String toString() {
 		return "Afgewerkt";
 	}
 

@@ -213,7 +213,7 @@ public class Reproductie extends Opdracht {
 	/**
 	 * @param args
 	 */
-	public static void main(String[] args) {
+	private static void main(String[] args) {
 
 	}
 

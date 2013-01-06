@@ -192,7 +192,7 @@ public class Opsomming extends Opdracht implements Valideerbaar {
 	/**
 	 * @param args
 	 */
-	public static void main(String[] args) {
+	private static void main(String[] args) {
 		Opsomming opsomming = new Opsomming("xxx", "aaa;bbb;ccc", true,
 				OpdrachtCategorie.rekenen, Leraar.Robrecht, new Datum());
 		System.out.println(opsomming.isJuisteAntwoord("aaa-bbb-ccc"));

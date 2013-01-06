@@ -83,7 +83,7 @@ public class QuizCatalogus extends FileContainer implements Iterable<Quiz>,
 		int index = quizzen.indexOf(quiz);
 		if (index == -1) {
 			throw new IllegalArgumentException("Quiz is niet aanwezig in lijst");
-		} else if ( !(quiz.getStatus() instanceof InConstructieStatus)
+		} else if (!(quiz.getStatus() instanceof InConstructieStatus)
 				&& !(quiz.getStatus() instanceof AfgewerktStatus)) {
 			throw new IllegalArgumentException(
 					"Quiz kan niet verwijderd worden wegens status.");
@@ -297,7 +297,7 @@ public class QuizCatalogus extends FileContainer implements Iterable<Quiz>,
 		}
 	}
 
-	public static void main(String[] args) {
+	private static void main(String[] args) {
 
 		QuizCatalogus cq = new QuizCatalogus();
 

@@ -14,7 +14,7 @@ public class Opgave1 {
 	/**
 	 * @param args
 	 */
-	public static void main(String[] args) {
+	private static void main(String[] args) {
 		Map<String, List<String>> deelname = new HashMap<String, List<String>>();
 		List<String> deelnemers = null;
 		String quizNaam = null;
